@@ -18,10 +18,14 @@ export default function Dashboard() {
 
   return (
     <div className="p-10">
-      <h1 className="text-3xl font-bold">Dashboard</h1>
+      <h1 className="text-3xl font-bold text-blue-600">
+        Dashboard
+      </h1>
 
       {user ? (
-        <p className="mt-4">Welcome, {user.name}</p>
+        <p className="mt-4 text-lg">
+          Welcome, {user.name}
+        </p>
       ) : (
         <p>Redirecting...</p>
       )}

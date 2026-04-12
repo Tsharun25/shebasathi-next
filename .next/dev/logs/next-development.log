@@ -1,93 +1,6 @@
-[00:00:01.650] Server  LOG     ✓ Ready in 1119ms
-[00:00:08.326] Server  LOG     ○ Compiling / ...
-[00:00:08.424] Server  ERROR   ⨯ ./app/layout.js:3:1
-Module not found: Can't resolve '../components/Navbar'
-  1 | import "./globals.css";
-  2 | import { AuthProvider } from "../context/AuthContext";
-> 3 | import Navbar from "../components/Navbar";
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  4 |
-  5 | export const metadata = {
-  6 |   title: "ShebaSathi",
-
-
-
-https://nextjs.org/docs/messages/module-not-found
-
-
-[00:00:10.328] Browser ERROR   uncaughtError: Error: ./app/layout.js:3:1
-Module not found: Can't resolve '../components/Navbar'
-  1 | import "./globals.css";
-  2 | import { AuthProvider } from "../context/AuthContext";
-> 3 | import Navbar from "../components/Navbar";
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  4 |
-  5 | export const metadata = {
-  6 |   title: "ShebaSathi",
-
-
-
-https://nextjs.org/docs/messages/module-not-found
-
-
-[00:00:10.584] Browser ERROR   ./app/layout.js:3:1
-Module not found: Can't resolve '../components/Navbar'
-  1 | import "./globals.css";
-  2 | import { AuthProvider } from "../context/AuthContext";
-> 3 | import Navbar from "../components/Navbar";
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  4 |
-  5 | export const metadata = {
-  6 |   title: "ShebaSathi",
-
-https://nextjs.org/docs/messages/module-not-found
-[00:00:10.584] Browser ERROR   ./app/layout.js:3:1
-Module not found: Can't resolve '../components/Navbar'
-  1 | import "./globals.css";
-  2 | import { AuthProvider } from "../context/AuthContext";
-> 3 | import Navbar from "../components/Navbar";
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  4 |
-  5 | export const metadata = {
-  6 |   title: "ShebaSathi",
-
-https://nextjs.org/docs/messages/module-not-found
-[00:00:10.745] Browser ERROR   ./app/layout.js:3:1
-Module not found: Can't resolve '../components/Navbar'
-  1 | import "./globals.css";
-  2 | import { AuthProvider } from "../context/AuthContext";
-> 3 | import Navbar from "../components/Navbar";
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  4 |
-  5 | export const metadata = {
-  6 |   title: "ShebaSathi",
-
-https://nextjs.org/docs/messages/module-not-found
-[00:03:32.565] Browser ERROR   ./app/layout.js:3:1
-Module not found: Can't resolve '../components/Navbar'
-  1 | import "./globals.css";
-  2 | import { AuthProvider } from "../context/AuthContext";
-> 3 | import Navbar from "../components/Navbar";
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  4 |
-  5 | export const metadata = {
-  6 |   title: "ShebaSathi",
-
-https://nextjs.org/docs/messages/module-not-found
-[00:05:52.750] Browser ERROR   ./app/layout.js:3:1
-Module not found: Can't resolve '../components/Navbar'
-  1 | import "./globals.css";
-  2 | import { AuthProvider } from "../context/AuthContext";
-> 3 | import Navbar from "../components/Navbar";
-    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  4 |
-  5 | export const metadata = {
-  6 |   title: "ShebaSathi",
-
-https://nextjs.org/docs/messages/module-not-found
-[00:05:52.779] Server  LOG     ✓ Compiled in 216ms
-[00:05:53.854] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:05:54.556] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[00:00:01.459] Server  LOG     ✓ Ready in 944ms
+[00:00:16.763] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:16.925] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
 
 - A server/client branch `if (typeof window !== 'undefined')`.
 - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
@@ -122,4 +35,5 @@ It can also happen if the client has a browser extension installed which messes 
                         >
                   ...
 
-[00:06:52.055] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:02:43.654] Server  LOG     ✓ Compiled in 112ms
+[00:03:03.055] Server  LOG     ✓ Compiled in 19ms
