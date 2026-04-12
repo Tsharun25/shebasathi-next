@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 10, "column": 0}, "map": {"version":3,"sources":["file:///H:/shebasathi-next/context/AuthContext.js"],"sourcesContent":["\"use client\";\r\n\r\nimport { createContext, useState } from \"react\";\r\n\r\nexport const AuthContext = createContext(null);\r\n\r\nexport const AuthProvider = ({ children }) => {\r\n  const [user, setUser] = useState(null);\r\n\r\n  return (\r\n    <AuthContext.Provider value={{ user, setUser }}>\r\n      {children}\r\n    </AuthContext.Provider>\r\n  );\r\n};"],"names":[],"mappings":";;;;;;;AAEA;AAFA;;;AAIO,MAAM,4BAAc,IAAA,sNAAa,EAAC;AAElC,MAAM,eAAe,CAAC,EAAE,QAAQ,EAAE;IACvC,MAAM,CAAC,MAAM,QAAQ,GAAG,IAAA,iNAAQ,EAAC;IAEjC,qBACE,8OAAC,YAAY,QAAQ;QAAC,OAAO;YAAE;YAAM;QAAQ;kBAC1C;;;;;;AAGP"}},
+    {"offset": {"line": 40, "column": 0}, "map": {"version":3,"sources":["file:///H:/shebasathi-next/components/Navbar.jsx"],"sourcesContent":["\"use client\";\r\n\r\nimport Link from \"next/link\";\r\n\r\nexport default function Navbar() {\r\n  return (\r\n    <nav className=\"p-4 bg-blue-600 text-white flex gap-4\">\r\n      <Link href=\"/\">Home</Link>\r\n      <Link href=\"/login\">Login</Link>\r\n      <Link href=\"/dashboard\">Dashboard</Link>\r\n    </nav>\r\n  );\r\n}"],"names":[],"mappings":";;;;;AAEA;AAFA;;;AAIe,SAAS;IACtB,qBACE,8OAAC;QAAI,WAAU;;0BACb,8OAAC,uKAAI;gBAAC,MAAK;0BAAI;;;;;;0BACf,8OAAC,uKAAI;gBAAC,MAAK;0BAAS;;;;;;0BACpB,8OAAC,uKAAI;gBAAC,MAAK;0BAAa;;;;;;;;;;;;AAG9B"}}]
+}

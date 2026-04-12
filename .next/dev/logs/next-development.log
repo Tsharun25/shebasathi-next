@@ -1,0 +1,125 @@
+[00:00:01.650] Server  LOG     ✓ Ready in 1119ms
+[00:00:08.326] Server  LOG     ○ Compiling / ...
+[00:00:08.424] Server  ERROR   ⨯ ./app/layout.js:3:1
+Module not found: Can't resolve '../components/Navbar'
+  1 | import "./globals.css";
+  2 | import { AuthProvider } from "../context/AuthContext";
+> 3 | import Navbar from "../components/Navbar";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | export const metadata = {
+  6 |   title: "ShebaSathi",
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:00:10.328] Browser ERROR   uncaughtError: Error: ./app/layout.js:3:1
+Module not found: Can't resolve '../components/Navbar'
+  1 | import "./globals.css";
+  2 | import { AuthProvider } from "../context/AuthContext";
+> 3 | import Navbar from "../components/Navbar";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | export const metadata = {
+  6 |   title: "ShebaSathi",
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:00:10.584] Browser ERROR   ./app/layout.js:3:1
+Module not found: Can't resolve '../components/Navbar'
+  1 | import "./globals.css";
+  2 | import { AuthProvider } from "../context/AuthContext";
+> 3 | import Navbar from "../components/Navbar";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | export const metadata = {
+  6 |   title: "ShebaSathi",
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:10.584] Browser ERROR   ./app/layout.js:3:1
+Module not found: Can't resolve '../components/Navbar'
+  1 | import "./globals.css";
+  2 | import { AuthProvider } from "../context/AuthContext";
+> 3 | import Navbar from "../components/Navbar";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | export const metadata = {
+  6 |   title: "ShebaSathi",
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:10.745] Browser ERROR   ./app/layout.js:3:1
+Module not found: Can't resolve '../components/Navbar'
+  1 | import "./globals.css";
+  2 | import { AuthProvider } from "../context/AuthContext";
+> 3 | import Navbar from "../components/Navbar";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | export const metadata = {
+  6 |   title: "ShebaSathi",
+
+https://nextjs.org/docs/messages/module-not-found
+[00:03:32.565] Browser ERROR   ./app/layout.js:3:1
+Module not found: Can't resolve '../components/Navbar'
+  1 | import "./globals.css";
+  2 | import { AuthProvider } from "../context/AuthContext";
+> 3 | import Navbar from "../components/Navbar";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | export const metadata = {
+  6 |   title: "ShebaSathi",
+
+https://nextjs.org/docs/messages/module-not-found
+[00:05:52.750] Browser ERROR   ./app/layout.js:3:1
+Module not found: Can't resolve '../components/Navbar'
+  1 | import "./globals.css";
+  2 | import { AuthProvider } from "../context/AuthContext";
+> 3 | import Navbar from "../components/Navbar";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | export const metadata = {
+  6 |   title: "ShebaSathi",
+
+https://nextjs.org/docs/messages/module-not-found
+[00:05:52.779] Server  LOG     ✓ Compiled in 216ms
+[00:05:53.854] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:05:54.556] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.js">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html
+                          lang="en"
+-                         webcrx=""
+                        >
+                  ...
+
+[00:06:52.055] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
