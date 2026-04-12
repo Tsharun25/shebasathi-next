@@ -1,39 +1,44 @@
 "use client";
 
 import Link from "next/link";
-import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
 
 export default function Navbar() {
-  const auth = useContext(AuthContext);
-
   return (
-    <nav className="flex justify-between items-center px-8 py-4 bg-white/70 backdrop-blur-lg shadow-sm sticky top-0 z-50">
-      <h1 className="font-bold text-xl text-blue-600">ShebaSathi</h1>
+    <div className="bg-white/80 backdrop-blur-md shadow-md px-8 py-4 flex justify-between items-center sticky top-0 z-50">
 
-      <div className="flex gap-6 items-center">
-        <Link href="/">Home</Link>
-        <Link href="/doctors">Doctors</Link>
+      {/* LOGO */}
+      <Link href="/" className="flex items-center gap-2">
+        <span className="text-2xl font-bold text-blue-600">Sheba</span>
+        <span className="text-2xl font-bold text-green-500">Sathi</span>
+      </Link>
 
-        {auth?.user ? (
-          <>
-            <Link href="/dashboard">Dashboard</Link>
-            <button
-              onClick={auth.logout}
-              className="bg-red-500 text-white px-3 py-1 rounded"
-            >
-              Logout
-            </button>
-          </>
-        ) : (
-          <Link
-            href="/login"
-            className="bg-blue-600 text-white px-4 py-2 rounded"
-          >
-            Login
-          </Link>
-        )}
+      {/* MENU */}
+      <div className="flex gap-6 text-gray-700 font-medium items-center">
+
+        <Link href="/" className="hover:text-blue-600 transition">
+          হোম
+        </Link>
+
+        <Link href="/doctors" className="hover:text-blue-600 transition">
+          ডাক্তার
+        </Link>
+
+        <Link href="/dashboard" className="hover:text-blue-600 transition">
+          ড্যাশবোর্ড
+        </Link>
+
+        <Link href="/login" className="hover:text-blue-600 transition">
+          লগইন
+        </Link>
+
+        <Link
+          href="/register"
+          className="bg-gradient-to-r from-blue-600 to-green-500 text-white px-4 py-2 rounded-full hover:scale-105 transition"
+        >
+          রেজিস্টার
+        </Link>
+
       </div>
-    </nav>
+    </div>
   );
 }
