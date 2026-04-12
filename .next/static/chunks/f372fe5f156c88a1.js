@@ -1,0 +1,1 @@
+(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push(["object"==typeof document?document.currentScript:void 0,17372,t=>{"use strict";var e=t.i(43476),r=t.i(71645);let l=(0,r.createContext)(null);t.s(["AuthContext",0,l,"AuthProvider",0,({children:t})=>{let[u,o]=(0,r.useState)(null);return(0,e.jsx)(l.Provider,{value:{user:u,setUser:o},children:t})}])}]);

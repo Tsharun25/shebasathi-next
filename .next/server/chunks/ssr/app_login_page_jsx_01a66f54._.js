@@ -1,0 +1,3 @@
+module.exports=[76110,a=>{"use strict";var b=a.i(87924),c=a.i(72131),d=a.i(64911);function e(){let a=(0,c.useContext)(d.AuthContext),[e,f]=(0,c.useState)("");return(0,b.jsxs)("div",{children:[(0,b.jsx)("h1",{children:"Login"}),(0,b.jsx)("input",{type:"text",placeholder:"Enter name",value:e,onChange:a=>f(a.target.value)}),(0,b.jsx)("button",{onClick:()=>{a?.setUser({name:e})},children:"Login"})]})}a.s(["default",()=>e])}];
+
+//# sourceMappingURL=app_login_page_jsx_01a66f54._.js.map
