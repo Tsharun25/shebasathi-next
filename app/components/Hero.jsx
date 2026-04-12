@@ -8,9 +8,6 @@ export default function Hero() {
             আপনার স্বাস্থ্য সেবার <br />
             <span className="text-yellow-300">বিশ্বস্ত সঙ্গী</span>
           </h1>
-          <h1 className="text-5xl text-red-500 font-bold">
-  Tailwind Working
-</h1>
 
           <p className="text-lg mb-8">
             ডাক্তার খোঁজা, অ্যাপয়েন্টমেন্ট বুকিং এবং চিকিৎসা সেবা —
