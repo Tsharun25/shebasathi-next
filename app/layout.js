@@ -19,7 +19,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="bn">
       <body suppressHydrationWarning={true}>
-        {children}
+        <AuthProvider>
+          <Navbar />
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );
