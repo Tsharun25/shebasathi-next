@@ -1,28 +1,31 @@
 "use client";
 
-import { useContext, useEffect } from "react";
-import { AuthContext } from "../context/AuthContext";
-import { useRouter } from "next/navigation";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
-export default function Dashboard() {
-  const { user } = useContext(AuthContext);
-  const router = useRouter();
+const Dashboard = () => {
+  const auth = useContext(AuthContext);
 
-  useEffect(() => {
-    if (!user) router.push("/login");
-  }, [user]);
-
-  if (!user) return null;
+  // safe fallback (VERY IMPORTANT)
+  const user = auth?.user;
 
   return (
-    <div className="p-10">
-      <h1 className="text-3xl font-bold">
-        Welcome {user.user.name}
+    <div style={{ padding: "40px" }}>
+      <h1 style={{ fontSize: "28px", fontWeight: "bold" }}>
+        Dashboard
       </h1>
 
-      <p className="mt-4">
-        Role: {user.user.role}
-      </p>
+      {user ? (
+        <p style={{ marginTop: "10px" }}>
+          Welcome, {user.name}
+        </p>
+      ) : (
+        <p style={{ marginTop: "10px", color: "gray" }}>
+          Loading user...
+        </p>
+      )}
     </div>
   );
-}
+};
+
+export default Dashboard;
