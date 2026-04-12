@@ -18,9 +18,22 @@ export default function Dashboard() {
         Welcome {auth?.user?.name}
       </h1>
 
-      <p className="mt-4">
-        You can now book medical support services.
-      </p>
+      <div className="mt-6 grid md:grid-cols-3 gap-6">
+        <div className="p-6 bg-white shadow rounded-xl">
+          <h2 className="font-bold">Doctor Booking</h2>
+          <p className="text-sm text-gray-500">Book appointments easily</p>
+        </div>
+
+        <div className="p-6 bg-white shadow rounded-xl">
+          <h2 className="font-bold">Accommodation</h2>
+          <p className="text-sm text-gray-500">Stay near hospital</p>
+        </div>
+
+        <div className="p-6 bg-white shadow rounded-xl">
+          <h2 className="font-bold">Transport</h2>
+          <p className="text-sm text-gray-500">Easy travel support</p>
+        </div>
+      </div>
     </div>
   );
 }
