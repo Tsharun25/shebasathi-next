@@ -1,31 +1,28 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import DoctorCard from "../../components/DoctorCard"; // ✅ FIXED
+import DoctorCard from "../../components/DoctorCard";
 
-export default function DoctorsPage() {
+const API = "https://shebasathi-backend.onrender.com";
+
+export default function Doctors() {
   const [doctors, setDoctors] = useState([]);
 
   useEffect(() => {
-    fetch("https://your-backend-url/api/doctors") // 👉 CHANGE THIS
-      .then(res => res.json())
-      .then(setDoctors)
-      .catch(err => console.log(err));
+    fetch(`${API}/api/doctors`)
+      .then((res) => res.json())
+      .then((data) => setDoctors(data));
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-blue-600 to-green-500 p-10">
+    <div className="p-10">
+      <h1 className="text-3xl font-bold mb-6">ডাক্তার তালিকা</h1>
 
-      <h1 className="text-3xl text-white text-center mb-10">
-        ডাক্তার তালিকা
-      </h1>
-
-      <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-        {doctors.map((doc) => (
-          <DoctorCard key={doc._id} doctor={doc} />
+      <div className="grid md:grid-cols-3 gap-6">
+        {doctors.map((doc, i) => (
+          <DoctorCard key={i} doctor={doc} />
         ))}
       </div>
-
     </div>
   );
 }
