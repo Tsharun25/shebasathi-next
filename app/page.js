@@ -8,6 +8,9 @@ export default function Home() {
       <p className="mt-4 text-lg text-gray-600">
         উন্নত চিকিৎসায় আপনার বিশ্বস্ত সাথী
       </p>
+      <h1 className="text-6xl text-blue-600 font-bold">
+  Tailwind Working
+</h1>
 
       <div className="mt-8 flex justify-center gap-4">
         <a href="/login" className="bg-blue-600 text-white px-6 py-3 rounded">

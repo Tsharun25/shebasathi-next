@@ -1,9 +1,5 @@
 1:"$Sreact.fragment"
-2:I[47257,["/_next/static/chunks/ff1a16fafef87110.js","/_next/static/chunks/d2be314c3ece3fbe.js"],"ClientPageRoot"]
-3:I[98855,["/_next/static/chunks/923b4e4f696af48f.js","/_next/static/chunks/8a050816df01077e.js"],"default"]
-6:I[97367,["/_next/static/chunks/ff1a16fafef87110.js","/_next/static/chunks/d2be314c3ece3fbe.js"],"OutletBoundary"]
-7:"$Sreact.suspense"
-0:{"buildId":"8e4dBK8LhUc_wAERA5SHT","rsc":["$","$1","c",{"children":[["$","$L2",null,{"Component":"$3","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@4","$@5"]}}],[["$","script","script-0",{"src":"/_next/static/chunks/8a050816df01077e.js","async":true}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],"loading":null,"isPartial":false}
-4:{}
-5:"$0:rsc:props:children:0:props:serverProvidedParams:params"
-8:null
+2:I[97367,["/_next/static/chunks/ff1a16fafef87110.js","/_next/static/chunks/d2be314c3ece3fbe.js"],"OutletBoundary"]
+3:"$Sreact.suspense"
+0:{"buildId":"9nuFjk8qsyzR1AgAOw9KP","rsc":["$","$1","c",{"children":[["$","div",null,{"className":"p-10 grid md:grid-cols-2 gap-6","children":[["$","div","0",{"className":"p-6 border rounded-xl shadow","children":[["$","h2",null,{"className":"text-xl font-bold","children":"Dr. Rahman"}],["$","p",null,{"className":"text-gray-500","children":"Dhaka Medical"}],["$","button",null,{"className":"mt-4 bg-blue-600 text-white px-4 py-2 rounded","children":"Book Service"}]]}],["$","div","1",{"className":"p-6 border rounded-xl shadow","children":[["$","h2",null,{"className":"text-xl font-bold","children":"Dr. Karim"}],["$","p",null,{"className":"text-gray-500","children":"Square Hospital"}],["$","button",null,{"className":"mt-4 bg-blue-600 text-white px-4 py-2 rounded","children":"Book Service"}]]}]]}],null,["$","$L2",null,{"children":["$","$3",null,{"name":"Next.MetadataOutlet","children":"$@4"}]}]]}],"loading":null,"isPartial":false}
+4:null

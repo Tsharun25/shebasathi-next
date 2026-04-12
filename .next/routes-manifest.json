@@ -41,12 +41,6 @@
       "namedRegex": "^/_not\\-found(?:/)?$"
     },
     {
-      "page": "/admin",
-      "regex": "^/admin(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/admin(?:/)?$"
-    },
-    {
       "page": "/dashboard",
       "regex": "^/dashboard(?:/)?$",
       "routeKeys": {},
@@ -69,12 +63,6 @@
       "regex": "^/login(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/login(?:/)?$"
-    },
-    {
-      "page": "/register",
-      "regex": "^/register(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/register(?:/)?$"
     }
   ],
   "dataRoutes": [],
