@@ -8,27 +8,19 @@ export default function Dashboard() {
   const auth = useContext(AuthContext);
   const router = useRouter();
 
-  const user = auth?.user;
-
   useEffect(() => {
-    if (!user) {
-      router.push("/login");
-    }
-  }, [user]);
+    if (!auth?.user) router.push("/login");
+  }, [auth]);
 
   return (
     <div className="p-10">
       <h1 className="text-3xl font-bold text-blue-600">
-        Dashboard
+        Welcome {auth?.user?.name}
       </h1>
 
-      {user ? (
-        <p className="mt-4 text-lg">
-          Welcome, {user.name}
-        </p>
-      ) : (
-        <p>Redirecting...</p>
-      )}
+      <p className="mt-4">
+        You can now book medical support services.
+      </p>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 export default function Home() {
   return (
-    <div className="p-10 text-center">
+    <div className="text-center p-10">
       <h1 className="text-5xl font-bold text-blue-600">
         ShebaSathi
       </h1>
@@ -10,18 +10,11 @@ export default function Home() {
       </p>
 
       <div className="mt-8 flex justify-center gap-4">
-        <a
-          href="/login"
-          className="bg-blue-600 text-white px-6 py-3 rounded-lg"
-        >
-          Login
+        <a href="/login" className="bg-blue-600 text-white px-6 py-3 rounded">
+          Get Started
         </a>
-
-        <a
-          href="/dashboard"
-          className="border px-6 py-3 rounded-lg"
-        >
-          Dashboard
+        <a href="/doctors" className="border px-6 py-3 rounded">
+          View Doctors
         </a>
       </div>
     </div>
