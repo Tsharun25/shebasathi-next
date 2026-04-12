@@ -99,7 +99,7 @@ self.__SERVER_FILES_MANIFEST={
         "transform": "lodash/{{member}}"
       }
     },
-    "outputFileTracingRoot": "H:\\shebasathi-next",
+    "outputFileTracingRoot": "D:\\shebasathi-next",
     "cacheComponents": false,
     "cacheLife": {
       "default": {
@@ -292,11 +292,11 @@ self.__SERVER_FILES_MANIFEST={
     "bundlePagesRouterDependencies": false,
     "configFileName": "next.config.mjs",
     "turbopack": {
-      "root": "H:\\shebasathi-next"
+      "root": "D:\\shebasathi-next"
     },
     "distDirRoot": ".next"
   },
-  "appDir": "H:\\shebasathi-next",
+  "appDir": "D:\\shebasathi-next",
   "relativeAppDir": "",
   "files": [
     ".next\\routes-manifest.json",

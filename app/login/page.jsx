@@ -15,6 +15,8 @@ export default function Login() {
     router.push("/dashboard");
   };
 
+  localStorage.setItem("user", JSON.stringify(data.user));
+
   return (
     <div className="flex justify-center items-center h-screen bg-gradient-to-br from-blue-100 to-green-100">
 
