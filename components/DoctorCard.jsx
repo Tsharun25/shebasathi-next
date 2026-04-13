@@ -1,70 +1,71 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 export default function DoctorCard({ doctor }) {
-  const [open, setOpen] = useState(false);
+  const { user } = useContext(AuthContext);
+
+  const [show, setShow] = useState(false);
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
 
-  const today = new Date().toISOString().split("T")[0];
-
   const book = async () => {
-    if (!date || !time) {
-      alert("তারিখ ও সময় দিন");
-      return;
-    }
+    if (!user) return alert("আগে লগইন করুন");
 
-    if (date < today) {
-      alert("আগের তারিখ দেওয়া যাবে না");
-      return;
-    }
+    const res = await fetch(
+      "https://shebasathi-backend.onrender.com/api/book",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userEmail: user.email,
+          doctorId: doctor._id,
+          doctorName: doctor.name,
+          date,
+          time,
+        }),
+      }
+    );
 
-    alert(`Appointment Booked ✅\n${date} - ${time}`);
-    setOpen(false);
+    const data = await res.json();
+    alert(data.message);
+    setShow(false);
   };
 
   return (
-    <>
-      {/* CARD */}
-      <div className="bg-white/40 backdrop-blur-md border border-white/20 rounded-2xl p-6 shadow-lg hover:scale-105 transition">
+    <div className="bg-white p-5 rounded-2xl shadow hover:shadow-xl transition">
+      <h2 className="text-xl font-bold">{doctor.name}</h2>
 
-        <div className="flex items-center gap-4">
-          <div className="bg-gradient-to-r from-blue-500 to-green-400 text-white w-12 h-12 flex items-center justify-center rounded-full text-xl">
-            ডা
-          </div>
+      <p className="text-gray-600">{doctor.hospital}</p>
 
-          <div>
-            <h2 className="text-lg font-bold">{doctor.name}</h2>
-            <p className="text-sm text-gray-600">{doctor.department}</p>
-          </div>
-        </div>
+      <p className="mt-2">💰 ফি: ৳ {doctor.fee}</p>
 
-        <div className="mt-4 text-sm text-gray-700 space-y-1">
-          <p>🏥 {doctor.hospital}</p>
-          <p>💰 ফি: ৳ {doctor.fee}</p>
-          <p>📅 Available: Sun - Thu</p>
-          <p>⏰ 4PM - 9PM</p>
-        </div>
+      <p className="text-sm text-gray-500">
+        📅 ডাক্তারের বসার দিন: রবি - বৃহস্পতি
+      </p>
 
-        <button
-          onClick={() => setOpen(true)}
-          className="mt-4 w-full bg-gradient-to-r from-blue-600 to-green-500 text-white py-2 rounded-lg"
-        >
-          Appointment নিন
-        </button>
-      </div>
+      <p className="text-sm text-gray-500">
+        ⏰ রোগী দেখার সময়: বিকাল ৪টা - রাত ৯টা
+      </p>
+
+      <button
+        onClick={() => setShow(true)}
+        className="mt-3 w-full bg-gradient-to-r from-blue-500 to-green-500 text-white py-2 rounded-lg"
+      >
+        অ্যাপয়েন্টমেন্ট নিন
+      </button>
 
       {/* MODAL */}
-      {open && (
-        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-xl w-80 shadow-xl">
-            <h2 className="text-lg font-bold mb-3">{doctor.name}</h2>
+      {show && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-xl w-80">
+            <h3 className="font-bold mb-3">{doctor.name}</h3>
 
             <input
               type="date"
-              min={today}
               className="border p-2 w-full mb-2"
+              min={new Date().toISOString().split("T")[0]}
               onChange={(e) => setDate(e.target.value)}
             />
 
@@ -72,29 +73,23 @@ export default function DoctorCard({ doctor }) {
               className="border p-2 w-full mb-3"
               onChange={(e) => setTime(e.target.value)}
             >
-              <option value="">সময় নির্বাচন করুন</option>
+              <option>সময় নির্বাচন করুন</option>
               <option>4:00 PM</option>
               <option>5:00 PM</option>
               <option>6:00 PM</option>
               <option>7:00 PM</option>
+              <option>8:00 PM</option>
             </select>
 
             <button
               onClick={book}
-              className="bg-green-600 text-white px-4 py-2 w-full rounded"
+              className="bg-green-600 text-white w-full py-2 rounded"
             >
-              Confirm Booking
-            </button>
-
-            <button
-              onClick={() => setOpen(false)}
-              className="mt-2 text-red-500 w-full"
-            >
-              Cancel
+              নিশ্চিত করুন
             </button>
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }

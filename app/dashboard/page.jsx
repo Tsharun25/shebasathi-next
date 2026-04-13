@@ -1,43 +1,35 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
-const API = "https://shebasathi-backend.onrender.com";
+import { useEffect, useState, useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function Dashboard() {
-  const [bookings, setBookings] = useState([]);
-  const [user, setUser] = useState(null);
+  const { user } = useContext(AuthContext);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
-    const u = JSON.parse(localStorage.getItem("user"));
-    setUser(u);
+    if (!user) return;
 
-    if (u) {
-      fetch(`${API}/api/my-bookings/${u.email}`)
-        .then((res) => res.json())
-        .then((data) => setBookings(data));
-    }
-  }, []);
-
-  if (!user) return <p className="p-10">লগইন করা হয়নি</p>;
+    fetch(
+      `https://shebasathi-backend.onrender.com/api/my-bookings/${user.email}`
+    )
+      .then((res) => res.json())
+      .then((d) => setData(d));
+  }, [user]);
 
   return (
     <div className="p-10">
-      <h1 className="text-3xl font-bold">
-        স্বাগতম {user.name}
+      <h1 className="text-2xl font-bold mb-5">
+        📋 আপনার বুকিং তালিকা
       </h1>
 
-      <h2 className="mt-6 text-xl font-semibold">আপনার বুকিংসমূহ</h2>
-
-      <div className="mt-4 space-y-3">
-        {bookings.map((b, i) => (
-          <div key={i} className="p-4 bg-white shadow rounded">
-            <p>👨‍⚕️ {b.doctorName}</p>
-            <p>📅 {b.date}</p>
-            <p>⏰ {b.time}</p>
-          </div>
-        ))}
-      </div>
+      {data.map((b, i) => (
+        <div key={i} className="border p-4 mb-3 rounded-lg">
+          <p>👨‍⚕️ {b.doctorName}</p>
+          <p>📅 {b.date}</p>
+          <p>⏰ {b.time}</p>
+        </div>
+      ))}
     </div>
   );
 }
