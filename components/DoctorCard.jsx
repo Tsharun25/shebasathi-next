@@ -46,7 +46,7 @@ export default function DoctorCard({ doctor }) {
           date,
           time,
         }),
-      }
+      },
     );
 
     const data = await res.json();
@@ -56,9 +56,9 @@ export default function DoctorCard({ doctor }) {
 
   return (
     <div className="bg-white p-5 rounded-2xl shadow hover:shadow-xl transition">
-      <h2 className="text-xl font-bold">{doctor.name}</h2>
+      {/* <h2 className="text-xl font-bold">{doctor.name}</h2> */}
 
-      <p className="text-gray-600">{doctor.hospital}</p>
+      {/* <p className="text-gray-600">{doctor.hospital}</p>
 
       <p>💰 ফি: ৳ {doctor.fee}</p>
 
@@ -68,7 +68,19 @@ export default function DoctorCard({ doctor }) {
 
       <p className="text-sm text-gray-500">
         ⏰ রোগী দেখার সময়: বিকাল ৪টা - রাত ৯টা
-      </p>
+      </p> */}
+
+      <h2 className="text-lg font-bold">{doctor.name}</h2>
+
+      <p>{doctor.department}</p>
+
+      <p>{doctor.hospital}</p>
+
+      <p>💰 ফি: ৳ {doctor.fee}</p>
+
+      <p>📅 ডাক্তার বসেন: রবি - বৃহস্পতি</p>
+
+      <p>⏰ রোগী দেখার সময়: বিকাল ৪টা - রাত ৯টা</p>
 
       <button
         onClick={() => setShow(true)}

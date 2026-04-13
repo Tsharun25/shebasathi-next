@@ -18,9 +18,7 @@ export default function Login() {
       "https://shebasathi-backend.onrender.com/api/auth/login",
       {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       }
     );
@@ -36,18 +34,18 @@ export default function Login() {
   };
 
   return (
-    <div className="flex justify-center items-center h-[80vh]">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-green-500 px-4">
       <form
         onSubmit={submit}
-        className="bg-white shadow-xl p-6 rounded-xl w-80 space-y-4"
+        className="bg-white p-6 rounded-xl shadow-xl w-full max-w-sm space-y-4"
       >
-        <h2 className="text-2xl font-bold text-center">লগইন</h2>
+        <h2 className="text-xl font-bold text-center">লগইন</h2>
 
         <input
-          placeholder="ইমেইল"
+          placeholder="মোবাইল বা ইমেইল"
           className="border p-2 w-full rounded"
           onChange={(e) =>
-            setForm({ ...form, email: e.target.value })
+            setForm({ ...form, identifier: e.target.value })
           }
         />
 
@@ -60,17 +58,13 @@ export default function Login() {
           }
         />
 
-        <button className="bg-blue-600 text-white w-full py-2 rounded hover:bg-blue-700">
+        <button className="bg-blue-600 text-white w-full py-2 rounded">
           লগইন করুন
         </button>
 
-        {/* 🔥 NEW PART */}
         <p className="text-center text-sm">
-          এখনো একাউন্ট নেই?{" "}
-          <Link
-            href="/register"
-            className="text-blue-600 font-semibold hover:underline"
-          >
+          একাউন্ট নেই?{" "}
+          <Link href="/register" className="text-blue-600 font-semibold">
             রেজিস্টার করুন
           </Link>
         </p>
