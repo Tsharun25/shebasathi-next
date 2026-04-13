@@ -1,23 +1,44 @@
 "use client";
 
 import { useState, useContext } from "react";
+import { useRouter } from "next/navigation";
 import { AuthContext } from "../context/AuthContext";
 
 export default function DoctorCard({ doctor }) {
   const { user } = useContext(AuthContext);
+  const router = useRouter();
 
   const [show, setShow] = useState(false);
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
 
   const book = async () => {
-    if (!user) return alert("আগে লগইন করুন");
+    // ❌ NOT logged in
+    if (!user) {
+      setShow(false); // modal close
 
+      const goLogin = confirm("আপনি লগইন করেননি!\nলগইন করতে চান?");
+      if (goLogin) {
+        router.push("/login");
+      } else {
+        router.push("/register");
+      }
+      return;
+    }
+
+    if (!date || !time) {
+      alert("তারিখ ও সময় নির্বাচন করুন");
+      return;
+    }
+
+    // ✅ booking
     const res = await fetch(
       "https://shebasathi-backend.onrender.com/api/book",
       {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           userEmail: user.email,
           doctorId: doctor._id,
@@ -39,7 +60,7 @@ export default function DoctorCard({ doctor }) {
 
       <p className="text-gray-600">{doctor.hospital}</p>
 
-      <p className="mt-2">💰 ফি: ৳ {doctor.fee}</p>
+      <p>💰 ফি: ৳ {doctor.fee}</p>
 
       <p className="text-sm text-gray-500">
         📅 ডাক্তারের বসার দিন: রবি - বৃহস্পতি
@@ -53,7 +74,7 @@ export default function DoctorCard({ doctor }) {
         onClick={() => setShow(true)}
         className="mt-3 w-full bg-gradient-to-r from-blue-500 to-green-500 text-white py-2 rounded-lg"
       >
-        অ্যাপয়েন্টমেন্ট নিন
+        অ্যাপয়েন্টমেন্ট নিন
       </button>
 
       {/* MODAL */}
@@ -73,12 +94,11 @@ export default function DoctorCard({ doctor }) {
               className="border p-2 w-full mb-3"
               onChange={(e) => setTime(e.target.value)}
             >
-              <option>সময় নির্বাচন করুন</option>
+              <option value="">সময় নির্বাচন করুন</option>
               <option>4:00 PM</option>
               <option>5:00 PM</option>
               <option>6:00 PM</option>
               <option>7:00 PM</option>
-              <option>8:00 PM</option>
             </select>
 
             <button
@@ -86,6 +106,14 @@ export default function DoctorCard({ doctor }) {
               className="bg-green-600 text-white w-full py-2 rounded"
             >
               নিশ্চিত করুন
+            </button>
+
+            {/* ✅ CANCEL BUTTON (VERY IMPORTANT FIX) */}
+            <button
+              onClick={() => setShow(false)}
+              className="mt-2 text-red-500 w-full"
+            >
+              বাতিল
             </button>
           </div>
         </div>

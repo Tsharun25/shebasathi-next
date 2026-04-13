@@ -1,316 +1,669 @@
-[00:00:02.148] Server  LOG     ✓ Ready in 1737ms
-[00:00:16.389] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:45.523] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:46.095] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:46.335] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-%s%s https://react.dev/link/hydration-mismatch 
-
-  ...
-    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
-      <AppDevOverlayErrorBoundary globalError={[...]}>
-        <ReplaySsrOnlyErrors>
-        <DevRootHTTPAccessFallbackBoundary>
-          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
-            <HTTPAccessFallbackErrorBoundary pathname="/" notFound={<NotAllowedRootHTTPFallbackError>} ...>
-              <RedirectBoundary>
-                <RedirectErrorBoundary router={{...}}>
-                  <Head>
-                  <__next_root_layout_boundary__>
-                    <SegmentViewNode type="layout" pagePath="layout.js">
-                      <SegmentTrieNode>
-                      <link>
-                      <RootLayout>
-                        <html
-                          lang="bn"
--                         webcrx=""
-                        >
-                  ...
-
-[00:01:53.972] Server  WARN    ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
-[00:01:54.603] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:01:55.506] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:01:56.347] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-%s%s https://react.dev/link/hydration-mismatch 
-
-  ...
-    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
-      <AppDevOverlayErrorBoundary globalError={[...]}>
-        <ReplaySsrOnlyErrors>
-        <DevRootHTTPAccessFallbackBoundary>
-          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
-            <HTTPAccessFallbackErrorBoundary pathname="/" notFound={<NotAllowedRootHTTPFallbackError>} ...>
-              <RedirectBoundary>
-                <RedirectErrorBoundary router={{...}}>
-                  <Head>
-                  <__next_root_layout_boundary__>
-                    <SegmentViewNode type="layout" pagePath="layout.js">
-                      <SegmentTrieNode>
-                      <link>
-                      <RootLayout>
-                        <html
-                          lang="bn"
--                         webcrx=""
-                        >
-                  ...
-
-[00:05:28.223] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:15:11.005] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:22:19.779] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:22:20.418] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:22:21.350] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-%s%s https://react.dev/link/hydration-mismatch 
-
-  ...
-    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
-      <AppDevOverlayErrorBoundary globalError={[...]}>
-        <ReplaySsrOnlyErrors>
-        <DevRootHTTPAccessFallbackBoundary>
-          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
-            <HTTPAccessFallbackErrorBoundary pathname="/" notFound={<NotAllowedRootHTTPFallbackError>} ...>
-              <RedirectBoundary>
-                <RedirectErrorBoundary router={{...}}>
-                  <Head>
-                  <__next_root_layout_boundary__>
-                    <SegmentViewNode type="layout" pagePath="layout.js">
-                      <SegmentTrieNode>
-                      <link>
-                      <RootLayout>
-                        <html
-                          lang="bn"
--                         webcrx=""
-                        >
-                  ...
-
-[00:22:41.200] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:23:39.502] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:27:47.591] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:28:08.813] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:40:14.699] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:40:17.819] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:40:26.132] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:41:52.242] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:44:34.343] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:44:35.075] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:44:35.340] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-%s%s https://react.dev/link/hydration-mismatch 
-
-  ...
-    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
-      <AppDevOverlayErrorBoundary globalError={[...]}>
-        <ReplaySsrOnlyErrors>
-        <DevRootHTTPAccessFallbackBoundary>
-          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
-            <HTTPAccessFallbackErrorBoundary pathname="/" notFound={<NotAllowedRootHTTPFallbackError>} ...>
-              <RedirectBoundary>
-                <RedirectErrorBoundary router={{...}}>
-                  <Head>
-                  <__next_root_layout_boundary__>
-                    <SegmentViewNode type="layout" pagePath="layout.js">
-                      <SegmentTrieNode>
-                      <link>
-                      <RootLayout>
-                        <html
-                          lang="bn"
--                         webcrx=""
-                        >
-                  ...
-
-[00:57:22.483] Server  WARN    ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
-[00:57:22.514] Server  WARN    ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
-[00:57:23.964] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:57:23.982] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:57:24.403] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
-
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
-
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
-
-%s%s https://react.dev/link/hydration-mismatch 
-
-  ...
-    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
-      <AppDevOverlayErrorBoundary globalError={[...]}>
-        <ReplaySsrOnlyErrors>
-        <DevRootHTTPAccessFallbackBoundary>
-          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
-            <HTTPAccessFallbackErrorBoundary pathname="/" notFound={<NotAllowedRootHTTPFallbackError>} ...>
-              <RedirectBoundary>
-                <RedirectErrorBoundary router={{...}}>
-                  <Head>
-                  <__next_root_layout_boundary__>
-                    <SegmentViewNode type="layout" pagePath="layout.js">
-                      <SegmentTrieNode>
-                      <link>
-                      <ClientSegmentRoot Component={function RootLayout} slots={{...}} ...>
-                        <RootLayout params={Promise}>
-                          <html
-                            lang="bn"
--                           webcrx=""
-                          >
-                  ...
-
-[00:58:00.542] Server  ERROR   ⨯ ./app/layout.js
-Error:   × Unterminated string constant
-    ╭─[D:\shebasathi-next\app\layout.js:21:1]
- 18 │             onClick={() =>
- 19 │               window.scrollTo({ top: 0, behavior: "smooth" })
- 20 │             }
- 21 │             className="className="fixed bottom-5 right-5 bg-gradient-to-r from-blue-500 to-green-500 text-white p-3 rounded-full shadow-lg hover:scale-110 transition"
-    ·                                                                                                                                                                      ─
- 22 │           >
- 23 │             ↑
- 24 │           </button>
+[00:00:02.713] Server  LOG     ✓ Ready in 2.2s
+[00:00:08.975] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:06:51.714] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:07:17.115] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:09:36.740] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:13:04.493] Server  WARN    ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:13:05.157] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:13:22.765] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:13:59.846] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:14:49.393] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:15:11.621] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:18:54.937] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:21:46.061] Server  ERROR   ⨯ ./app/login/page.jsx
+Error:   × await isn't allowed in non-async function
+    ╭─[D:\shebasathi-next\app\login\page.jsx:38:1]
+ 35 │   // const submit = async (e) => {
+ 36 │   // e.preventDefault();
+ 37 │ 
+ 38 │   const res = await fetch(
+    ·               ─────
+ 39 │     "https://shebasathi-backend.onrender.com/api/auth/login",
+ 40 │     {
+ 40 │       method: "POST",
     ╰────
-  × Expected '</', got 'string literal ("", ")'
-    ╭─[D:\shebasathi-next\app\layout.js:21:1]
- 18 │             onClick={() =>
- 19 │               window.scrollTo({ top: 0, behavior: "smooth" })
- 20 │             }
- 21 │             className="className="fixed bottom-5 right-5 bg-gradient-to-r from-blue-500 to-green-500 text-white p-3 rounded-full shadow-lg hover:scale-110 transition"
-    ·                                                                                                                                                                      ─
- 22 │           >
- 23 │             ↑
- 24 │           </button>
+  × await isn't allowed in non-async function
+    ╭─[D:\shebasathi-next\app\login\page.jsx:49:1]
+ 46 │     }
+ 47 │   );
+ 48 │ 
+ 49 │   const data = await res.json();
+    ·                ─────
+ 50 │ 
+ 51 │   if (data.token) {
+ 51 │     login(data);
+    ╰────
+  × Return statement is not allowed here
+    ╭─[D:\shebasathi-next\app\login\page.jsx:59:1]
+ 56 │       }
+ 57 │     };
+ 58 │     
+ 59 │ ╭─▶   return (
+ 60 │ │       <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-600 to-green-500">
+ 61 │ │         <form className="bg-white p-8 rounded-xl shadow w-96 space-y-4" onSubmit={submit}>
+ 62 │ │           <h2 className="text-2xl font-bold text-center">লগইন</h2>
+ 63 │ │   
+ 64 │ │           <input
+ 65 │ │             placeholder="ইমেইল"
+ 66 │ │             className="border p-3 w-full rounded"
+ 67 │ │             onChange={(e) => setForm({ ...form, email: e.target.value })}
+ 68 │ │           />
+ 69 │ │   
+ 70 │ │           <input
+ 71 │ │             type="password"
+ 72 │ │             placeholder="পাসওয়ার্ড"
+ 73 │ │             className="border p-3 w-full rounded"
+ 74 │ │             onChange={(e) => setForm({ ...form, password: e.target.value })}
+ 75 │ │           />
+ 76 │ │   
+ 77 │ │           <button className="bg-blue-600 text-white w-full py-3 rounded">
+ 78 │ │             লগইন করুন
+ 79 │ │           </button>
+ 80 │ │         </form>
+ 81 │ │       </div>
+ 82 │ ╰─▶   );
+ 83 │     }
+    ╰────
+  × Expression expected
+    ╭─[D:\shebasathi-next\app\login\page.jsx:83:1]
+ 80 │       </form>
+ 81 │     </div>
+ 82 │   );
+ 83 │ }
+    · ─
     ╰────
 
 Caused by:
     Syntax Error
 
 Import trace for requested module:
-./app/layout.js
-[00:58:01.334] Browser ERROR   ./app/layout.js
-Error:   × Unterminated string constant
-    ╭─[D:\shebasathi-next\app\layout.js:21:1]
- 18 │             onClick={() =>
- 19 │               window.scrollTo({ top: 0, behavior: "smooth" })
- 20 │             }
- 21 │             className="className="fixed bottom-5 right-5 bg-gradient-to-r from-blue-500 to-green-500 text-white p-3 rounded-full shadow-lg hover:scale-110 transition"
-    ·                                                                                                                                                                      ─
- 22 │           >
- 23 │             ↑
- 24 │           </button>
+./app/login/page.jsx
+[00:21:46.625] Browser ERROR   ./app/login/page.jsx
+Error:   × await isn't allowed in non-async function
+    ╭─[D:\shebasathi-next\app\login\page.jsx:38:1]
+ 35 │   // const submit = async (e) => {
+ 36 │   // e.preventDefault();
+ 37 │ 
+ 38 │   const res = await fetch(
+    ·               ─────
+ 39 │     "https://shebasathi-backend.onrender.com/api/auth/login",
+ 40 │     {
+ 40 │       method: "POST",
     ╰────
-  × Expected '</', got 'string literal ("", ")'
-    ╭─[D:\shebasathi-next\app\layout.js:21:1]
- 18 │             onClick={() =>
- 19 │               window.scrollTo({ top: 0, behavior: "smooth" })
- 20 │             }
- 21 │             className="className="fixed bottom-5 right-5 bg-gradient-to-r from-blue-500 to-green-500 text-white p-3 rounded-full shadow-lg hover:scale-110 transition"
-    ·                                                                                                                                                                      ─
- 22 │           >
- 23 │             ↑
- 24 │           </button>
+  × await isn't allowed in non-async function
+    ╭─[D:\shebasathi-next\app\login\page.jsx:49:1]
+ 46 │     }
+ 47 │   );
+ 48 │ 
+ 49 │   const data = await res.json();
+    ·                ─────
+ 50 │ 
+ 51 │   if (data.token) {
+ 51 │     login(data);
+    ╰────
+  × Return statement is not allowed here
+    ╭─[D:\shebasathi-next\app\login\page.jsx:59:1]
+ 56 │       }
+ 57 │     };
+ 58 │     
+ 59 │ ╭─▶   return (
+ 60 │ │       <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-600 to-green-500">
+ 61 │ │         <form className="bg-white p-8 rounded-xl shadow w-96 space-y-4" onSubmit={submit}>
+ 62 │ │           <h2 className="text-2xl font-bold text-center">লগইন</h2>
+ 63 │ │   
+ 64 │ │           <input
+ 65 │ │             placeholder="ইমেইল"
+ 66 │ │             className="border p-3 w-full rounded"
+ 67 │ │             onChange={(e) => setForm({ ...form, email: e.target.value })}
+ 68 │ │           />
+ 69 │ │   
+ 70 │ │           <input
+ 71 │ │             type="password"
+ 72 │ │             placeholder="পাসওয়ার্ড"
+ 73 │ │             className="border p-3 w-full rounded"
+ 74 │ │             onChange={(e) => setForm({ ...form, password: e.target.value })}
+ 75 │ │           />
+ 76 │ │   
+ 77 │ │           <button className="bg-blue-600 text-white w-full py-3 rounded">
+ 78 │ │             লগইন করুন
+ 79 │ │           </button>
+ 80 │ │         </form>
+ 81 │ │       </div>
+ 82 │ ╰─▶   );
+ 83 │     }
+    ╰────
+  × Expression expected
+    ╭─[D:\shebasathi-next\app\login\page.jsx:83:1]
+ 80 │       </form>
+ 81 │     </div>
+ 82 │   );
+ 83 │ }
+    · ─
     ╰────
 
 Caused by:
     Syntax Error
 
 Import trace for requested module:
-./app/layout.js
-[00:58:01.335] Browser ERROR   ./app/layout.js
-Error:   × Unterminated string constant
-    ╭─[D:\shebasathi-next\app\layout.js:21:1]
- 18 │             onClick={() =>
- 19 │               window.scrollTo({ top: 0, behavior: "smooth" })
- 20 │             }
- 21 │             className="className="fixed bottom-5 right-5 bg-gradient-to-r from-blue-500 to-green-500 text-white p-3 rounded-full shadow-lg hover:scale-110 transition"
-    ·                                                                                                                                                                      ─
- 22 │           >
- 23 │             ↑
- 24 │           </button>
+./app/login/page.jsx
+[00:21:46.625] Browser ERROR   ./app/login/page.jsx
+Error:   × await isn't allowed in non-async function
+    ╭─[D:\shebasathi-next\app\login\page.jsx:38:1]
+ 35 │   // const submit = async (e) => {
+ 36 │   // e.preventDefault();
+ 37 │ 
+ 38 │   const res = await fetch(
+    ·               ─────
+ 39 │     "https://shebasathi-backend.onrender.com/api/auth/login",
+ 40 │     {
+ 40 │       method: "POST",
     ╰────
-  × Expected '</', got 'string literal ("", ")'
-    ╭─[D:\shebasathi-next\app\layout.js:21:1]
- 18 │             onClick={() =>
- 19 │               window.scrollTo({ top: 0, behavior: "smooth" })
- 20 │             }
- 21 │             className="className="fixed bottom-5 right-5 bg-gradient-to-r from-blue-500 to-green-500 text-white p-3 rounded-full shadow-lg hover:scale-110 transition"
-    ·                                                                                                                                                                      ─
- 22 │           >
- 23 │             ↑
- 24 │           </button>
+  × await isn't allowed in non-async function
+    ╭─[D:\shebasathi-next\app\login\page.jsx:49:1]
+ 46 │     }
+ 47 │   );
+ 48 │ 
+ 49 │   const data = await res.json();
+    ·                ─────
+ 50 │ 
+ 51 │   if (data.token) {
+ 51 │     login(data);
+    ╰────
+  × Return statement is not allowed here
+    ╭─[D:\shebasathi-next\app\login\page.jsx:59:1]
+ 56 │       }
+ 57 │     };
+ 58 │     
+ 59 │ ╭─▶   return (
+ 60 │ │       <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-600 to-green-500">
+ 61 │ │         <form className="bg-white p-8 rounded-xl shadow w-96 space-y-4" onSubmit={submit}>
+ 62 │ │           <h2 className="text-2xl font-bold text-center">লগইন</h2>
+ 63 │ │   
+ 64 │ │           <input
+ 65 │ │             placeholder="ইমেইল"
+ 66 │ │             className="border p-3 w-full rounded"
+ 67 │ │             onChange={(e) => setForm({ ...form, email: e.target.value })}
+ 68 │ │           />
+ 69 │ │   
+ 70 │ │           <input
+ 71 │ │             type="password"
+ 72 │ │             placeholder="পাসওয়ার্ড"
+ 73 │ │             className="border p-3 w-full rounded"
+ 74 │ │             onChange={(e) => setForm({ ...form, password: e.target.value })}
+ 75 │ │           />
+ 76 │ │   
+ 77 │ │           <button className="bg-blue-600 text-white w-full py-3 rounded">
+ 78 │ │             লগইন করুন
+ 79 │ │           </button>
+ 80 │ │         </form>
+ 81 │ │       </div>
+ 82 │ ╰─▶   );
+ 83 │     }
+    ╰────
+  × Expression expected
+    ╭─[D:\shebasathi-next\app\login\page.jsx:83:1]
+ 80 │       </form>
+ 81 │     </div>
+ 82 │   );
+ 83 │ }
+    · ─
     ╰────
 
 Caused by:
     Syntax Error
 
 Import trace for requested module:
-./app/layout.js
-[00:58:51.538] Server  WARN    ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
-[00:58:51.538] Server  WARN    ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
-[00:58:52.537] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:58:52.567] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:58:53.343] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+./app/login/page.jsx
+[00:21:51.694] Server  ERROR   ⨯ ./app/login/page.jsx
+Error:   × await isn't allowed in non-async function
+    ╭─[D:\shebasathi-next\app\login\page.jsx:38:1]
+ 35 │   // const submit = async (e) => {
+ 36 │   // e.preventDefault();
+ 37 │ 
+ 38 │   const res = await fetch(
+    ·               ─────
+ 39 │     "https://shebasathi-backend.onrender.com/api/auth/login",
+ 40 │     {
+ 40 │       method: "POST",
+    ╰────
+  × await isn't allowed in non-async function
+    ╭─[D:\shebasathi-next\app\login\page.jsx:49:1]
+ 46 │     }
+ 47 │   );
+ 48 │ 
+ 49 │   const data = await res.json();
+    ·                ─────
+ 50 │ 
+ 51 │   if (data.token) {
+ 51 │     login(data);
+    ╰────
+  × Return statement is not allowed here
+    ╭─[D:\shebasathi-next\app\login\page.jsx:59:1]
+ 56 │       }
+ 57 │     };
+ 58 │     
+ 59 │ ╭─▶   return (
+ 60 │ │       <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-600 to-green-500">
+ 61 │ │         <form className="bg-white p-8 rounded-xl shadow w-96 space-y-4" onSubmit={submit}>
+ 62 │ │           <h2 className="text-2xl font-bold text-center">লগইন</h2>
+ 63 │ │   
+ 64 │ │           <input
+ 65 │ │             placeholder="ইমেইল"
+ 66 │ │             className="border p-3 w-full rounded"
+ 67 │ │             onChange={(e) => setForm({ ...form, email: e.target.value })}
+ 68 │ │           />
+ 69 │ │   
+ 70 │ │           <input
+ 71 │ │             type="password"
+ 72 │ │             placeholder="পাসওয়ার্ড"
+ 73 │ │             className="border p-3 w-full rounded"
+ 74 │ │             onChange={(e) => setForm({ ...form, password: e.target.value })}
+ 75 │ │           />
+ 76 │ │   
+ 77 │ │           <button className="bg-blue-600 text-white w-full py-3 rounded">
+ 78 │ │             লগইন করুন
+ 79 │ │           </button>
+ 80 │ │         </form>
+ 81 │ │       </div>
+ 82 │ ╰─▶   );
+ 83 │     }
+    ╰────
+  × Expression expected
+    ╭─[D:\shebasathi-next\app\login\page.jsx:83:1]
+ 80 │       </form>
+ 81 │     </div>
+ 82 │   );
+ 83 │ }
+    · ─
+    ╰────
 
-- A server/client branch `if (typeof window !== 'undefined')`.
-- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
-- Date formatting in a user's locale which doesn't match the server.
-- External changing data without sending a snapshot of it along with the HTML.
-- Invalid HTML tag nesting.
+Caused by:
+    Syntax Error
 
-It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+Import trace for requested module:
+./app/login/page.jsx
+[00:21:51.978] Browser ERROR   ./app/login/page.jsx
+Error:   × await isn't allowed in non-async function
+    ╭─[D:\shebasathi-next\app\login\page.jsx:38:1]
+ 35 │   // const submit = async (e) => {
+ 36 │   // e.preventDefault();
+ 37 │ 
+ 38 │   const res = await fetch(
+    ·               ─────
+ 39 │     "https://shebasathi-backend.onrender.com/api/auth/login",
+ 40 │     {
+ 40 │       method: "POST",
+    ╰────
+  × await isn't allowed in non-async function
+    ╭─[D:\shebasathi-next\app\login\page.jsx:49:1]
+ 46 │     }
+ 47 │   );
+ 48 │ 
+ 49 │   const data = await res.json();
+    ·                ─────
+ 50 │ 
+ 51 │   if (data.token) {
+ 51 │     login(data);
+    ╰────
+  × Return statement is not allowed here
+    ╭─[D:\shebasathi-next\app\login\page.jsx:59:1]
+ 56 │       }
+ 57 │     };
+ 58 │     
+ 59 │ ╭─▶   return (
+ 60 │ │       <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-600 to-green-500">
+ 61 │ │         <form className="bg-white p-8 rounded-xl shadow w-96 space-y-4" onSubmit={submit}>
+ 62 │ │           <h2 className="text-2xl font-bold text-center">লগইন</h2>
+ 63 │ │   
+ 64 │ │           <input
+ 65 │ │             placeholder="ইমেইল"
+ 66 │ │             className="border p-3 w-full rounded"
+ 67 │ │             onChange={(e) => setForm({ ...form, email: e.target.value })}
+ 68 │ │           />
+ 69 │ │   
+ 70 │ │           <input
+ 71 │ │             type="password"
+ 72 │ │             placeholder="পাসওয়ার্ড"
+ 73 │ │             className="border p-3 w-full rounded"
+ 74 │ │             onChange={(e) => setForm({ ...form, password: e.target.value })}
+ 75 │ │           />
+ 76 │ │   
+ 77 │ │           <button className="bg-blue-600 text-white w-full py-3 rounded">
+ 78 │ │             লগইন করুন
+ 79 │ │           </button>
+ 80 │ │         </form>
+ 81 │ │       </div>
+ 82 │ ╰─▶   );
+ 83 │     }
+    ╰────
+  × Expression expected
+    ╭─[D:\shebasathi-next\app\login\page.jsx:83:1]
+ 80 │       </form>
+ 81 │     </div>
+ 82 │   );
+ 83 │ }
+    · ─
+    ╰────
 
-%s%s https://react.dev/link/hydration-mismatch 
+Caused by:
+    Syntax Error
 
-  ...
-    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
-      <AppDevOverlayErrorBoundary globalError={[...]}>
-        <ReplaySsrOnlyErrors>
-        <DevRootHTTPAccessFallbackBoundary>
-          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
-            <HTTPAccessFallbackErrorBoundary pathname="/" notFound={<NotAllowedRootHTTPFallbackError>} ...>
-              <RedirectBoundary>
-                <RedirectErrorBoundary router={{...}}>
-                  <Head>
-                  <__next_root_layout_boundary__>
-                    <SegmentViewNode type="layout" pagePath="layout.js">
-                      <SegmentTrieNode>
-                      <link>
-                      <ClientSegmentRoot Component={function RootLayout} slots={{...}} ...>
-                        <RootLayout params={Promise}>
-                          <html
-                            lang="bn"
--                           webcrx=""
-                          >
-                  ...
+Import trace for requested module:
+./app/login/page.jsx
+[00:21:52.389] Server  LOG     ○ Compiling /_error ...
+[00:21:52.456] Browser ERROR   uncaughtError: ModuleBuildError: Module build failed (from ./node_modules/next/dist/build/webpack/loaders/next-swc-loader.js):
+Error:   × await isn't allowed in non-async function
+    ╭─[D:\shebasathi-next\app\login\page.jsx:38:1]
+ 35 │   // const submit = async (e) => {
+ 36 │   // e.preventDefault();
+ 37 │ 
+ 38 │   const res = await fetch(
+    ·               ─────
+ 39 │     "https://shebasathi-backend.onrender.com/api/auth/login",
+ 40 │     {
+ 40 │       method: "POST",
+    ╰────
+  × await isn't allowed in non-async function
+    ╭─[D:\shebasathi-next\app\login\page.jsx:49:1]
+ 46 │     }
+ 47 │   );
+ 48 │ 
+ 49 │   const data = await res.json();
+    ·                ─────
+ 50 │ 
+ 51 │   if (data.token) {
+ 51 │     login(data);
+    ╰────
+  × Return statement is not allowed here
+    ╭─[D:\shebasathi-next\app\login\page.jsx:59:1]
+ 56 │       }
+ 57 │     };
+ 58 │     
+ 59 │ ╭─▶   return (
+ 60 │ │       <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-600 to-green-500">
+ 61 │ │         <form className="bg-white p-8 rounded-xl shadow w-96 space-y-4" onSubmit={submit}>
+ 62 │ │           <h2 className="text-2xl font-bold text-center">লগইন</h2>
+ 63 │ │   
+ 64 │ │           <input
+ 65 │ │             placeholder="ইমেইল"
+ 66 │ │             className="border p-3 w-full rounded"
+ 67 │ │             onChange={(e) => setForm({ ...form, email: e.target.value })}
+ 68 │ │           />
+ 69 │ │   
+ 70 │ │           <input
+ 71 │ │             type="password"
+ 72 │ │             placeholder="পাসওয়ার্ড"
+ 73 │ │             className="border p-3 w-full rounded"
+ 74 │ │             onChange={(e) => setForm({ ...form, password: e.target.value })}
+ 75 │ │           />
+ 76 │ │   
+ 77 │ │           <button className="bg-blue-600 text-white w-full py-3 rounded">
+ 78 │ │             লগইন করুন
+ 79 │ │           </button>
+ 80 │ │         </form>
+ 81 │ │       </div>
+ 82 │ ╰─▶   );
+ 83 │     }
+    ╰────
+  × Expression expected
+    ╭─[D:\shebasathi-next\app\login\page.jsx:83:1]
+ 80 │       </form>
+ 81 │     </div>
+ 82 │   );
+ 83 │ }
+    · ─
+    ╰────
 
+
+Caused by:
+    Syntax Error
+[00:21:52.580] Browser ERROR   ./app/login/page.jsx
+Error:   × await isn't allowed in non-async function
+    ╭─[D:\shebasathi-next\app\login\page.jsx:38:1]
+ 35 │   // const submit = async (e) => {
+ 36 │   // e.preventDefault();
+ 37 │ 
+ 38 │   const res = await fetch(
+    ·               ─────
+ 39 │     "https://shebasathi-backend.onrender.com/api/auth/login",
+ 40 │     {
+ 40 │       method: "POST",
+    ╰────
+  × await isn't allowed in non-async function
+    ╭─[D:\shebasathi-next\app\login\page.jsx:49:1]
+ 46 │     }
+ 47 │   );
+ 48 │ 
+ 49 │   const data = await res.json();
+    ·                ─────
+ 50 │ 
+ 51 │   if (data.token) {
+ 51 │     login(data);
+    ╰────
+  × Return statement is not allowed here
+    ╭─[D:\shebasathi-next\app\login\page.jsx:59:1]
+ 56 │       }
+ 57 │     };
+ 58 │     
+ 59 │ ╭─▶   return (
+ 60 │ │       <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-600 to-green-500">
+ 61 │ │         <form className="bg-white p-8 rounded-xl shadow w-96 space-y-4" onSubmit={submit}>
+ 62 │ │           <h2 className="text-2xl font-bold text-center">লগইন</h2>
+ 63 │ │   
+ 64 │ │           <input
+ 65 │ │             placeholder="ইমেইল"
+ 66 │ │             className="border p-3 w-full rounded"
+ 67 │ │             onChange={(e) => setForm({ ...form, email: e.target.value })}
+ 68 │ │           />
+ 69 │ │   
+ 70 │ │           <input
+ 71 │ │             type="password"
+ 72 │ │             placeholder="পাসওয়ার্ড"
+ 73 │ │             className="border p-3 w-full rounded"
+ 74 │ │             onChange={(e) => setForm({ ...form, password: e.target.value })}
+ 75 │ │           />
+ 76 │ │   
+ 77 │ │           <button className="bg-blue-600 text-white w-full py-3 rounded">
+ 78 │ │             লগইন করুন
+ 79 │ │           </button>
+ 80 │ │         </form>
+ 81 │ │       </div>
+ 82 │ ╰─▶   );
+ 83 │     }
+    ╰────
+  × Expression expected
+    ╭─[D:\shebasathi-next\app\login\page.jsx:83:1]
+ 80 │       </form>
+ 81 │     </div>
+ 82 │   );
+ 83 │ }
+    · ─
+    ╰────
+
+Caused by:
+    Syntax Error
+[00:22:53.394] Server  WARN    ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:22:54.191] Server  WARN    ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:22:56.593] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:24:38.159] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:26:55.381] Server  ERROR   ⨯ ./app/login/page.jsx:6:1
+Module not found: Can't resolve '../context/AuthContext'
+  4 | import { useRouter } from "next/navigation";
+  5 | import Link from "next/link";
+> 6 | import { AuthContext } from "../context/AuthContext";
+    | ^
+  7 |
+  8 | export default function Login() {
+  9 |   const { login } = useContext(AuthContext);
+
+https://nextjs.org/docs/messages/module-not-found
+[00:26:55.581] Browser ERROR   ./app/login/page.jsx:6:1
+Module not found: Can't resolve '../context/AuthContext'
+  4 | import { useRouter } from "next/navigation";
+  5 | import Link from "next/link";
+> 6 | import { AuthContext } from "../context/AuthContext";
+    | ^
+  7 |
+  8 | export default function Login() {
+  9 |   const { login } = useContext(AuthContext);
+
+https://nextjs.org/docs/messages/module-not-found
+[00:26:55.581] Browser ERROR   ./app/login/page.jsx:6:1
+Module not found: Can't resolve '../context/AuthContext'
+  4 | import { useRouter } from "next/navigation";
+  5 | import Link from "next/link";
+> 6 | import { AuthContext } from "../context/AuthContext";
+    | ^
+  7 |
+  8 | export default function Login() {
+  9 |   const { login } = useContext(AuthContext);
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:05.974] Browser ERROR   ./app/login/page.jsx:6:1
+Module not found: Can't resolve '../context/AuthContext'
+  4 | import { useRouter } from "next/navigation";
+  5 | import Link from "next/link";
+> 6 | import { AuthContext } from "../context/AuthContext";
+    | ^
+  7 |
+  8 | export default function Login() {
+  9 |   const { login } = useContext(AuthContext);
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:06.084] Browser ERROR   ./app/login/page.jsx:6:1
+Module not found: Can't resolve '../context/AuthContext'
+  4 | import { useRouter } from "next/navigation";
+  5 | import Link from "next/link";
+> 6 | import { AuthContext } from "../context/AuthContext";
+    | ^
+  7 |
+  8 | export default function Login() {
+  9 |   const { login } = useContext(AuthContext);
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:06.638] Server  ERROR   ⨯ ./app/login/page.jsx:6:1
+Module not found: Can't resolve '../context/AuthContext'
+  4 | import { useRouter } from "next/navigation";
+  5 | import Link from "next/link";
+> 6 | import { AuthContext } from "../context/AuthContext";
+    | ^
+  7 |
+  8 | export default function Login() {
+  9 |   const { login } = useContext(AuthContext);
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:06.678] Browser ERROR   ./app/login/page.jsx:6:1
+Module not found: Can't resolve '../context/AuthContext'
+  4 | import { useRouter } from "next/navigation";
+  5 | import Link from "next/link";
+> 6 | import { AuthContext } from "../context/AuthContext";
+    | ^
+  7 |
+  8 | export default function Login() {
+  9 |   const { login } = useContext(AuthContext);
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:07.153] Browser ERROR   uncaughtError: Error: Module not found: Can't resolve '../context/AuthContext'
+  4 | import { useRouter } from "next/navigation";
+  5 | import Link from "next/link";
+> 6 | import { AuthContext } from "../context/AuthContext";
+    | ^
+  7 |
+  8 | export default function Login() {
+  9 |   const { login } = useContext(AuthContext);
+
+https://nextjs.org/docs/messages/module-not-found
+
+[00:27:07.268] Browser ERROR   ./app/login/page.jsx:6:1
+Module not found: Can't resolve '../context/AuthContext'
+  4 | import { useRouter } from "next/navigation";
+  5 | import Link from "next/link";
+> 6 | import { AuthContext } from "../context/AuthContext";
+    | ^
+  7 |
+  8 | export default function Login() {
+  9 |   const { login } = useContext(AuthContext);
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:08.841] Server  LOG     ○ Compiling /_error ...
+[00:27:33.112] Server  ERROR   ⨯ ./app/login/page.jsx:6:1
+Module not found: Can't resolve '../context/AuthContext'
+  4 | import { useRouter } from "next/navigation";
+  5 | import Link from "next/link";
+> 6 | import { AuthContext } from "../context/AuthContext";
+    | ^
+  7 |
+  8 | export default function Login() {
+  9 |   const { login } = useContext(AuthContext);
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:33.581] Browser ERROR   ./app/login/page.jsx:6:1
+Module not found: Can't resolve '../context/AuthContext'
+  4 | import { useRouter } from "next/navigation";
+  5 | import Link from "next/link";
+> 6 | import { AuthContext } from "../context/AuthContext";
+    | ^
+  7 |
+  8 | export default function Login() {
+  9 |   const { login } = useContext(AuthContext);
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:33.581] Browser ERROR   ./app/login/page.jsx:6:1
+Module not found: Can't resolve '../context/AuthContext'
+  4 | import { useRouter } from "next/navigation";
+  5 | import Link from "next/link";
+> 6 | import { AuthContext } from "../context/AuthContext";
+    | ^
+  7 |
+  8 | export default function Login() {
+  9 |   const { login } = useContext(AuthContext);
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:33.581] Browser ERROR   ./app/login/page.jsx:6:1
+Module not found: Can't resolve '../context/AuthContext'
+  4 | import { useRouter } from "next/navigation";
+  5 | import Link from "next/link";
+> 6 | import { AuthContext } from "../context/AuthContext";
+    | ^
+  7 |
+  8 | export default function Login() {
+  9 |   const { login } = useContext(AuthContext);
+
+https://nextjs.org/docs/messages/module-not-found
+[00:27:37.802] Browser ERROR   uncaughtError: Error: Module not found: Can't resolve '../context/AuthContext'
+  4 | import { useRouter } from "next/navigation";
+  5 | import Link from "next/link";
+> 6 | import { AuthContext } from "../context/AuthContext";
+    | ^
+  7 |
+  8 | export default function Login() {
+  9 |   const { login } = useContext(AuthContext);
+
+https://nextjs.org/docs/messages/module-not-found
+
+[00:27:37.906] Browser ERROR   ./app/login/page.jsx:6:1
+Module not found: Can't resolve '../context/AuthContext'
+  4 | import { useRouter } from "next/navigation";
+  5 | import Link from "next/link";
+> 6 | import { AuthContext } from "../context/AuthContext";
+    | ^
+  7 |
+  8 | export default function Login() {
+  9 |   const { login } = useContext(AuthContext);
+
+https://nextjs.org/docs/messages/module-not-found
+[00:30:43.091] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[00:30:43.091] Browser ERROR   ./app/login/page.jsx:6:1
+Module not found: Can't resolve '../context/AuthContext'
+  4 | import { useRouter } from "next/navigation";
+  5 | import Link from "next/link";
+> 6 | import { AuthContext } from "../context/AuthContext";
+    | ^
+  7 |
+  8 | export default function Login() {
+  9 |   const { login } = useContext(AuthContext);
+
+https://nextjs.org/docs/messages/module-not-found
+[00:30:43.575] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[00:30:44.310] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[00:30:44.960] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
