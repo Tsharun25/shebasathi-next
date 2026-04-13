@@ -13,41 +13,60 @@ export default function Navbar() {
 
   const logout = () => {
     localStorage.removeItem("user");
-    window.location.href = "/";
+    window.location.reload();
   };
 
   return (
-    <div className="bg-white shadow px-8 py-4 flex justify-between items-center">
-
-      {/* LOGO CLICKABLE */}
-      <Link href="/" className="flex items-center gap-2 cursor-pointer">
-        <img src="/logo.png" className="h-8" />
-        <span className="font-bold text-xl text-blue-600">ShebaSathi</span>
+    <nav className="bg-white shadow-md px-8 py-4 flex justify-between items-center sticky top-0 z-50">
+      
+      {/* Logo */}
+      <Link href="/" className="text-2xl font-bold">
+        <span className="text-blue-600">সেবা</span>
+        <span className="text-green-500">সাথী</span>
       </Link>
 
-      <div className="flex gap-5 items-center">
+      {/* Menu */}
+      <div className="flex gap-6 items-center font-medium">
+        <Link href="/" className="hover:text-blue-600 transition">
+          হোম
+        </Link>
 
-        <Link href="/">হোম</Link>
-        <Link href="/doctors">ডাক্তার</Link>
+        <Link href="/doctors" className="hover:text-blue-600 transition">
+          ডাক্তার
+        </Link>
 
-        {user ? (
+        <Link href="/services" className="hover:text-blue-600 transition">
+          সেবা
+        </Link>
+
+        {!user ? (
           <>
-            <Link href="/dashboard">ড্যাশবোর্ড</Link>
+            <Link href="/login" className="hover:text-blue-600">
+              লগইন
+            </Link>
 
-            <button
-              onClick={logout}
-              className="bg-red-500 text-white px-4 py-1 rounded"
+            <Link
+              href="/register"
+              className="bg-gradient-to-r from-blue-600 to-green-500 text-white px-4 py-2 rounded-lg shadow hover:scale-105 transition"
             >
-              লগ আউট
-            </button>
+              রেজিস্টার
+            </Link>
           </>
         ) : (
           <>
-            <Link href="/login">লগইন</Link>
-            <Link href="/register">রেজিস্টার</Link>
+            <Link href="/dashboard" className="text-green-600">
+              ড্যাশবোর্ড
+            </Link>
+
+            <button
+              onClick={logout}
+              className="bg-red-500 text-white px-3 py-1 rounded"
+            >
+              লগআউট
+            </button>
           </>
         )}
       </div>
-    </div>
+    </nav>
   );
 }

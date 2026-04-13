@@ -10,6 +10,11 @@ export default function Register() {
   const submit = async (e) => {
     e.preventDefault();
 
+    if (!form.email && !form.phone) {
+      alert("Email অথবা Mobile দিতে হবে");
+      return;
+    }
+
     const res = await fetch(`${API}/api/auth/register`, {
       method: "POST",
       headers: {
@@ -20,44 +25,41 @@ export default function Register() {
 
     const data = await res.json();
 
-    if (!res.ok) {
-      alert(data.message);
-      return;
-    }
-
-    alert("রেজিস্টার সফল ✅");
-
-    window.location.href = "/login";
+    alert(data.message);
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-green-500 to-blue-600">
-      <form className="bg-white p-8 rounded-xl shadow w-96 space-y-4" onSubmit={submit}>
-        <h2 className="text-2xl font-bold text-center">রেজিস্টার</h2>
+    <form className="p-10 max-w-md mx-auto space-y-3" onSubmit={submit}>
+      <h2 className="text-xl font-bold">রেজিস্টার</h2>
 
-        <input
-          placeholder="নাম"
-          className="border p-3 w-full rounded"
-          onChange={(e) => setForm({ ...form, name: e.target.value })}
-        />
+      <input
+        placeholder="নাম"
+        className="border p-2 w-full"
+        onChange={(e) => setForm({ ...form, name: e.target.value })}
+      />
 
-        <input
-          placeholder="ইমেইল"
-          className="border p-3 w-full rounded"
-          onChange={(e) => setForm({ ...form, email: e.target.value })}
-        />
+      <input
+        placeholder="Email (optional)"
+        className="border p-2 w-full"
+        onChange={(e) => setForm({ ...form, email: e.target.value })}
+      />
 
-        <input
-          type="password"
-          placeholder="পাসওয়ার্ড"
-          className="border p-3 w-full rounded"
-          onChange={(e) => setForm({ ...form, password: e.target.value })}
-        />
+      <input
+        placeholder="Mobile Number"
+        className="border p-2 w-full"
+        onChange={(e) => setForm({ ...form, phone: e.target.value })}
+      />
 
-        <button className="bg-green-600 text-white w-full py-3 rounded">
-          রেজিস্টার করুন
-        </button>
-      </form>
-    </div>
+      <input
+        type="password"
+        placeholder="Password"
+        className="border p-2 w-full"
+        onChange={(e) => setForm({ ...form, password: e.target.value })}
+      />
+
+      <button className="bg-blue-600 text-white w-full py-2">
+        Register
+      </button>
+    </form>
   );
 }
