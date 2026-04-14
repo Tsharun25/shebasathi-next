@@ -24,12 +24,12 @@ export default function Transport() {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="bg-white p-4 md:p-5 rounded-2xl shadow-md hover:shadow-xl transition-all">
       <h1 className="text-2xl font-bold text-blue-700 mb-5">
         🚑 যাতায়াত সেবা
       </h1>
 
-      <div className="grid md:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {list.map((t, i) => (
           <div key={i} className="bg-white p-5 rounded-xl shadow hover:shadow-xl transition">
             <h2 className="font-bold text-lg">{t.name}</h2>

@@ -185,13 +185,13 @@ export default function DoctorCard({ doctor }) {
       {/* DATE */}
       <input
         type="date"
-        className="border p-2 w-full rounded"
+        className="border p-2 w-full rounded mt-2"
         min={new Date().toISOString().split("T")[0]}
         onChange={(e) => setDate(e.target.value)}
       />
 
       {/* SLOT BUTTONS (🔥 NO DROPDOWN) */}
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-3">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-4">
         {allSlots.map((t) => {
           const disabled = !isValidDay(date) || slots.includes(t);
 
@@ -220,7 +220,7 @@ export default function DoctorCard({ doctor }) {
 
       <button
         onClick={book}
-        className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white w-full py-2 rounded-xl hover:scale-105 transition"
+        className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white w-full py-2 mt-4 rounded-xl hover:scale-105 transition"
       >
         অ্যাপয়েন্টমেন্ট নিন
       </button>
