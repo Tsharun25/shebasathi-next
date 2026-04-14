@@ -19,18 +19,23 @@ export default function Login() {
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          phone: form.identifier,
+          email: form.identifier,
+          password: form.password,
+        }),
       }
     );
 
     const data = await res.json();
 
-    if (data.token) {
+    if (data.user) {
       login(data);
       router.push("/dashboard");
-    } else {
-      alert(data.message);
+      return;
     }
+
+    alert(data.message);
   };
 
   return (

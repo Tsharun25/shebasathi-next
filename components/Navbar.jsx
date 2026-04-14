@@ -25,7 +25,6 @@ export default function Navbar() {
   return (
     <nav className="bg-white shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-
         {/* 🔥 LOGO */}
         <Link href="/" className="text-2xl font-extrabold">
           <span className="text-blue-600">সেবা</span>
@@ -34,7 +33,6 @@ export default function Navbar() {
 
         {/* 🔥 DESKTOP */}
         <div className="hidden md:flex items-center gap-6">
-
           {menu.map((m) => (
             <Link
               key={m.path}
@@ -83,14 +81,17 @@ export default function Navbar() {
             <>
               <Link
                 href="/login"
-                className="bg-blue-600 text-white px-4 py-1 rounded-lg"
+                className={`
+    px-4 py-1 rounded-lg
+    ${pathname === "/login" ? "bg-blue-600 text-white" : "hover:bg-blue-100"}
+  `}
               >
                 লগইন
               </Link>
 
               <Link
                 href="/register"
-                className="border px-4 py-1 rounded-lg"
+                className="px-4 py-1 rounded-lg hover:bg-gray-100"
               >
                 রেজিস্টার
               </Link>
@@ -99,10 +100,7 @@ export default function Navbar() {
         </div>
 
         {/* 📱 MOBILE BUTTON */}
-        <button
-          onClick={() => setOpen(!open)}
-          className="md:hidden text-2xl"
-        >
+        <button onClick={() => setOpen(!open)} className="md:hidden text-2xl">
           ☰
         </button>
       </div>
@@ -110,7 +108,6 @@ export default function Navbar() {
       {/* 📱 MOBILE MENU */}
       {open && (
         <div className="md:hidden bg-white border-t px-4 pb-4 space-y-2">
-
           {menu.map((m) => (
             <Link
               key={m.path}
