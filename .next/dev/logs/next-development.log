@@ -1,20 +1,2 @@
-[00:00:02.647] Server  LOG     ✓ Ready in 2.1s
-[00:01:03.858] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:05:19.669] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
-[00:05:20.432] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:05:21.390] Browser ERROR   uncaughtError: ReferenceError: convertToBanglaTime is not defined
-[00:06:47.177] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:06:48.398] Browser ERROR   uncaughtError: ReferenceError: convertToBanglaTime is not defined
-[00:07:18.889] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:07:19.388] Browser ERROR   uncaughtError: ReferenceError: convertToBanglaTime is not defined
-[00:07:57.958] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:07:58.395] Browser ERROR   uncaughtError: ReferenceError: convertToBanglaTime is not defined
-[00:10:56.110] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:10:57.394] Browser ERROR   uncaughtError: ReferenceError: convertToBanglaTime is not defined
-[00:13:57.464] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:25:00.639] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:25:10.900] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:44:21.579] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:44:53.122] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:49:22.506] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:53:03.144] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:03.342] Server  LOG     ✓ Ready in 2.7s
+[00:03:35.508] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
