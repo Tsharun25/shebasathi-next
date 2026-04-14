@@ -45,7 +45,7 @@ export default function Services() {
               {s.title}
             </h2>
 
-            <p className="text-gray-600">{s.desc}</p>
+            <p className="text-sm md:text-base">{s.desc}</p>
           </div>
         ))}
       </div>

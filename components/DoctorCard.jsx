@@ -160,11 +160,11 @@ export default function DoctorCard({ doctor }) {
   };
 
   return (
-    <div className="backdrop-blur-lg bg-white/70 border border-gray-200 p-6 rounded-2xl shadow-xl hover:shadow-2xl transition space-y-3">
+    <div className="bg-white p-4 md:p-5 rounded-2xl shadow-md hover:shadow-xl transition-all">
       <h2 className="text-xl font-bold text-blue-700">{doctor.name}</h2>
 
-      <p className="text-gray-600">{doctor.department}</p>
-      <p className="text-gray-600">{doctor.hospital}</p>
+      <p className="text-sm md:text-base">{doctor.department}</p>
+      <p className="text-sm md:text-base">{doctor.hospital}</p>
 
       <p className="font-semibold text-green-600">
         💰 ফি: ৳ {toBanglaNumber(doctor.fee)} টাকা

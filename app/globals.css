@@ -3,3 +3,11 @@
 button {
   cursor: pointer;
 }
+
+body {
+  overflow-x: hidden;
+}
+
+input, button {
+  font-size: 16px; /* mobile zoom fix */
+}
