@@ -4,6 +4,72 @@ import { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { AuthContext } from "../context/AuthContext";
 
+function convertSlotToBangla(time) {
+  const [hourMin, periodRaw] = time.split(" "); // "6:00 PM"
+  const [hourStr, minute] = hourMin.split(":");
+
+  let hour = parseInt(hourStr);
+  const period = periodRaw.toUpperCase(); // AM / PM
+
+  let label = "";
+
+  if (period === "AM") {
+    label = "সকাল";
+  } else {
+    // PM time
+    if (hour === 12 || hour <= 3) {
+      label = "দুপুর";
+    } else if (hour >= 4 && hour <= 5) {
+      label = "বিকাল";
+    } else if (hour >= 6 && hour <= 7) {
+      label = "সন্ধ্যা";
+    } else {
+      label = "রাত";
+    }
+  }
+
+  return `${label} ${toBanglaNumber(hour)}:${toBanglaNumber(minute)}`;
+}
+
+function convertToBanglaTime(time) {
+  const hour = parseInt(time.split(":")[0]);
+
+  let period = "";
+  let displayHour = hour;
+
+  if (hour >= 4 && hour < 12) {
+    period = "সকাল";
+  } else if (hour >= 12 && hour < 16) {
+    period = "দুপুর";
+    displayHour = hour === 12 ? 12 : hour - 12;
+  } else if (hour >= 16 && hour < 18) {
+    period = "বিকাল";
+    displayHour = hour - 12;
+  } else {
+    period = "রাত";
+    displayHour = hour > 12 ? hour - 12 : hour;
+  }
+
+  return `${period} ${toBanglaNumber(displayHour)}.০০ টা`;
+}
+
+function toBanglaNumber(numStr) {
+  const map = {
+    0: "০",
+    1: "১",
+    2: "২",
+    3: "৩",
+    4: "৪",
+    5: "৫",
+    6: "৬",
+    7: "৭",
+    8: "৮",
+    9: "৯",
+  };
+
+  return numStr.toString().replace(/[0-9]/g, (d) => map[d]);
+}
+
 // 🔥 English → Bangla day map
 const dayMap = {
   Sunday: "রবিবার",
@@ -27,7 +93,7 @@ export default function DoctorCard({ doctor }) {
   useEffect(() => {
     if (date) {
       fetch(
-        `https://shebasathi-backend.onrender.com/api/booked/${doctor._id}/${date}`
+        `https://shebasathi-backend.onrender.com/api/booked/${doctor._id}/${date}`,
       )
         .then((res) => res.json())
         .then((data) => setSlots(data));
@@ -86,7 +152,7 @@ export default function DoctorCard({ doctor }) {
           date,
           time,
         }),
-      }
+      },
     );
 
     const data = await res.json();
@@ -95,25 +161,25 @@ export default function DoctorCard({ doctor }) {
 
   return (
     <div className="backdrop-blur-lg bg-white/70 border border-gray-200 p-6 rounded-2xl shadow-xl hover:shadow-2xl transition space-y-3">
-
-      <h2 className="text-xl font-bold text-blue-700">
-        {doctor.name}
-      </h2>
+      <h2 className="text-xl font-bold text-blue-700">{doctor.name}</h2>
 
       <p className="text-gray-600">{doctor.department}</p>
       <p className="text-gray-600">{doctor.hospital}</p>
 
       <p className="font-semibold text-green-600">
-        💰 ফি: ৳ {doctor.fee}
+        💰 ফি: ৳ {toBanglaNumber(doctor.fee)} টাকা
       </p>
 
       <p className="text-sm">
         📅 ডাক্তার বসেন:{" "}
-        {doctor.availableDays?.map(d => dayMap[d]).join(", ")}
+        {doctor.availableDays?.map((d) => dayMap[d]).join(", ")}
       </p>
 
-      <p className="text-sm">
-        ⏰ সময়: {doctor.startTime} - {doctor.endTime}
+      <p className="text-sm font-medium text-gray-700">
+        ⏰ রোগী দেখার সময়:{" "}
+        {doctor.startTime && doctor.endTime
+          ? `${convertToBanglaTime(doctor.startTime)} - ${convertToBanglaTime(doctor.endTime)}`
+          : "তথ্য নেই"}
       </p>
 
       {/* DATE */}
@@ -125,26 +191,28 @@ export default function DoctorCard({ doctor }) {
       />
 
       {/* SLOT BUTTONS (🔥 NO DROPDOWN) */}
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-3">
         {allSlots.map((t) => {
-          const disabled =
-            !isValidDay(date) || slots.includes(t);
+          const disabled = !isValidDay(date) || slots.includes(t);
 
           return (
             <button
               key={t}
               disabled={disabled}
               onClick={() => setTime(t)}
-              className={`p-2 rounded text-sm
-                ${
-                  time === t
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-100"
-                }
-                ${disabled && "opacity-40 cursor-not-allowed"}
-              `}
+              className={`
+          px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200
+          
+          ${
+            time === t
+              ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg scale-105"
+              : "bg-white border hover:border-blue-400 hover:bg-blue-50"
+          }
+
+          ${disabled && "opacity-30 cursor-not-allowed"}
+        `}
             >
-              {t}
+              {convertSlotToBangla(t)}
             </button>
           );
         })}

@@ -1,25 +1,20 @@
-[00:00:02.567] Server  LOG     ✓ Ready in 2s
-[00:01:05.951] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:01:11.216] Server  WARN    ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
-[00:01:11.965] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:02:18.855] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:10:11.219] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:10:14.179] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:14:53.147] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
-[00:14:53.876] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:14:54.743] Browser ERROR   uncaughtError: Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: object. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
-
-Check the render method of `Doctors`.
-[00:17:22.342] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:17:23.734] Browser ERROR   uncaughtError: Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: object. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
-
-Check the render method of `Doctors`.
-[00:17:30.963] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:17:31.310] Browser ERROR   uncaughtError: Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: object. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
-
-Check the render method of `Doctors`.
-[00:17:48.308] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:17:48.655] Browser ERROR   uncaughtError: Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: object. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
-
-Check the render method of `Doctors`.
-[00:18:39.491] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:02.647] Server  LOG     ✓ Ready in 2.1s
+[00:01:03.858] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:05:19.669] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[00:05:20.432] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:05:21.390] Browser ERROR   uncaughtError: ReferenceError: convertToBanglaTime is not defined
+[00:06:47.177] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:06:48.398] Browser ERROR   uncaughtError: ReferenceError: convertToBanglaTime is not defined
+[00:07:18.889] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:07:19.388] Browser ERROR   uncaughtError: ReferenceError: convertToBanglaTime is not defined
+[00:07:57.958] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:07:58.395] Browser ERROR   uncaughtError: ReferenceError: convertToBanglaTime is not defined
+[00:10:56.110] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:10:57.394] Browser ERROR   uncaughtError: ReferenceError: convertToBanglaTime is not defined
+[00:13:57.464] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:25:00.639] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:25:10.900] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:44:21.579] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:44:53.122] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:49:22.506] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:53:03.144] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
