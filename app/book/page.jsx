@@ -4,6 +4,8 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
+export const dynamic = "force-dynamic";
+
 export default function Book() {
   const params = useSearchParams();
   const router = useRouter();
