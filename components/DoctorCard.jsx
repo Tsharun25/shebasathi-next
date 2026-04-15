@@ -22,11 +22,11 @@ export default function DoctorCard({ doctor, onBook }) {
       </p>
 
       <p>
-        দিন:{" "}
+        ডাক্তার বসেন:{" "}
         {doctor.days.map((d) => daysMap[d]).join(", ")}
       </p>
 
-      <p>সময়: {doctor.time}</p>
+      <p>রোগী দেখার সময়: {doctor.time}</p>
 
       <button
         onClick={() => onBook(doctor)}
