@@ -15,6 +15,13 @@ export default function BookContent() {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
 
+  const timeOptions = [
+    { en: "10:00 AM", bn: "সকাল" },
+    { en: "12:00 PM", bn: "দুপুর" },
+    { en: "3:00 PM", bn: "বিকাল" },
+    { en: "6:00 PM", bn: "সন্ধ্যা" },
+  ];
+
   const handleBooking = async () => {
     if (!user) {
       alert("আগে লগইন করুন");
@@ -22,18 +29,11 @@ export default function BookContent() {
       return;
     }
 
-    if (!date || !time) {
-      alert("তারিখ ও সময় নির্বাচন করুন");
-      return;
-    }
-
     const res = await fetch(
       "https://shebasathi-backend.onrender.com/api/book",
       {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           doctor,
           date,
@@ -47,11 +47,10 @@ export default function BookContent() {
     alert(data.message);
   };
 
-  const getDayShort = (d) => {
-    return new Date(d).toLocaleDateString("en-US", {
-      weekday: "short",
-    });
-  };
+  const getDay = (d) =>
+    new Date(d).toLocaleDateString("en-US", { weekday: "short" });
+
+  const isAvailable = date && days.includes(getDay(date));
 
   return (
     <div className="p-5 max-w-md mx-auto">
@@ -65,27 +64,29 @@ export default function BookContent() {
         onChange={(e) => setDate(e.target.value)}
       />
 
-      {date && !days.includes(getDayShort(date)) && (
-        <p className="text-red-500 mb-3">
-          ❌ এই দিনে ডাক্তার বসেন না
-        </p>
+      {!isAvailable && date && (
+        <p className="text-red-500">❌ এই দিনে ডাক্তার বসেন না</p>
       )}
 
-      <select
-        className="w-full border p-2 mb-3"
-        onChange={(e) => setTime(e.target.value)}
-      >
-        <option value="">সময় নির্বাচন করুন</option>
-        <option>10:00 AM</option>
-        <option>12:00 PM</option>
-        <option>3:00 PM</option>
-      </select>
+      {isAvailable && (
+        <select
+          className="w-full border p-2 mb-3"
+          onChange={(e) => setTime(e.target.value)}
+        >
+          <option>সময় নির্বাচন করুন</option>
+          {timeOptions.map((t, i) => (
+            <option key={i} value={t.en}>
+              {t.bn}
+            </option>
+          ))}
+        </select>
+      )}
 
       <button
         onClick={handleBooking}
         className="w-full bg-green-600 text-white py-2 rounded"
       >
-        বুকিং কনফার্ম
+        কনফার্ম
       </button>
     </div>
   );

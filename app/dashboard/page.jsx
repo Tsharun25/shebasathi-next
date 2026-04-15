@@ -21,17 +21,19 @@ export default function Dashboard() {
 
   return (
     <div className="p-5">
-      <h1 className="text-xl font-bold mb-4">📋 আমার বুকিং</h1>
+      <h1 className="text-xl font-bold mb-4">📊 আমার বুকিং</h1>
 
-      {bookings.length === 0 && <p>কোন বুকিং নেই</p>}
-
-      {bookings.map((b, i) => (
-        <div key={i} className="border p-3 mb-2 rounded">
-          <p>ডাক্তার: {b.doctor}</p>
-          <p>তারিখ: {b.date}</p>
-          <p>সময়: {b.time}</p>
-        </div>
-      ))}
+      {bookings.length === 0 ? (
+        <p>কোনো বুকিং নেই</p>
+      ) : (
+        bookings.map((b, i) => (
+          <div key={i} className="border p-3 mb-2">
+            <p>ডাক্তার: {b.doctor}</p>
+            <p>তারিখ: {b.date}</p>
+            <p>সময়: {b.time}</p>
+          </div>
+        ))
+      )}
     </div>
   );
 }
