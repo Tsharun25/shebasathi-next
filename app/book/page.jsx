@@ -15,27 +15,6 @@ export default function Book() {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
 
-  const times = ["10:00 AM", "12:00 PM", "3:00 PM", "6:00 PM"];
-
-  // 🔥 English → Bangla day convert
-  const dayMap = {
-    Sun: "রবিবার",
-    Mon: "সোমবার",
-    Tue: "মঙ্গলবার",
-    Wed: "বুধবার",
-    Thu: "বৃহস্পতিবার",
-    Fri: "শুক্রবার",
-    Sat: "শনিবার",
-  };
-
-  // selected day check
-  const selectedDay = date
-    ? new Date(date).toLocaleDateString("en-US", { weekday: "short" })
-    : "";
-
-  const isAvailable = days.includes(selectedDay);
-
-  // ✅ BOOK FUNCTION
   const handleBooking = async () => {
     if (!user) {
       alert("আগে লগইন করুন");
@@ -45,11 +24,6 @@ export default function Book() {
 
     if (!date || !time) {
       alert("তারিখ ও সময় নির্বাচন করুন");
-      return;
-    }
-
-    if (!isAvailable) {
-      alert("এই দিনে ডাক্তার বসেন না");
       return;
     }
 
@@ -70,63 +44,48 @@ export default function Book() {
     );
 
     const data = await res.json();
-
     alert(data.message);
+  };
 
-    // ✅ redirect to dashboard
-    router.push("/dashboard");
+  const getDayShort = (d) => {
+    return new Date(d).toLocaleDateString("en-US", {
+      weekday: "short",
+    });
   };
 
   return (
     <div className="p-5 max-w-md mx-auto">
-      <h2 className="text-xl font-bold mb-4 text-center text-green-700">
-        📅 বুকিং - {doctor}
-      </h2>
+      <h1 className="text-xl font-bold mb-4 text-center">
+        বুকিং: {doctor}
+      </h1>
 
-      {/* DATE */}
       <input
         type="date"
-        className="border p-2 w-full mb-3 rounded"
+        className="w-full border p-2 mb-3"
         onChange={(e) => setDate(e.target.value)}
       />
 
-      {/* DAY STATUS */}
-      {date && (
-        <p
-          className={`mb-3 text-center font-semibold ${
-            isAvailable ? "text-green-600" : "text-red-600"
-          }`}
-        >
-          {isAvailable
-            ? `✅ ${dayMap[selectedDay]} - ডাক্তার বসেন`
-            : `❌ ${dayMap[selectedDay]} - ডাক্তার বসেন না`}
+      {date && !days.includes(getDayShort(date)) && (
+        <p className="text-red-500 mb-3">
+          ❌ এই দিনে ডাক্তার বসেন না
         </p>
       )}
 
-      {/* TIME SLOT */}
-      <div className="grid grid-cols-2 gap-2 mb-4">
-        {times.map((t, i) => (
-          <button
-            key={i}
-            onClick={() => setTime(t)}
-            disabled={!isAvailable}
-            className={`p-2 rounded border ${
-              time === t
-                ? "bg-green-600 text-white"
-                : "bg-white text-black"
-            } ${!isAvailable && "opacity-50 cursor-not-allowed"}`}
-          >
-            {t}
-          </button>
-        ))}
-      </div>
+      <select
+        className="w-full border p-2 mb-3"
+        onChange={(e) => setTime(e.target.value)}
+      >
+        <option value="">সময় নির্বাচন করুন</option>
+        <option>10:00 AM</option>
+        <option>12:00 PM</option>
+        <option>3:00 PM</option>
+      </select>
 
-      {/* BUTTON */}
       <button
         onClick={handleBooking}
-        className="bg-blue-600 text-white w-full py-2 rounded"
+        className="w-full bg-green-600 text-white py-2 rounded"
       >
-        বুকিং কনফার্ম করুন
+        বুকিং কনফার্ম
       </button>
     </div>
   );

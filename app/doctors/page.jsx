@@ -1,33 +1,24 @@
 "use client";
 
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import DoctorCard from "../../components/DoctorCard";
-import { AuthContext } from "../../context/AuthContext";
 
 export default function Doctors() {
   const [list, setList] = useState([]);
-  const { user } = useContext(AuthContext);
   const router = useRouter();
-
-  // ✅ ONLY redirect করবে
-  const handleBook = (doctor) => {
-    if (!user) {
-      alert("আগে লগইন করুন");
-      router.push("/login");
-      return;
-    }
-
-    router.push(
-      `/book?doctor=${doctor.name}&days=${doctor.days.join(",")}`
-    );
-  };
 
   useEffect(() => {
     fetch("https://shebasathi-backend.onrender.com/api/doctors")
       .then((res) => res.json())
       .then(setList);
   }, []);
+
+  const handleBook = (doctor) => {
+    router.push(
+      `/book?doctor=${doctor.name}&days=${doctor.days.join(",")}`
+    );
+  };
 
   return (
     <div className="p-4 md:p-10">

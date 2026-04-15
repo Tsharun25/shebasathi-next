@@ -1,9 +1,27 @@
-[00:00:03.471] Server  LOG     ✓ Ready in 2.8s
-[00:00:56.748] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:01:01.403] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:47:30.030] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:01:28.644] Server  WARN    ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
-[01:01:31.419] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:02:53.133] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:03:39.751] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:28:53.607] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:02.573] Server  LOG     ✓ Ready in 2.1s
+[00:00:04.243] Server  ERROR   ⨯ ./app/layout.js
+Attempted import error: 'AuthProvider' is not exported from '../context/AuthContext' (imported as 'AuthProvider').
+
+Import trace for requested module:
+./app/layout.js
+[00:00:04.545] Server  ERROR   ⨯ ./app/layout.js
+Attempted import error: 'AuthProvider' is not exported from '../context/AuthContext' (imported as 'AuthProvider').
+
+Import trace for requested module:
+./app/layout.js
+[00:00:05.652] Server  LOG     ○ Compiling /_error ...
+[00:00:06.337] Server  ERROR   ⨯ ./app/layout.js
+Attempted import error: 'AuthProvider' is not exported from '../context/AuthContext' (imported as 'AuthProvider').
+
+Import trace for requested module:
+./app/layout.js
+[00:00:07.088] Browser ERROR   uncaughtError: ModuleDependencyError: export 'AuthProvider' (imported as 'AuthProvider') was not found in '../context/AuthContext' (possible exports: AuthContext, default)
+[00:00:07.445] Browser ERROR   ./app/layout.js
+Attempted import error: 'AuthProvider' is not exported from '../context/AuthContext' (imported as 'AuthProvider').
+[00:01:50.620] Browser ERROR   ./app/layout.js
+Attempted import error: 'AuthProvider' is not exported from '../context/AuthContext' (imported as 'AuthProvider').
+
+Import trace for requested module:
+./app/layout.js
+[00:01:51.181] Server  WARN    ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:01:53.532] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold

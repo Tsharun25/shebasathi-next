@@ -1,31 +1,31 @@
 "use client";
 
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 export const AuthContext = createContext();
 
+// ✅ MUST EXPORT THIS
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   // load user from localStorage
   useEffect(() => {
-    const data = localStorage.getItem("user");
-    if (data) {
-      setUser(JSON.parse(data));
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
     }
   }, []);
 
-  // LOGIN
+  // login
   const login = (data) => {
-    localStorage.setItem("user", JSON.stringify(data.user));
-    setUser(data.user);
+    setUser(data);
+    localStorage.setItem("user", JSON.stringify(data));
   };
 
-  // LOGOUT
+  // logout
   const logout = () => {
-    localStorage.removeItem("user");
     setUser(null);
-    window.location.href = "/";
+    localStorage.removeItem("user");
   };
 
   return (
