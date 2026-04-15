@@ -1,69 +1,41 @@
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function Book() {
   const params = useSearchParams();
-  const doctorName = params.get("doctor");
-  const daysParam = params.get("days");
-
-  const availableDays = daysParam ? daysParam.split(",") : [];
-
-  const { user } = useContext(AuthContext);
   const router = useRouter();
+  const { user } = useContext(AuthContext);
 
-  const [selectedDate, setSelectedDate] = useState("");
-  const [selectedTime, setSelectedTime] = useState("");
-  const [bookedSlots, setBookedSlots] = useState([]);
+  const doctor = params.get("doctor");
+  const days = params.get("days")?.split(",") || [];
 
-  // 🕒 Slots (Bangla format)
-  const slots = [
-    "বিকাল ৪.০০ টা",
-    "বিকাল ৫.০০ টা",
-    "সন্ধ্যা ৬.০০ টা",
-    "সন্ধ্যা ৭.০০ টা",
-    "রাত ৮.০০ টা",
-  ];
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
 
-  // 📅 Next 7 days generate
-  const getNextDays = () => {
-    let arr = [];
-    for (let i = 0; i < 7; i++) {
-      let d = new Date();
-      d.setDate(d.getDate() + i);
+  const times = ["10:00 AM", "12:00 PM", "3:00 PM", "6:00 PM"];
 
-      const dateStr = d.toISOString().split("T")[0];
-      const dayName = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][d.getDay()];
-
-      arr.push({ date: dateStr, day: dayName });
-    }
-    return arr;
+  // 🔥 English → Bangla day convert
+  const dayMap = {
+    Sun: "রবিবার",
+    Mon: "সোমবার",
+    Tue: "মঙ্গলবার",
+    Wed: "বুধবার",
+    Thu: "বৃহস্পতিবার",
+    Fri: "শুক্রবার",
+    Sat: "শনিবার",
   };
 
-  const daysList = getNextDays();
+  // selected day check
+  const selectedDay = date
+    ? new Date(date).toLocaleDateString("en-US", { weekday: "short" })
+    : "";
 
-  // 🔒 booked slots load
-  useEffect(() => {
-    if (!selectedDate || !user) return;
+  const isAvailable = days.includes(selectedDay);
 
-    fetch(
-      `https://shebasathi-backend.onrender.com/api/my-bookings/${user.phone || user.email}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        const filtered = data
-          .filter(
-            (b) => b.doctor === doctorName && b.date === selectedDate
-          )
-          .map((b) => b.time);
-
-        setBookedSlots(filtered);
-      });
-  }, [selectedDate, user]);
-
-  // 📌 booking function
+  // ✅ BOOK FUNCTION
   const handleBooking = async () => {
     if (!user) {
       alert("আগে লগইন করুন");
@@ -71,8 +43,13 @@ export default function Book() {
       return;
     }
 
-    if (!selectedDate || !selectedTime) {
+    if (!date || !time) {
       alert("তারিখ ও সময় নির্বাচন করুন");
+      return;
+    }
+
+    if (!isAvailable) {
+      alert("এই দিনে ডাক্তার বসেন না");
       return;
     }
 
@@ -84,96 +61,72 @@ export default function Book() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          doctor: doctorName,
-          date: selectedDate,
-          time: selectedTime,
+          doctor,
+          date,
+          time,
           user: user.phone || user.email,
         }),
       }
     );
 
     const data = await res.json();
+
     alert(data.message);
 
-    if (data.message.includes("success")) {
-      router.push("/dashboard");
-    }
-  };
-
-  // 📆 Bangla day convert
-  const toBanglaDay = (day) => {
-    const map = {
-      Sun: "রবি",
-      Mon: "সোম",
-      Tue: "মঙ্গল",
-      Wed: "বুধ",
-      Thu: "বৃহস্পতি",
-      Fri: "শুক্র",
-      Sat: "শনি",
-    };
-    return map[day] || day;
+    // ✅ redirect to dashboard
+    router.push("/dashboard");
   };
 
   return (
-    <div className="p-4 md:p-10 max-w-md mx-auto">
+    <div className="p-5 max-w-md mx-auto">
+      <h2 className="text-xl font-bold mb-4 text-center text-green-700">
+        📅 বুকিং - {doctor}
+      </h2>
 
-      <h1 className="text-xl font-bold text-center mb-4">
-        🩺 {doctorName}
-      </h1>
+      {/* DATE */}
+      <input
+        type="date"
+        className="border p-2 w-full mb-3 rounded"
+        onChange={(e) => setDate(e.target.value)}
+      />
 
-      {/* 📅 CALENDAR */}
-      <div className="grid grid-cols-3 gap-2 mb-5">
-        {daysList.map((d, i) => {
-          const disabled = !availableDays.includes(d.day);
+      {/* DAY STATUS */}
+      {date && (
+        <p
+          className={`mb-3 text-center font-semibold ${
+            isAvailable ? "text-green-600" : "text-red-600"
+          }`}
+        >
+          {isAvailable
+            ? `✅ ${dayMap[selectedDay]} - ডাক্তার বসেন`
+            : `❌ ${dayMap[selectedDay]} - ডাক্তার বসেন না`}
+        </p>
+      )}
 
-          return (
-            <button
-              key={i}
-              disabled={disabled}
-              onClick={() => setSelectedDate(d.date)}
-              className={`
-                p-3 rounded-xl border text-sm font-semibold
-                ${selectedDate === d.date ? "bg-blue-600 text-white" : ""}
-                ${disabled ? "bg-gray-200 cursor-not-allowed" : "hover:bg-blue-100"}
-              `}
-            >
-              {toBanglaDay(d.day)}
-              <br />
-              {d.date.slice(8)}
-            </button>
-          );
-        })}
+      {/* TIME SLOT */}
+      <div className="grid grid-cols-2 gap-2 mb-4">
+        {times.map((t, i) => (
+          <button
+            key={i}
+            onClick={() => setTime(t)}
+            disabled={!isAvailable}
+            className={`p-2 rounded border ${
+              time === t
+                ? "bg-green-600 text-white"
+                : "bg-white text-black"
+            } ${!isAvailable && "opacity-50 cursor-not-allowed"}`}
+          >
+            {t}
+          </button>
+        ))}
       </div>
 
-      {/* ⏰ SLOT */}
-      <div className="grid grid-cols-2 gap-3 mb-5">
-        {slots.map((s, i) => {
-          const isBooked = bookedSlots.includes(s);
-
-          return (
-            <button
-              key={i}
-              disabled={isBooked}
-              onClick={() => setSelectedTime(s)}
-              className={`
-                p-2 rounded-lg border text-sm
-                ${selectedTime === s ? "bg-green-600 text-white" : ""}
-                ${isBooked ? "bg-gray-300 cursor-not-allowed" : "hover:bg-green-100"}
-              `}
-            >
-              {s}
-              {isBooked && " ❌"}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* ✅ BOOK BUTTON */}
+      {/* BUTTON */}
       <button
         onClick={handleBooking}
-        className="bg-green-600 text-white w-full py-3 rounded-xl text-lg"
+        className="bg-blue-600 text-white w-full py-2 rounded"
       >
-        নিশ্চিত করুন
+        বুকিং কনফার্ম করুন
       </button>
     </div>
   );

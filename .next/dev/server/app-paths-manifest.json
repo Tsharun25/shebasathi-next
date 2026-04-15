@@ -1,10 +1,7 @@
 {
-  "/login/page": "app/login/page.js",
-  "/transport/page": "app/transport/page.js",
-  "/dashboard/page": "app/dashboard/page.js",
-  "/hotel/page": "app/hotel/page.js",
-  "/register/page": "app/register/page.js",
-  "/page": "app/page.js",
   "/doctors/page": "app/doctors/page.js",
-  "/services/page": "app/services/page.js"
+  "/dashboard/page": "app/dashboard/page.js",
+  "/book/page": "app/book/page.js",
+  "/transport/page": "app/transport/page.js",
+  "/page": "app/page.js"
 }

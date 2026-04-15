@@ -9,8 +9,18 @@ export default function Doctors() {
   const [list, setList] = useState([]);
   const { user } = useContext(AuthContext);
   const router = useRouter();
+
+  // ✅ ONLY redirect করবে
   const handleBook = (doctor) => {
-    router.push(`/book?doctor=${doctor.name}&days=${doctor.days.join(",")}`);
+    if (!user) {
+      alert("আগে লগইন করুন");
+      router.push("/login");
+      return;
+    }
+
+    router.push(
+      `/book?doctor=${doctor.name}&days=${doctor.days.join(",")}`
+    );
   };
 
   useEffect(() => {
@@ -18,40 +28,6 @@ export default function Doctors() {
       .then((res) => res.json())
       .then(setList);
   }, []);
-
-  // 🔥 BOOK FUNCTION (FIXED)
-  const handleBooking = async () => {
-    if (!user) {
-      alert("আগে লগইন করুন");
-      router.push("/login");
-      return;
-    }
-
-    if (!date || !time) {
-      alert("তারিখ ও সময় নির্বাচন করুন");
-      return;
-    }
-
-    const res = await fetch(
-      "https://shebasathi-backend.onrender.com/api/book",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          doctor: selectedDoctor.name,
-          date,
-          time,
-          user: user.phone || user.email, // 🔥 IMPORTANT
-        }),
-      },
-    );
-
-    const data = await res.json();
-
-    alert(data.message);
-  };
 
   return (
     <div className="p-4 md:p-10">
@@ -61,11 +37,7 @@ export default function Doctors() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {list.map((d, i) => (
-          <DoctorCard
-            key={i}
-            doctor={d}
-            onBook={handleBook} // 🔥 FIX
-          />
+          <DoctorCard key={i} doctor={d} onBook={handleBook} />
         ))}
       </div>
     </div>
