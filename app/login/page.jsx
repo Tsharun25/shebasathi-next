@@ -1,79 +1,108 @@
 "use client";
 
-import { useContext, useState } from "react";
+import { useState, useContext } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function Login() {
-  const { login } = useContext(AuthContext);
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const { setUser } = useContext(AuthContext);
   const router = useRouter();
 
-  const [form, setForm] = useState({});
-
-  const submit = async (e) => {
-    e.preventDefault();
-
-    const res = await fetch(
-      "https://shebasathi-backend.onrender.com/api/auth/login",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          phone: form.identifier,
-          email: form.identifier,
-          password: form.password,
-        }),
-      }
-    );
-
-    const data = await res.json();
-
-    if (data.user) {
-      login(data);
-      router.push("/dashboard");
+  const handleLogin = async () => {
+    if (!phone && !email) {
+      alert("মোবাইল বা ইমেইল যেকোনো একটি দিন");
       return;
     }
 
-    alert(data.message);
+    if (!password) {
+      alert("পাসওয়ার্ড দিন");
+      return;
+    }
+
+    try {
+      const res = await fetch(
+        "https://shebasathi-backend.onrender.com/api/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            phone,
+            email,
+            password,
+          }),
+        }
+      );
+
+      const data = await res.json();
+
+      // 🔥 FIX HERE
+      if (data && data._id) {
+        setUser(data);
+        alert("লগইন সফল ✅");
+        router.push("/dashboard");
+      } else {
+        alert(data.message || "লগইন ব্যর্থ ❌");
+      }
+    } catch (err) {
+      alert("Server error ❌");
+    }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-green-500 px-4">
-      <form
-        onSubmit={submit}
-        className="bg-white p-6 rounded-xl shadow-xl w-full max-w-sm space-y-4"
-      >
-        <h2 className="text-xl font-bold text-center">লগইন</h2>
+    <div className="flex justify-center items-center min-h-screen bg-blue-50">
+      <div className="bg-white p-6 rounded-xl shadow-md w-full max-w-md">
+        <h1 className="text-2xl font-bold text-center text-blue-600 mb-5">
+          🔐 লগইন করুন
+        </h1>
 
         <input
-          placeholder="মোবাইল বা ইমেইল"
-          className="border p-2 w-full rounded"
-          onChange={(e) =>
-            setForm({ ...form, identifier: e.target.value })
-          }
+          type="text"
+          placeholder="📱 মোবাইল নম্বর"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          className="w-full mb-3 p-2 border rounded"
+        />
+
+        <input
+          type="email"
+          placeholder="📧 ইমেইল (ঐচ্ছিক)"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="w-full mb-3 p-2 border rounded"
         />
 
         <input
           type="password"
-          placeholder="পাসওয়ার্ড"
-          className="border p-2 w-full rounded"
-          onChange={(e) =>
-            setForm({ ...form, password: e.target.value })
-          }
+          placeholder="🔑 পাসওয়ার্ড"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="w-full mb-4 p-2 border rounded"
         />
 
-        <button className="bg-blue-600 text-white w-full py-2 rounded">
-          লগইন করুন
+        <button
+          onClick={handleLogin}
+          className="w-full bg-blue-600 text-white py-2 rounded"
+        >
+          লগইন
         </button>
 
-        <p className="text-center text-sm">
-          একাউন্ট নেই?{" "}
-          <Link href="/register" className="text-blue-600 font-semibold">
+        {/* 🔥 FIXED LINK */}
+        <p className="text-center mt-4 text-sm">
+          অ্যাকাউন্ট নেই?{" "}
+          <span
+            className="text-blue-600 cursor-pointer"
+            onClick={() => router.push("/register")}
+          >
             রেজিস্টার করুন
-          </Link>
+          </span>
         </p>
-      </form>
+      </div>
     </div>
   );
 }

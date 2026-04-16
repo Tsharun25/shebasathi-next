@@ -1,27 +1,33 @@
 "use client";
 
 export default function DoctorCard({ doctor, onBook }) {
-  const banglaFee = `৳ ${doctor.fee}`;
-
-  const timeMap = {
-    "10:00 AM": "সকাল",
-    "12:00 PM": "দুপুর",
-    "3:00 PM": "বিকাল",
-    "6:00 PM": "সন্ধ্যা",
-    "9:00 PM": "রাত",
-  };
-
   return (
-    <div className="border p-4 rounded shadow">
-      <h2 className="font-bold text-lg">{doctor.name}</h2>
-      <p>বিভাগ: {doctor.department}</p>
-      <p>হাসপাতাল: {doctor.hospital}</p>
-      <p>ফি: {banglaFee}</p>
-      <p>সময়: {timeMap[doctor.time] || doctor.time}</p>
+    <div className="bg-white shadow-md rounded-xl p-4 border hover:shadow-lg transition">
+      
+      {/* Name */}
+      <h2 className="text-xl font-bold text-blue-700 mb-2">
+        👨‍⚕️ {doctor.name}
+      </h2>
 
+      {/* Department */}
+      <p>🏥 বিভাগ: {doctor.specialist}</p>
+
+      {/* Hospital */}
+      <p>📍 হাসপাতাল: {doctor.hospital}</p>
+
+      {/* Fee */}
+      <p>💰 ফি: {doctor.fee} টাকা</p>
+
+      {/* Days */}
+      <p>📅 ডাক্তার বসেন: {doctor.days.join(", ")}</p>
+
+      {/* Time */}
+      <p>⏰ রোগী দেখার সময়: {doctor.time}</p>
+
+      {/* Button */}
       <button
         onClick={() => onBook(doctor)}
-        className="mt-3 bg-green-600 text-white px-3 py-1 rounded"
+        className="mt-3 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
       >
         বুকিং করুন
       </button>
