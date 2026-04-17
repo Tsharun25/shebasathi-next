@@ -1,3 +1,6 @@
 node_modules
 shebasathi-backend
 .next
+.env.local
+.env
+.env.*
