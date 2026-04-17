@@ -9,6 +9,7 @@ export default function Hotel() {
   const { user } = useContext(AuthContext);
   const router = useRouter();
 
+  // ✅ Load hotel list
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/hotel`)
       .then((res) => res.json())
@@ -16,7 +17,8 @@ export default function Hotel() {
       .catch(() => alert("Hotel load error"));
   }, []);
 
-  const handleBook = async (hotel) => {
+  // ✅ Booking
+  const handleBook = async (h) => {
     if (!user) {
       alert("আগে লগইন করুন");
       router.push("/login");
@@ -24,14 +26,14 @@ export default function Hotel() {
     }
 
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/hotel-book`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/hotel-book`, // ✅ FIXED
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          service: hotel.name,
+          service: h.name,
           user: user.phone || user.email,
         }),
       }
@@ -53,7 +55,7 @@ export default function Hotel() {
         {list.map((h, i) => (
           <div
             key={i}
-            className="bg-white p-5 rounded-2xl shadow-md hover:shadow-xl"
+            className="bg-white p-4 rounded-xl shadow hover:shadow-lg"
           >
             <h2 className="font-bold text-lg">{h.name}</h2>
             <p>{h.location}</p>
