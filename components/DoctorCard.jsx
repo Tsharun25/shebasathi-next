@@ -1,36 +1,36 @@
 "use client";
 
-export default function DoctorCard({ doctor, onBook }) {
-  return (
-    <div className="bg-gradient-to-br from-white to-blue-50 shadow-lg rounded-2xl p-5 border hover:shadow-2xl transition-all duration-300">
+import { useRouter } from "next/navigation";
 
+export default function DoctorCard({ doctor }) {
+  const router = useRouter();
+
+  const handleBook = () => {
+    router.push(
+      `/book?doctor=${doctor.name}&days=${doctor.days.join(",")}&start=${doctor.time.start}&end=${doctor.time.end}`
+    );
+  };
+
+  return (
+    <div className="bg-white shadow-md rounded-xl p-4 border hover:shadow-lg transition">
+      
       <h2 className="text-xl font-bold text-blue-700 mb-2">
         👨‍⚕️ {doctor.name}
       </h2>
 
-      <p className="text-gray-700 mb-1">
-        🏥 <span className="font-medium">{doctor.specialist}</span>
-      </p>
+      <p>🏥 বিভাগ: {doctor.specialist}</p>
+      <p>📍 হাসপাতাল: {doctor.hospital}</p>
+      <p>💰 ফি: {doctor.fee} টাকা</p>
 
-      <p className="text-gray-600 mb-1">
-        📍 {doctor.hospital}
-      </p>
+      <p>📆 ডাক্তার বসেন: {doctor.days.join(", ")}</p>
 
-      <p className="text-green-700 font-semibold mb-1">
-        💰 ফি: ৳ {doctor.fee}
-      </p>
-
-      <p className="text-sm text-gray-600 mb-1">
-        📅 ডাক্তার বসেন: {doctor.days.join(", ")}
-      </p>
-
-      <p className="text-sm text-gray-600 mb-3">
-        ⏰ রোগী দেখার সময়: {doctor.time}
+      <p>
+        ⏰ রোগী দেখার সময়: {doctor.time.start} - {doctor.time.end}
       </p>
 
       <button
-        onClick={() => onBook(doctor)}
-        className="w-full bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700 transition-all"
+        onClick={handleBook}
+        className="mt-3 w-full bg-blue-600 text-white py-2 rounded"
       >
         বুকিং করুন
       </button>
