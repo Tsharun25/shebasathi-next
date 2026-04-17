@@ -1,26 +1,34 @@
 "use client";
 
 import { useState, useContext } from "react";
-import { useRouter } from "next/navigation";
 import { AuthContext } from "../../../context/AuthContext";
+import { useRouter } from "next/navigation";
 
 export default function TransportBooking() {
   const { user } = useContext(AuthContext);
   const router = useRouter();
 
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
-  const [date, setDate] = useState("");
+  const [form, setForm] = useState({
+    from: "",
+    to: "",
+    date: "",
+  });
+
+  const [fare, setFare] = useState(null);
+
+  // 🔥 LIVE FARE PREVIEW
+  const calculateFare = () => {
+    let base = 200;
+    if (form.from && form.to && form.from !== form.to) {
+      base += 100;
+    }
+    setFare(base);
+  };
 
   const handleBooking = async () => {
     if (!user) {
       alert("আগে লগইন করুন");
       router.push("/login");
-      return;
-    }
-
-    if (!from || !to || !date) {
-      alert("সব তথ্য দিন");
       return;
     }
 
@@ -30,30 +38,66 @@ export default function TransportBooking() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          type: "transport",
-          from,
-          to,
-          date,
+          ...form,
           user: user.phone || user.email,
         }),
       }
     );
 
     const data = await res.json();
-    alert(data.message);
+
+    alert(`বুকিং সফল ✅\nমোট ভাড়া: ৳ ${data.total}`);
 
     router.push("/dashboard");
   };
 
   return (
-    <div className="p-5 space-y-3">
-      <h1 className="text-xl font-bold">🚗 যাতায়াত বুকিং</h1>
+    <div className="p-5 max-w-md mx-auto space-y-3">
+      <h1 className="text-xl font-bold text-center">
+        🚗 যাতায়াত বুকিং
+      </h1>
 
-      <input placeholder="কোথা থেকে" className="input" onChange={(e)=>setFrom(e.target.value)} />
-      <input placeholder="কোথায় যাবেন" className="input" onChange={(e)=>setTo(e.target.value)} />
-      <input type="date" className="input" onChange={(e)=>setDate(e.target.value)} />
+      <input
+        placeholder="কোথা থেকে"
+        className="border p-2 w-full"
+        onChange={(e) =>
+          setForm({ ...form, from: e.target.value })
+        }
+      />
 
-      <button onClick={handleBooking} className="bg-green-600 text-white w-full py-2 rounded">
+      <input
+        placeholder="কোথায় যাবেন"
+        className="border p-2 w-full"
+        onChange={(e) =>
+          setForm({ ...form, to: e.target.value })
+        }
+      />
+
+      <input
+        type="date"
+        className="border p-2 w-full"
+        onChange={(e) =>
+          setForm({ ...form, date: e.target.value })
+        }
+      />
+
+      <button
+        onClick={calculateFare}
+        className="bg-gray-200 w-full py-2 rounded"
+      >
+        ভাড়া দেখুন
+      </button>
+
+      {fare && (
+        <div className="text-center text-lg font-bold text-green-600">
+          💰 আনুমানিক ভাড়া: ৳ {fare}
+        </div>
+      )}
+
+      <button
+        onClick={handleBooking}
+        className="bg-green-600 text-white w-full py-2 rounded"
+      >
         বুকিং করুন
       </button>
     </div>
