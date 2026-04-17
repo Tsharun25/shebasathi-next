@@ -9,7 +9,7 @@ export default function Hotel() {
   const { user } = useContext(AuthContext);
   const router = useRouter();
 
-  // ✅ Load hotel list
+  // 🔥 Load hotel list
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/hotel`)
       .then((res) => res.json())
@@ -17,7 +17,7 @@ export default function Hotel() {
       .catch(() => alert("Hotel load error"));
   }, []);
 
-  // ✅ Booking
+  // 🔥 BOOKING FUNCTION (FINAL FIX)
   const handleBook = async (h) => {
     if (!user) {
       alert("আগে লগইন করুন");
@@ -25,24 +25,29 @@ export default function Hotel() {
       return;
     }
 
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/hotel-book`, // ✅ FIXED
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          service: h.name,
-          user: user.phone || user.email,
-        }),
-      }
-    );
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/hotel-book`, // ✅ FIXED
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            service: h.name,
+            user: user.phone || user.email,
+          }),
+        }
+      );
 
-    const data = await res.json();
-    alert(data.message);
+      const data = await res.json();
 
-    router.push("/dashboard");
+      alert(data.message);
+
+      router.push("/dashboard");
+    } catch (err) {
+      alert("Booking error ❌");
+    }
   };
 
   return (
@@ -55,15 +60,15 @@ export default function Hotel() {
         {list.map((h, i) => (
           <div
             key={i}
-            className="bg-white p-4 rounded-xl shadow hover:shadow-lg"
+            className="bg-white p-5 rounded-2xl shadow-md hover:shadow-xl transition"
           >
             <h2 className="font-bold text-lg">{h.name}</h2>
-            <p>{h.location}</p>
+            <p>📍 {h.location}</p>
             <p>💰 ৳ {h.price}</p>
 
             <button
               onClick={() => handleBook(h)}
-              className="mt-3 w-full bg-blue-600 text-white py-2 rounded"
+              className="mt-3 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
             >
               বুক করুন
             </button>

@@ -26,7 +26,7 @@ export default function HotelBooking() {
     }
 
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/hotel-book`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/hotel-book`,
       {
         method: "POST",
         headers: {
