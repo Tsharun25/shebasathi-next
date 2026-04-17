@@ -7,7 +7,7 @@ export default function Admin() {
   const [list, setList] = useState([]);
 
   const load = () => {
-    fetch("https://shebasathi-backend.onrender.com/api/doctors")
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/doctors`)
       .then(res => res.json())
       .then(setList);
   };
@@ -17,7 +17,7 @@ export default function Admin() {
   }, []);
 
   const addDoctor = async () => {
-    await fetch("https://shebasathi-backend.onrender.com/api/admin/add-doctor", {
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/add-doctor`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(doctor),
@@ -26,7 +26,7 @@ export default function Admin() {
   };
 
   const del = async (id) => {
-    await fetch(`https://shebasathi-backend.onrender.com/api/admin/delete-doctor/${id}`, {
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/delete-doctor/${id}`, {
       method: "DELETE",
     });
     load();
