@@ -26,7 +26,7 @@ export default function HotelBooking() {
     }
 
     const res = await fetch(
-      "https://shebasathi-backend.onrender.com/api/hotel-book",
+      `${process.env.NEXT_PUBLIC_API_URL}/hotel-book`,
       {
         method: "POST",
         headers: {

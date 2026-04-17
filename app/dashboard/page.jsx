@@ -10,11 +10,7 @@ export default function Dashboard() {
   useEffect(() => {
     if (!user) return;
 
-    fetch(
-      `https://shebasathi-backend.onrender.com/api/my-bookings/${
-        user.phone || user.email
-      }`
-    )
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/my-bookings/${user.phone || user.email}`)
       .then((res) => res.json())
       .then(setBookings)
       .catch(() => alert("Booking load error"));
@@ -27,14 +23,11 @@ export default function Dashboard() {
       </h1>
 
       {bookings.length === 0 && (
-        <p className="text-center">কোনো বুকিং পাওয়া যায়নি</p>
+        <p className="text-gray-500">❌ কোনো বুকিং পাওয়া যায়নি</p>
       )}
 
       {bookings.map((b, i) => (
-        <div
-          key={i}
-          className="bg-white shadow p-3 mb-3 rounded-lg"
-        >
+        <div key={i} className="bg-white shadow p-3 mb-3 rounded-lg">
           <p>👨‍⚕️ {b.doctor || b.service || "Service"}</p>
           <p>📅 {b.date || b.from}</p>
           <p>⏰ {b.time || b.to}</p>

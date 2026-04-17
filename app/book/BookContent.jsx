@@ -30,7 +30,7 @@ export default function BookContent() {
     }
 
     const res = await fetch(
-      "https://shebasathi-backend.onrender.com/api/book",
+      `${process.env.NEXT_PUBLIC_API_URL}/api/book`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

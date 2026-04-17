@@ -27,7 +27,7 @@ const handleBook = async (h) => {
   }
 
   const res = await fetch(
-    "https://shebasathi-backend.onrender.com/api/hotel-book",
+    `${process.env.NEXT_PUBLIC_API_URL}/api/hotel-book`,
     {
       method: "POST",
       headers: {

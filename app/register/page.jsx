@@ -19,7 +19,7 @@ export default function Register() {
 
     try {
       const res = await fetch(
-        "https://shebasathi-backend.onrender.com/api/register",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/register`,
         {
           method: "POST",
           headers: {

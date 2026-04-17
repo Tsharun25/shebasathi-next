@@ -17,7 +17,7 @@ export default function Transport() {
     }
 
     const res = await fetch(
-      "https://shebasathi-backend.onrender.com/api/transport-book",
+      `${process.env.NEXT_PUBLIC_API_URL}/api/transport-book`,
       {
         method: "POST",
         headers: {

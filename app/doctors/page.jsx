@@ -15,7 +15,7 @@ export default function Doctors() {
   };
 
   useEffect(() => {
-    fetch("https://shebasathi-backend.onrender.com/api/doctors")
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/doctors`)
       .then((res) => res.json())
       .then(setList)
       .catch(() => alert("Doctor load error"));
