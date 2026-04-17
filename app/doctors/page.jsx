@@ -8,11 +8,11 @@ export default function Doctors() {
   const [list, setList] = useState([]);
   const router = useRouter();
 
-  const handleBook = (doctor) => {
-    router.push(
-      `/book?doctor=${doctor.name}&days=${doctor.days.join(",")}&time=${doctor.time}`,
-    );
-  };
+const handleBook = (doctor) => {
+  router.push(
+    `/book?doctor=${doctor.name}&days=${doctor.days.join(",")}&time=${doctor.time}`
+  );
+};
 
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/doctors`)

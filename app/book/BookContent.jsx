@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { useContext, useState } from "react";
+import { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function BookContent() {
@@ -11,14 +11,14 @@ export default function BookContent() {
 
   const doctor = params.get("doctor");
   const days = params.get("days")?.split(",") || [];
-  const timeRange = params.get("time");
+  const time = params.get("time");
 
   const [date, setDate] = useState("");
 
   const getDay = (d) =>
     new Date(d).toLocaleDateString("en-US", { weekday: "short" });
 
-  const isAvailable = date && days.includes(getDay(date));
+  const isValid = date && days.includes(getDay(date));
 
   const handleBooking = async () => {
     if (!user) {
@@ -27,7 +27,7 @@ export default function BookContent() {
       return;
     }
 
-    if (!date || !isAvailable) {
+    if (!date || !isValid) {
       alert("সঠিক দিন নির্বাচন করুন");
       return;
     }
@@ -36,11 +36,11 @@ export default function BookContent() {
       `${process.env.NEXT_PUBLIC_API_URL}/api/book`,
       {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {"Content-Type":"application/json"},
         body: JSON.stringify({
           doctor,
           date,
-          time: timeRange,
+          time,
           user: user.phone || user.email,
         }),
       }
@@ -59,16 +59,16 @@ export default function BookContent() {
       </h1>
 
       <p className="font-semibold">👨‍⚕️ {doctor}</p>
-      <p className="text-gray-600 mb-3">⏰ {timeRange}</p>
+      <p className="mb-2">📆 ডাক্তার বসেন: {days.join(", ")}</p>
+      <p className="mb-4">⏰ রোগী দেখার সময়: {time}</p>
 
-      {/* DATE */}
       <input
         type="date"
-        className="w-full border p-2 mb-3 rounded"
+        className="w-full border p-2 rounded mb-2"
         onChange={(e) => setDate(e.target.value)}
       />
 
-      {!isAvailable && date && (
+      {!isValid && date && (
         <p className="text-red-500 text-sm">
           ❌ এই দিনে ডাক্তার বসেন না
         </p>

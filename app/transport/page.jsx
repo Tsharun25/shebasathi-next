@@ -1,18 +1,26 @@
 "use client";
 
 import { useState, useContext } from "react";
+import { useRouter } from "next/navigation";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function Transport() {
   const { user } = useContext(AuthContext);
+  const router = useRouter();
 
-  const [name, setName] = useState("");
-  const [location, setLocation] = useState("");
-  const [phone, setPhone] = useState("");
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
+  const [date, setDate] = useState("");
 
-  const handleBook = async () => {
+  const handleBooking = async () => {
     if (!user) {
       alert("আগে লগইন করুন");
+      router.push("/login");
+      return;
+    }
+
+    if (!from || !to || !date) {
+      alert("সব তথ্য দিন");
       return;
     }
 
@@ -20,44 +28,36 @@ export default function Transport() {
       `${process.env.NEXT_PUBLIC_API_URL}/api/transport-book`,
       {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, location, phone }),
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({
+          type: "transport",
+          from,
+          to,
+          date,
+          user: user.phone || user.email,
+        }),
       }
     );
 
     const data = await res.json();
     alert(data.message);
+
+    router.push("/dashboard");
   };
 
   return (
-    <div className="p-5 max-w-md mx-auto">
-      <h1 className="text-xl font-bold mb-4 text-center">
+    <div className="p-5 max-w-md mx-auto space-y-3">
+      <h1 className="text-xl font-bold text-center">
         🚗 যাতায়াত বুকিং
       </h1>
 
-      <input
-        placeholder="নাম"
-        className="w-full border p-2 mb-3"
-        onChange={(e) => setName(e.target.value)}
-      />
-
-      <input
-        placeholder="লোকেশন"
-        className="w-full border p-2 mb-3"
-        onChange={(e) => setLocation(e.target.value)}
-      />
-
-      <input
-        placeholder="ফোন"
-        className="w-full border p-2 mb-3"
-        onChange={(e) => setPhone(e.target.value)}
-      />
+      <input placeholder="কোথা থেকে" className="input" onChange={(e)=>setFrom(e.target.value)} />
+      <input placeholder="কোথায় যাবেন" className="input" onChange={(e)=>setTo(e.target.value)} />
+      <input type="date" className="input" onChange={(e)=>setDate(e.target.value)} />
 
       <button
-        onClick={handleBook}
-        className="w-full bg-blue-600 text-white py-2 rounded"
+        onClick={handleBooking}
+        className="bg-green-600 text-white w-full py-2 rounded"
       >
         বুকিং করুন
       </button>
