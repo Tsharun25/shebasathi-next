@@ -10,7 +10,7 @@ export default function Doctors() {
 
   const handleBook = (doctor) => {
     router.push(
-      `/book?doctor=${doctor.name}&days=${doctor.days.join(",")}`
+      `/book?doctor=${doctor.name}&days=${doctor.days.join(",")}&time=${doctor.time}`,
     );
   };
 

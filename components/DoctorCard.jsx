@@ -2,29 +2,35 @@
 
 export default function DoctorCard({ doctor, onBook }) {
   return (
-    <div className="bg-white shadow-lg rounded-2xl p-5 border hover:shadow-xl transition">
-      <h2 className="text-xl font-bold text-blue-700 mb-2">👨‍⚕️ {doctor.name}</h2>
+    <div className="bg-gradient-to-br from-white to-blue-50 shadow-lg rounded-2xl p-5 border hover:shadow-2xl transition-all duration-300">
 
-      <p>🏥 বিভাগ: {doctor.specialist}</p>
-      <p>📍 হাসপাতাল: {doctor.hospital}</p>
+      <h2 className="text-xl font-bold text-blue-700 mb-2">
+        👨‍⚕️ {doctor.name}
+      </h2>
 
-      {/* <p className="text-green-600 font-semibold">
+      <p className="text-gray-700 mb-1">
+        🏥 <span className="font-medium">{doctor.specialist}</span>
+      </p>
+
+      <p className="text-gray-600 mb-1">
+        📍 {doctor.hospital}
+      </p>
+
+      <p className="text-green-700 font-semibold mb-1">
         💰 ফি: ৳ {doctor.fee}
       </p>
 
-      <p>📅 বসেন: {doctor.days.join(", ")}</p>
+      <p className="text-sm text-gray-600 mb-1">
+        📅 ডাক্তার বসেন: {doctor.days.join(", ")}
+      </p>
 
-      <p className="text-purple-600 font-medium">
-        ⏰ সময়: {doctor.time}
-      </p> */}
-
-      <p>💰 ফি: ৳ {doctor.fee}</p>
-      <p>📅 ডাক্তার বসেন: {doctor.days.join(", ")}</p>
-      <p>⏰ রোগী দেখার সময়: {doctor.time}</p>
+      <p className="text-sm text-gray-600 mb-3">
+        ⏰ রোগী দেখার সময়: {doctor.time}
+      </p>
 
       <button
         onClick={() => onBook(doctor)}
-        className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
+        className="w-full bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700 transition-all"
       >
         বুকিং করুন
       </button>

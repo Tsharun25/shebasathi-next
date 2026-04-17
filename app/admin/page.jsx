@@ -1,73 +1,56 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function Admin() {
-  const [doctor, setDoctor] = useState({});
-  const [list, setList] = useState([]);
+  const [form, setForm] = useState({
+    name: "",
+    specialist: "",
+    hospital: "",
+    fee: "",
+    days: "",
+    time: "",
+  });
 
-  const load = () => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/doctors`)
-      .then(res => res.json())
-      .then(setList);
-  };
+  const handleAdd = async () => {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/add-doctor`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...form,
+          fee: Number(form.fee),
+          days: form.days.split(","),
+        }),
+      }
+    );
 
-  useEffect(() => {
-    load();
-  }, []);
-
-  const addDoctor = async () => {
-    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/add-doctor`, {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(doctor),
-    });
-    load();
-  };
-
-  const del = async (id) => {
-    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/delete-doctor/${id}`, {
-      method: "DELETE",
-    });
-    load();
+    const data = await res.json();
+    alert(data.message);
   };
 
   return (
-    <div className="p-5 md:p-10">
-      <h1 className="text-2xl font-bold mb-5">Admin Panel</h1>
+    <div className="p-6 max-w-xl mx-auto">
+      <h1 className="text-2xl font-bold text-center text-purple-700 mb-5">
+        🛠️ Admin Panel
+      </h1>
 
-      <div className="bg-white p-5 rounded shadow space-y-2">
-        <input placeholder="Name" className="border p-2 w-full"
-          onChange={e => setDoctor({...doctor, name:e.target.value})} />
+      <input placeholder="নাম" className="input" onChange={(e)=>setForm({...form,name:e.target.value})} />
+      <input placeholder="Specialist" className="input" onChange={(e)=>setForm({...form,specialist:e.target.value})} />
+      <input placeholder="Hospital" className="input" onChange={(e)=>setForm({...form,hospital:e.target.value})} />
+      <input placeholder="Fee" className="input" onChange={(e)=>setForm({...form,fee:e.target.value})} />
+      <input placeholder="Days (Sun,Mon,Tue)" className="input" onChange={(e)=>setForm({...form,days:e.target.value})} />
+      <input placeholder="Time (সকাল ১০টা - দুপুর ২টা)" className="input" onChange={(e)=>setForm({...form,time:e.target.value})} />
 
-        <input placeholder="Department" className="border p-2 w-full"
-          onChange={e => setDoctor({...doctor, department:e.target.value})} />
-
-        <input placeholder="Hospital" className="border p-2 w-full"
-          onChange={e => setDoctor({...doctor, hospital:e.target.value})} />
-
-        <input placeholder="Fee" className="border p-2 w-full"
-          onChange={e => setDoctor({...doctor, fee:e.target.value})} />
-
-        <button onClick={addDoctor}
-          className="bg-blue-600 text-white px-4 py-2 rounded">
-          Add Doctor
-        </button>
-      </div>
-
-      <div className="mt-6 grid md:grid-cols-2 gap-4">
-        {list.map(d => (
-          <div key={d._id} className="bg-white p-4 rounded shadow">
-            <h2 className="font-bold">{d.name}</h2>
-            <p>{d.hospital}</p>
-
-            <button onClick={() => del(d._id)}
-              className="bg-red-500 text-white px-2 py-1 mt-2 rounded">
-              Delete
-            </button>
-          </div>
-        ))}
-      </div>
+      <button
+        onClick={handleAdd}
+        className="mt-4 w-full bg-purple-600 text-white py-2 rounded"
+      >
+        ডাক্তার যোগ করুন
+      </button>
     </div>
   );
 }
