@@ -11,9 +11,14 @@ export default function BookContent() {
 
   const doctor = params.get("doctor");
   const days = params.get("days")?.split(",") || [];
-  const timeRange = params.get("time"); // 🔥 NEW
+  const timeRange = params.get("time");
 
-  const [selectedDay, setSelectedDay] = useState("");
+  const [date, setDate] = useState("");
+
+  const getDay = (d) =>
+    new Date(d).toLocaleDateString("en-US", { weekday: "short" });
+
+  const isAvailable = date && days.includes(getDay(date));
 
   const handleBooking = async () => {
     if (!user) {
@@ -22,8 +27,8 @@ export default function BookContent() {
       return;
     }
 
-    if (!selectedDay) {
-      alert("দিন নির্বাচন করুন");
+    if (!date || !isAvailable) {
+      alert("সঠিক দিন নির্বাচন করুন");
       return;
     }
 
@@ -31,13 +36,11 @@ export default function BookContent() {
       `${process.env.NEXT_PUBLIC_API_URL}/api/book`,
       {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           doctor,
-          date: selectedDay,
-          time: timeRange, // ✅ doctor time use
+          date,
+          time: timeRange,
           user: user.phone || user.email,
         }),
       }
@@ -55,32 +58,25 @@ export default function BookContent() {
         📅 বুকিং করুন
       </h1>
 
-      <p className="font-semibold mb-1">👨‍⚕️ {doctor}</p>
-      <p className="text-gray-600 mb-4">⏰ {timeRange}</p>
+      <p className="font-semibold">👨‍⚕️ {doctor}</p>
+      <p className="text-gray-600 mb-3">⏰ {timeRange}</p>
 
-      {/* Days */}
-      <div className="mb-4">
-        <p className="mb-2 font-semibold">দিন নির্বাচন করুন</p>
-        <div className="flex flex-wrap gap-2">
-          {days.map((d, i) => (
-            <button
-              key={i}
-              onClick={() => setSelectedDay(d)}
-              className={`px-3 py-1 rounded border ${
-                selectedDay === d
-                  ? "bg-blue-600 text-white"
-                  : "bg-white"
-              }`}
-            >
-              {d}
-            </button>
-          ))}
-        </div>
-      </div>
+      {/* DATE */}
+      <input
+        type="date"
+        className="w-full border p-2 mb-3 rounded"
+        onChange={(e) => setDate(e.target.value)}
+      />
+
+      {!isAvailable && date && (
+        <p className="text-red-500 text-sm">
+          ❌ এই দিনে ডাক্তার বসেন না
+        </p>
+      )}
 
       <button
         onClick={handleBooking}
-        className="w-full bg-blue-600 text-white py-2 rounded"
+        className="w-full bg-blue-600 text-white py-2 rounded mt-3"
       >
         কনফার্ম বুকিং
       </button>
