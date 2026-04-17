@@ -13,32 +13,46 @@ export default function Login() {
   const router = useRouter();
 
   const handleLogin = async () => {
+    if (!phone && !email) {
+      alert("মোবাইল বা ইমেইল যেকোনো একটি দিন");
+      return;
+    }
+
+    if (!password) {
+      alert("পাসওয়ার্ড দিন");
+      return;
+    }
+
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          phone,
-          email,
-          password,
-        }),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            phone,
+            email,
+            password,
+          }),
+        }
+      );
 
       const data = await res.json();
 
-      console.log("RESPONSE:", data); // 🔥 DEBUG
+      console.log("LOGIN RESPONSE:", data); // 🔥 DEBUG
 
-      if (data.user) {
+      // ✅ FIX (IMPORTANT)
+      if (data && data.user) {
         setUser(data.user);
         alert("লগইন সফল ✅");
         router.push("/dashboard");
       } else {
-        alert(data.message);
+        alert(data?.message || "লগইন ব্যর্থ ❌");
       }
     } catch (err) {
-      console.log("LOGIN ERROR:", err); // 🔥 MUST SEE
+      console.log("LOGIN ERROR:", err);
       alert("Server error ❌");
     }
   };
@@ -81,9 +95,8 @@ export default function Login() {
           লগইন
         </button>
 
-        {/* 🔥 FIXED LINK */}
         <p className="text-center mt-4 text-sm">
-          অ্যাকাউন্ট নেই?{" "}
+          নতুন অ্যাকাউন্ট?{" "}
           <span
             className="text-blue-600 cursor-pointer"
             onClick={() => router.push("/register")}
