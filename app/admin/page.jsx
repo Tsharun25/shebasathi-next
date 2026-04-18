@@ -1,56 +1,86 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { useRouter } from "next/navigation";
 
 export default function Admin() {
-  const [form, setForm] = useState({
-    name: "",
-    specialist: "",
-    hospital: "",
-    fee: "",
-    days: "",
-    time: "",
-  });
+  const { user } = useContext(AuthContext);
+  const router = useRouter();
 
-  const handleAdd = async () => {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/add-doctor`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...form,
-          fee: Number(form.fee),
-          days: form.days.split(","),
-        }),
-      }
-    );
+  const [users, setUsers] = useState([]);
+  const [bookings, setBookings] = useState([]);
 
-    const data = await res.json();
-    alert(data.message);
+  // 🔐 Protect admin
+  useEffect(() => {
+    if (!user) router.push("/login");
+    else if (user.role !== "admin") router.push("/");
+  }, [user]);
+
+  // 🔥 Load data
+  useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/users`)
+      .then(res => res.json())
+      .then(setUsers);
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/bookings`)
+      .then(res => res.json())
+      .then(setBookings);
+  }, []);
+
+  // ❌ delete booking
+  const deleteBooking = async (id) => {
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/delete-booking/${id}`, {
+      method: "DELETE",
+    });
+
+    setBookings(bookings.filter(b => b._id !== id));
   };
 
   return (
-    <div className="p-6 max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold text-center text-purple-700 mb-5">
-        🛠️ Admin Panel
-      </h1>
+    <div className="p-5">
 
-      <input placeholder="নাম" className="input" onChange={(e)=>setForm({...form,name:e.target.value})} />
-      <input placeholder="Specialist" className="input" onChange={(e)=>setForm({...form,specialist:e.target.value})} />
-      <input placeholder="Hospital" className="input" onChange={(e)=>setForm({...form,hospital:e.target.value})} />
-      <input placeholder="Fee" className="input" onChange={(e)=>setForm({...form,fee:e.target.value})} />
-      <input placeholder="Days (Sun,Mon,Tue)" className="input" onChange={(e)=>setForm({...form,days:e.target.value})} />
-      <input placeholder="Time (সকাল ১০টা - দুপুর ২টা)" className="input" onChange={(e)=>setForm({...form,time:e.target.value})} />
+      <h1 className="text-2xl font-bold mb-5">⚙️ Admin Dashboard</h1>
 
-      <button
-        onClick={handleAdd}
-        className="mt-4 w-full bg-purple-600 text-white py-2 rounded"
-      >
-        ডাক্তার যোগ করুন
-      </button>
+      {/* USERS */}
+      <div className="mb-6">
+        <h2 className="font-bold text-blue-600 mb-2">
+          👤 Users ({users.length})
+        </h2>
+
+        {users.map((u) => (
+          <div key={u._id} className="border p-2 mb-1 rounded">
+            {u.name} - {u.phone}
+          </div>
+        ))}
+      </div>
+
+      {/* BOOKINGS */}
+      <div>
+        <h2 className="font-bold text-green-600 mb-2">
+          📦 Bookings ({bookings.length})
+        </h2>
+
+        {bookings.map((b) => (
+          <div key={b._id} className="border p-3 mb-2 rounded">
+            <p>👤 {b.user}</p>
+
+            {b.type === "doctor" && <p>👨‍⚕️ {b.doctor}</p>}
+            {b.type === "hotel" && <p>🏨 {b.service}</p>}
+            {b.type === "transport" && (
+              <p>🚗 {b.from} → {b.to}</p>
+            )}
+
+            <button
+              onClick={() => deleteBooking(b._id)}
+              className="mt-2 bg-red-500 text-white px-3 py-1 rounded"
+            >
+              Delete
+            </button>
+          </div>
+        ))}
+      </div>
+
     </div>
   );
 }

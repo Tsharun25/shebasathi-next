@@ -47,7 +47,7 @@ export default function Login() {
       if (data && data.user) {
         setUser(data.user);
         alert("লগইন সফল ✅");
-        router.push("/dashboard");
+        router.push("/");
       } else {
         alert(data?.message || "লগইন ব্যর্থ ❌");
       }
@@ -96,7 +96,7 @@ export default function Login() {
         </button>
 
         <p className="text-center mt-4 text-sm">
-          নতুন অ্যাকাউন্ট?{" "}
+          অ্যাকাউন্ট নেই?{" "}
           <span
             className="text-blue-600 cursor-pointer"
             onClick={() => router.push("/register")}
