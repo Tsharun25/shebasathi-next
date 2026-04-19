@@ -167,7 +167,7 @@ export default function Navbar() {
               <Link
                 href="/login"
                 onClick={() => setOpen(false)}
-                className="block hover:bg-gray-100 text-white text-center py-2 rounded-lg"
+                className="block hover:bg-gray-100 text-center py-2 rounded-lg"
               >
                 লগইন
               </Link>
