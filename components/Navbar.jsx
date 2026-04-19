@@ -115,7 +115,7 @@ export default function Navbar() {
 
       {/* 📱 MOBILE MENU */}
       {open && (
-        <div className="md:hidden bg-white border-t px-4 pb-4 space-y-2">
+        <div className="md:hidden text-center bg-white border-t px-4 pb-4 space-y-2">
 
           {menu.map((m) => (
             <Link
@@ -167,7 +167,7 @@ export default function Navbar() {
               <Link
                 href="/login"
                 onClick={() => setOpen(false)}
-                className="block bg-blue-600 text-white text-center py-2 rounded-lg"
+                className="block hover:bg-gray-100 text-white text-center py-2 rounded-lg"
               >
                 লগইন
               </Link>
@@ -175,7 +175,7 @@ export default function Navbar() {
               <Link
                 href="/register"
                 onClick={() => setOpen(false)}
-                className="block border text-center py-2 rounded-lg"
+                className="block hover:bg-gray-100 text-center py-2 rounded-lg"
               >
                 রেজিস্টার
               </Link>
