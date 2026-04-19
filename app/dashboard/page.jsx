@@ -96,14 +96,19 @@ export default function Dashboard() {
             )}
 
             {b.type === "transport" && (
-              <>
+              <div>
+                <p>
+                  🚗 {b.vehicle} ({b.ac})
+                </p>
                 <p>
                   📍 {b.from} → {b.to}
                 </p>
                 <p>📅 {b.date}</p>
-                <p>📏 {b.distance} কিমি</p>
-                <p>💰 ৳ {b.fare}</p>
-              </>
+
+                <p className="font-semibold text-green-600">
+                  💰 {b.fare ? `৳ ${b.fare}` : "আলোচনা সাপেক্ষ"}
+                </p>
+              </div>
             )}
 
             {b.type === "hotel" && (

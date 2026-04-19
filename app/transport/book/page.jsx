@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useContext } from "react";
-import { AuthContext } from "../../../context/AuthContext";
 import { useRouter } from "next/navigation";
+import { AuthContext } from "../../../context/AuthContext";
 
 export default function TransportBooking() {
   const { user } = useContext(AuthContext);
@@ -12,28 +12,10 @@ export default function TransportBooking() {
     from: "",
     to: "",
     date: "",
-    distance: 0,
-    fare: 0,
+    vehicle: "Car",
+    ac: "Non-AC",
   });
 
-  // 🔥 Fake distance calculation (later Google Map)
-  const calculateDistance = () => {
-    if (!form.from || !form.to) return;
-
-    // 🔥 Demo distance (random for now)
-    const distance = Math.floor(Math.random() * 20) + 5; // 5-25 km
-    const farePerKm = 30;
-
-    const totalFare = distance * farePerKm;
-
-    setForm({
-      ...form,
-      distance,
-      fare: totalFare,
-    });
-  };
-
-  // 🔥 Booking
   const handleBooking = async () => {
     if (!user) {
       alert("আগে লগইন করুন");
@@ -54,82 +36,83 @@ export default function TransportBooking() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          type: "transport",
-          from: form.from,
-          to: form.to,
-          date: form.date,
-          distance: form.distance,
-          fare: form.fare,
+          ...form,
           user: user.phone || user.email,
+          type: "transport",
         }),
-      }
+      },
     );
 
     const data = await res.json();
-    alert(data.message);
 
+    // ✅ NEW ALERT (FARE SHOW)
+    alert(
+      data.fare
+        ? `বুকিং সফল ✅\nভাড়া: ৳ ${data.fare}`
+        : "বুকিং সফল ✅\nভাড়া: যোগাযোগ সাপেক্ষ",
+    );
+
+    // ✅ তারপর dashboard
     router.push("/dashboard");
   };
 
   return (
-    <div className="max-w-md mx-auto p-5 space-y-4">
-
-      <h1 className="text-xl font-bold text-center text-green-600">
-        🚗 যাতায়াত বুকিং
-      </h1>
+    <div className="p-4 max-w-md mx-auto space-y-3">
+      <h1 className="text-xl font-bold text-center">🚗 যাতায়াত বুকিং</h1>
 
       {/* FROM */}
       <input
         placeholder="📍 কোথা থেকে"
-        className="w-full border p-2 rounded"
-        value={form.from}
-        onChange={(e) =>
-          setForm({ ...form, from: e.target.value })
-        }
+        className="border p-2 w-full rounded"
+        onChange={(e) => setForm({ ...form, from: e.target.value })}
       />
 
       {/* TO */}
       <input
         placeholder="📍 কোথায় যাবেন"
-        className="w-full border p-2 rounded"
-        value={form.to}
-        onChange={(e) =>
-          setForm({ ...form, to: e.target.value })
-        }
+        className="border p-2 w-full rounded"
+        onChange={(e) => setForm({ ...form, to: e.target.value })}
       />
 
       {/* DATE */}
       <input
         type="date"
-        className="w-full border p-2 rounded"
-        value={form.date}
-        onChange={(e) =>
-          setForm({ ...form, date: e.target.value })
-        }
+        className="border p-2 w-full rounded"
+        onChange={(e) => setForm({ ...form, date: e.target.value })}
       />
 
-      {/* CALCULATE */}
-      <button
-        onClick={calculateDistance}
-        className="w-full bg-blue-600 text-white py-2 rounded"
+      {/* VEHICLE TYPE */}
+      <select
+        className="border p-2 w-full rounded"
+        onChange={(e) => setForm({ ...form, vehicle: e.target.value })}
       >
-        ভাড়া হিসাব করুন
-      </button>
+        <option>Car</option>
+        <option>Ambulance</option>
+      </select>
 
-      {/* RESULT */}
-      {form.distance > 0 && (
-        <div className="bg-gray-100 p-3 rounded space-y-1 text-sm">
-          <p>📏 দূরত্ব: {form.distance} কিমি</p>
-          <p>💰 ভাড়া: ৳ {form.fare}</p>
-        </div>
-      )}
+      {/* AC / NON AC */}
+      <select
+        className="border p-2 w-full rounded"
+        onChange={(e) => setForm({ ...form, ac: e.target.value })}
+      >
+        <option>Non-AC</option>
+        <option>AC</option>
+      </select>
 
-      {/* BOOK */}
+      {/* INFO */}
+      {/* <p className="text-sm text-gray-500 text-center">
+        ⚠️ ভাড়া নির্ধারণের জন্য সরাসরি যোগাযোগ করুন
+      </p> */}
+      <p className="text-sm text-gray-500 mt-2">
+        ⚠️ ভাড়া নির্ধারণ না থাকলে আমাদের সাথে যোগাযোগ করুন
+      </p>
+
+      {/* BUTTON */}
       <button
         onClick={handleBooking}
-        className="w-full bg-green-600 text-white py-2 rounded"
+        className="bg-green-600 text-white w-full py-2 rounded"
       >
-        কনফার্ম বুকিং
+        বুকিং কনফার্ম
       </button>
     </div>
   );
