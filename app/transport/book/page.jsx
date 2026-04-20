@@ -1,12 +1,15 @@
 "use client";
 
-import { useState, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { AuthContext } from "../../../context/AuthContext";
 
 export default function TransportBooking() {
   const { user } = useContext(AuthContext);
   const router = useRouter();
+
+  const [fareList, setFareList] = useState([]);
+  const [selectedFare, setSelectedFare] = useState(null);
 
   const [form, setForm] = useState({
     from: "",
@@ -16,6 +19,29 @@ export default function TransportBooking() {
     ac: "Non-AC",
   });
 
+  // ================= LOAD FARES =================
+  useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/fares`)
+      .then((res) => res.json())
+      .then((data) => setFareList(data));
+  }, []);
+
+  // ================= SELECT ROUTE =================
+  const handleRouteChange = (value) => {
+    const [from, to] = value.split("-");
+
+    setForm({ ...form, from, to });
+
+    const match = fareList.find(
+      (f) =>
+        (f.from === from && f.to === to) ||
+        (f.from === to && f.to === from)
+    );
+
+    setSelectedFare(match ? match.fare : null);
+  };
+
+  // ================= BOOK =================
   const handleBooking = async () => {
     if (!user) {
       alert("আগে লগইন করুন");
@@ -38,36 +64,48 @@ export default function TransportBooking() {
         body: JSON.stringify({
           ...form,
           user: user.phone || user.email,
-          type: "transport",
         }),
-      },
+      }
     );
 
     const data = await res.json();
 
-    // ✅ NEW ALERT (FARE SHOW)
     alert(
       data.fare
         ? `বুকিং সফল ✅\nভাড়া: ৳ ${data.fare}`
-        : "বুকিং সফল ✅\nভাড়া: যোগাযোগ সাপেক্ষ",
+        : "বুকিং সফল ✅\nভাড়া: যোগাযোগ সাপেক্ষ"
     );
 
-    // ✅ তারপর dashboard
     router.push("/dashboard");
   };
 
   return (
     <div className="p-4 max-w-md mx-auto space-y-3">
-      <h1 className="text-xl font-bold text-center">🚗 যাতায়াত বুকিং</h1>
 
-      {/* FROM */}
+      <h1 className="text-xl font-bold text-center">
+        🚗 যাতায়াত বুকিং
+      </h1>
+
+      {/* ROUTE SELECT */}
+      <select
+        className="border p-2 w-full rounded"
+        onChange={(e) => handleRouteChange(e.target.value)}
+      >
+        <option value="">📍 রুট নির্বাচন করুন</option>
+        {fareList.map((f, i) => (
+          <option key={i} value={`${f.from}-${f.to}`}>
+            {f.from} → {f.to}
+          </option>
+        ))}
+      </select>
+
+      {/* OR MANUAL INPUT */}
       <input
         placeholder="📍 কোথা থেকে"
         className="border p-2 w-full rounded"
         onChange={(e) => setForm({ ...form, from: e.target.value })}
       />
 
-      {/* TO */}
       <input
         placeholder="📍 কোথায় যাবেন"
         className="border p-2 w-full rounded"
@@ -81,7 +119,7 @@ export default function TransportBooking() {
         onChange={(e) => setForm({ ...form, date: e.target.value })}
       />
 
-      {/* VEHICLE TYPE */}
+      {/* VEHICLE */}
       <select
         className="border p-2 w-full rounded"
         onChange={(e) => setForm({ ...form, vehicle: e.target.value })}
@@ -90,7 +128,7 @@ export default function TransportBooking() {
         <option>Ambulance</option>
       </select>
 
-      {/* AC / NON AC */}
+      {/* AC */}
       <select
         className="border p-2 w-full rounded"
         onChange={(e) => setForm({ ...form, ac: e.target.value })}
@@ -99,13 +137,15 @@ export default function TransportBooking() {
         <option>AC</option>
       </select>
 
-      {/* INFO */}
-      {/* <p className="text-sm text-gray-500 text-center">
-        ⚠️ ভাড়া নির্ধারণের জন্য সরাসরি যোগাযোগ করুন
-      </p> */}
-      <p className="text-sm text-gray-500 mt-2">
-        ⚠️ ভাড়া নির্ধারণ না থাকলে আমাদের সাথে যোগাযোগ করুন
-      </p>
+      {/* 💰 FARE PREVIEW */}
+      <div className="text-center text-sm text-gray-600">
+        💰 সম্ভাব্য ভাড়া:{" "}
+        <b>
+          {selectedFare
+            ? `৳ ${selectedFare}`
+            : "আলোচনা সাপেক্ষ"}
+        </b>
+      </div>
 
       {/* BUTTON */}
       <button
