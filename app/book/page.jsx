@@ -1,5 +1,5 @@
 "use client";
-import toast from "react-hot-toast";
+
 import { Suspense } from "react";
 import BookContent from "./BookContent";
 

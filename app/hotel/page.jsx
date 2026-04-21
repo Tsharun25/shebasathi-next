@@ -12,14 +12,25 @@ export default function Hotel() {
 
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/hotel`)
-      .then(res => res.json())
+      .then((res) => res.json())
       .then(setList);
   }, []);
 
- const handleBook = async (h) => {
+//   const handleBook = (h) => {
+//   router.push(
+//     `/book?type=hotel&service=${h.name}&price=${h.price}`
+//   );
+// };
+
+const handleBook = async (h) => {
   if (!user) {
     alert("আগে লগইন করুন");
     router.push("/login");
+    return;
+  }
+
+  if (!form.date || !form.days || !form.people) {
+    alert("সব তথ্য দিন");
     return;
   }
 
@@ -35,16 +46,19 @@ export default function Hotel() {
         date: form.date,
         days: Number(form.days),
         people: Number(form.people),
-        price: h.price, // 🔥 IMPORTANT
+        price: h.price,
         user: user.phone || user.email,
       }),
     }
   );
 
   const data = await res.json();
+
   alert(data.message);
 
-  router.push("/dashboard");
+  setForm({}); // 🔥 RESET FORM
+
+  router.push("/dashboard"); // 🔥 IMPORTANT FIX
 };
 
   return (
@@ -53,7 +67,6 @@ export default function Hotel() {
 
       {list.map((h, i) => (
         <div key={i} className="border p-4 mb-3 rounded">
-
           <h2 className="font-bold">{h.name}</h2>
           <p>{h.location}</p>
           <p>💰 ৳ {h.price} / দিন</p>
@@ -61,23 +74,23 @@ export default function Hotel() {
           <input
             type="date"
             className="border p-2 w-full mt-2"
-            onChange={(e)=>setForm({...form,date:e.target.value})}
+            onChange={(e) => setForm({ ...form, date: e.target.value })}
           />
 
           <input
             placeholder="কয়দিন থাকবেন"
             className="border p-2 w-full mt-2"
-            onChange={(e)=>setForm({...form,days:Number(e.target.value)})}
+            onChange={(e) => setForm({ ...form, days: Number(e.target.value) })}
           />
 
           <input
             placeholder="কয়জন থাকবেন"
             className="border p-2 w-full mt-2"
-            onChange={(e)=>setForm({...form,people:e.target.value})}
+            onChange={(e) => setForm({ ...form, people: e.target.value })}
           />
 
           <button
-            onClick={()=>handleBook(h)}
+            onClick={() => handleBook(h)}
             className="bg-blue-600 text-white px-4 py-2 mt-3 rounded"
           >
             বুক করুন

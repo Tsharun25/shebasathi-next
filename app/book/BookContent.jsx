@@ -9,16 +9,32 @@ export default function BookContent() {
   const router = useRouter();
   const { user } = useContext(AuthContext);
 
+  const type = params.get("type");
+
+  // doctor params
   const doctor = params.get("doctor");
   const days = params.get("days")?.split(",") || [];
-  const start = Number(params.get("start"));
-  const end = Number(params.get("end"));
+  const start = params.get("start");
+  const end = params.get("end");
 
+  // hotel params
+  const service = params.get("service");
+  const price = params.get("price");
+
+  // form states
   const [selectedDay, setSelectedDay] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
 
-  // 🔥 Bangla Day Mapping
+  const [form, setForm] = useState({
+    date: "",
+    days: "",
+    people: "",
+    from: "",
+    to: "",
+  });
+
+  // 🔥 Day Map
   const dayMap = {
     Sun: "রবিবার",
     Mon: "সোমবার",
@@ -29,8 +45,8 @@ export default function BookContent() {
     Sat: "শনিবার",
   };
 
-  // 🔥 Next 2 months dates for selected day
-  const getDates = (dayCode) => {
+  // 🔥 Generate next dates for selected day
+  const getDates = (day) => {
     const result = [];
     const today = new Date();
 
@@ -38,39 +54,38 @@ export default function BookContent() {
       const d = new Date();
       d.setDate(today.getDate() + i);
 
-      const day = d.toLocaleDateString("en-US", { weekday: "short" });
-
-      if (day === dayCode) {
-        const formatted = d.toLocaleDateString("en-GB"); // dd/mm/yyyy
-        result.push(formatted);
+      if (
+        d.getDay() ===
+        ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].indexOf(day)
+      ) {
+        result.push(d.toISOString().split("T")[0]);
       }
     }
 
     return result;
   };
 
-  // 🔥 Bangla Time Format
-  const formatTime = (hour) => {
-    if (hour >= 9 && hour <= 11) return `সকাল ${hour}.০০ টা`;
+  // 🔥 Bangla time slot
+  const getTimeSlots = () => {
+    const slots = [];
 
-    if (hour >= 12 && hour <= 14)
-      return `দুপুর ${hour === 12 ? 12 : hour - 12}.০০ টা`;
+    for (let i = Number(start); i <= Number(end); i++) {
+      let label = "";
 
-    if (hour >= 15 && hour <= 17) return `বিকাল ${hour - 12}.০০ টা`;
+      if (i >= 9 && i <= 11) label = `সকাল ${i}টা`;
+      else if (i >= 12 && i <= 14) label = `দুপুর ${i === 12 ? 12 : i - 12}টা`;
+      else if (i >= 15 && i <= 17) label = `বিকাল ${i - 12}টা`;
+      else if (i >= 18 && i <= 19) label = `সন্ধ্যা ${i - 12}টা`;
+      else if (i >= 20) label = `রাত ${i - 12}টা`;
 
-    if (hour >= 18 && hour <= 19) return `সন্ধ্যা ${hour - 12}.০০ টা`;
+      slots.push(label);
+    }
 
-    if (hour >= 20 && hour <= 23) return `রাত ${hour - 12}.০০ টা`;
-
-    return `${hour}:00`;
+    return slots;
   };
 
-  const timeSlots = [];
-  for (let i = start; i <= end; i++) {
-    timeSlots.push(i);
-  }
-
-  const handleBooking = async () => {
+  // ================= DOCTOR BOOK =================
+  const bookDoctor = async () => {
     if (!user) {
       alert("আগে লগইন করুন");
       router.push("/login");
@@ -84,14 +99,13 @@ export default function BookContent() {
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/book`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         doctor,
         date: selectedDate,
         time: selectedTime,
         user: user.phone || user.email,
+        type: "doctor",
       }),
     });
 
@@ -101,85 +115,222 @@ export default function BookContent() {
     router.push("/dashboard");
   };
 
+  // ================= HOTEL BOOK =================
+  const bookHotel = async () => {
+    if (!user) {
+      alert("আগে লগইন করুন");
+      router.push("/login");
+      return;
+    }
+
+    if (!form.date || !form.days || !form.people) {
+      alert("সব তথ্য দিন");
+      return;
+    }
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/hotel-book`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          service,
+          date: form.date,
+          days: Number(form.days),
+          people: Number(form.people),
+          price,
+          user: user.phone || user.email,
+        }),
+      },
+    );
+
+    const data = await res.json();
+    alert(data.message);
+
+    router.push("/dashboard");
+  };
+
+  // ================= TRANSPORT BOOK =================
+  const bookTransport = async () => {
+    if (!user) {
+      alert("আগে লগইন করুন");
+      router.push("/login");
+      return;
+    }
+
+    if (!form.from || !form.to || !form.date) {
+      alert("সব তথ্য দিন");
+      return;
+    }
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/transport-book`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...form,
+          user: user.phone || user.email,
+          type: "transport",
+        }),
+      },
+    );
+
+    const data = await res.json();
+
+    alert(
+      data.fare
+        ? `বুকিং সফল ✅\nভাড়া: ৳ ${data.fare}`
+        : "বুকিং সফল ✅\nভাড়া: আলোচনা সাপেক্ষ",
+    );
+
+    router.push("/dashboard");
+  };
+
+  // ================= UI =================
+
   return (
-    <div className="p-5 max-w-xl mx-auto space-y-5">
-      {/* Doctor */}
-      <h1 className="text-xl font-bold text-center">👨‍⚕️ {doctor}</h1>
+    <div className="p-4 max-w-md mx-auto space-y-3">
+      {/* DOCTOR */}
+      {type === "doctor" && (
+        <>
+          <h1 className="text-xl font-bold">👨‍⚕️ ডাক্তার বুকিং</h1>
 
-      {/* 🔥 DAY SELECT */}
-      <div>
-        <p className="font-semibold mb-2">📆 দিন নির্বাচন করুন:</p>
-        <div className="flex flex-wrap gap-2">
-          {days.map((d, i) => (
-            <button
-              key={i}
-              onClick={() => {
-                setSelectedDay(d);
-                setSelectedDate("");
-                setSelectedTime("");
-              }}
-              className={`px-3 py-1 rounded border ${
-                selectedDay === d ? "bg-blue-600 text-white" : "bg-white"
-              }`}
-            >
-              {dayMap[d]}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* 🔥 DATE SELECT */}
-      {selectedDay && (
-        <div>
-          <p className="font-semibold mb-2">📅 তারিখ নির্বাচন করুন:</p>
-          <div className="flex flex-wrap gap-2 max-h-40 overflow-y-auto">
-            {getDates(selectedDay).map((date, i) => (
+          {/* Day */}
+          <p>📆 দিন নির্বাচন করুন:</p>
+          <div className="flex gap-2 flex-wrap">
+            {days.map((d) => (
               <button
-                key={i}
+                key={d}
                 onClick={() => {
-                  setSelectedDate(date);
+                  setSelectedDay(d);
+                  setSelectedDate("");
                   setSelectedTime("");
                 }}
-                className={`px-3 py-1 rounded border text-sm ${
-                  selectedDate === date ? "bg-green-600 text-white" : "bg-white"
-                }`}
+                className={`px-3 py-1 rounded border
+      ${selectedDay === d ? "bg-blue-600 text-white" : "bg-blue-100"}
+    `}
               >
-                {date}
+                {dayMap[d]}
               </button>
             ))}
           </div>
-        </div>
+
+          {/* Date */}
+          {selectedDay && (
+            <>
+              <p>📅 তারিখ:</p>
+              <div className="flex gap-2 flex-wrap">
+                {getDates(selectedDay).map((date) => (
+                  <button
+                    key={date}
+                    onClick={() => {
+                      setSelectedDate(date);
+                      setSelectedTime("");
+                    }}
+                    className={`px-2 py-1 rounded border
+      ${selectedDate === date ? "bg-green-600 text-white" : "bg-green-100"}
+    `}
+                  >
+                    {date}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+
+          {/* Time */}
+          {selectedDate && (
+            <>
+              <p>⏰ সময়:</p>
+              <div className="flex gap-2 flex-wrap">
+                {getTimeSlots().map((t, i) => (
+  <button
+    key={i}
+    onClick={() => setSelectedTime(t)}
+    className={`px-2 py-1 rounded border
+      ${selectedTime === t ? "bg-yellow-500 text-white" : "bg-yellow-100"}
+    `}
+  >
+    {t}
+  </button>
+))}
+              </div>
+            </>
+          )}
+
+          <button
+            onClick={bookDoctor}
+            className="bg-blue-600 text-white w-full py-2 rounded"
+          >
+            বুকিং কনফার্ম
+          </button>
+        </>
       )}
 
-      {/* 🔥 TIME SELECT */}
-      {selectedDate && (
-        <div>
-          <p className="font-semibold mb-2">⏰ সময় নির্বাচন করুন:</p>
-          <div className="flex flex-wrap gap-2">
-            {timeSlots.map((t, i) => (
-              <button
-                key={i}
-                onClick={() => setSelectedTime(formatTime(t))}
-                className={`px-3 py-1 rounded border text-sm ${
-                  selectedTime === formatTime(t)
-                    ? "bg-purple-600 text-white"
-                    : "bg-white"
-                }`}
-              >
-                {formatTime(t)}
-              </button>
-            ))}
-          </div>
-        </div>
+      {/* HOTEL */}
+      {type === "hotel" && (
+        <>
+          <h1 className="text-xl font-bold">🏨 হোটেল বুকিং</h1>
+
+          <input
+            type="date"
+            className="border p-2 w-full"
+            onChange={(e) => setForm({ ...form, date: e.target.value })}
+          />
+
+          <input
+            placeholder="কয়দিন থাকবেন"
+            className="border p-2 w-full"
+            onChange={(e) => setForm({ ...form, days: e.target.value })}
+          />
+
+          <input
+            placeholder="কয়জন থাকবেন"
+            className="border p-2 w-full"
+            onChange={(e) => setForm({ ...form, people: e.target.value })}
+          />
+
+          <button
+            onClick={bookHotel}
+            className="bg-green-600 text-white w-full py-2 rounded"
+          >
+            বুকিং কনফার্ম
+          </button>
+        </>
       )}
 
-      {/* 🔥 BUTTON */}
-      <button
-        onClick={handleBooking}
-        className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
-      >
-        কনফার্ম বুকিং
-      </button>
+      {/* TRANSPORT */}
+      {type === "transport" && (
+        <>
+          <h1 className="text-xl font-bold">🚗 যাতায়াত বুকিং</h1>
+
+          <input
+            placeholder="কোথা থেকে"
+            className="border p-2 w-full"
+            onChange={(e) => setForm({ ...form, from: e.target.value })}
+          />
+
+          <input
+            placeholder="কোথায় যাবেন"
+            className="border p-2 w-full"
+            onChange={(e) => setForm({ ...form, to: e.target.value })}
+          />
+
+          <input
+            type="date"
+            className="border p-2 w-full"
+            onChange={(e) => setForm({ ...form, date: e.target.value })}
+          />
+
+          <button
+            onClick={bookTransport}
+            className="bg-yellow-600 text-white w-full py-2 rounded"
+          >
+            বুকিং কনফার্ম
+          </button>
+        </>
+      )}
     </div>
   );
 }

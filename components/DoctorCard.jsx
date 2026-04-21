@@ -20,8 +20,10 @@ export default function DoctorCard({ doctor }) {
     return num.toString().replace(/\d/g, (d) => bn[d]);
   };
 
-  // 🔥 FINAL TIME RANGE
   const getTimeRange = (start, end) => {
+    start = Number(start);
+    end = Number(end);
+
     if (start >= 9 && end <= 11) return "সকাল ৯টা - সকাল ১১টা";
     if (start >= 12 && end <= 14) return "দুপুর ১২টা - দুপুর ২টা";
     if (start >= 15 && end <= 17) return "বিকাল ৩টা - বিকাল ৫টা";
@@ -33,7 +35,7 @@ export default function DoctorCard({ doctor }) {
 
   const handleBook = () => {
     router.push(
-      `/book?doctor=${doctor.name}&days=${doctor.days.join(",")}&start=${doctor.time.start}&end=${doctor.time.end}`
+      `/book?type=doctor&doctor=${doctor.name}&days=${doctor.days.join(",")}&start=${doctor.time.start}&end=${doctor.time.end}`
     );
   };
 

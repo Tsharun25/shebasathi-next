@@ -14,7 +14,7 @@ export default function Services() {
     {
       title: "যাতায়াত সেবা",
       icon: "🚗",
-      path: "/transport",
+      path: "/book?type=transport", // ✅ FIXED
     },
     {
       title: "থাকার ব্যবস্থা",

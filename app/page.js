@@ -41,7 +41,7 @@ export default function Home() {
 
         {/* 🚗 TRANSPORT */}
         <div
-          onClick={() => router.push("/transport/book")}
+          onClick={() => router.push("/book?type=transport")}
           className="cursor-pointer rounded-2xl p-6 bg-gradient-to-br from-yellow-400 to-orange-500 text-white shadow-lg hover:scale-105 transition duration-300"
         >
           <div className="text-4xl mb-3">🚗</div>

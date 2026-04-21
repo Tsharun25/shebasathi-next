@@ -98,12 +98,12 @@ export default function Dashboard() {
             {b.type === "transport" && (
               <>
                 <p>
-                  📍 {booking.from} → {booking.to}
+                  📍 {b.from} → {b.to}
                 </p>
-                <p>📅 {booking.date}</p>
+                <p>📅 {b.date}</p>
 
                 <p>
-                  💰 {booking.fare ? `৳ ${booking.fare}` : "আলোচনা সাপেক্ষ"}
+                  💰 {b.fare ? `৳ ${b.fare}` : "আলোচনা সাপেক্ষ"}
                 </p>
               </>
             )}
