@@ -245,16 +245,20 @@ export default function BookContent() {
               <p>⏰ সময়:</p>
               <div className="flex gap-2 flex-wrap">
                 {getTimeSlots().map((t, i) => (
-  <button
-    key={i}
-    onClick={() => setSelectedTime(t)}
-    className={`px-2 py-1 rounded border
+                  <button
+                    key={i}
+                    onClick={() => setSelectedTime(t)}
+                    className={`px-2 py-1 rounded border
       ${selectedTime === t ? "bg-yellow-500 text-white" : "bg-yellow-100"}
     `}
-  >
-    {t}
-  </button>
-))}
+                  >
+                    {t}
+                  </button>
+                ))}
+
+                <p className="text-l pt-4 text-gray-600">
+                  নির্বাচিত: {selectedDate} | {selectedTime}
+                </p>
               </div>
             </>
           )}
