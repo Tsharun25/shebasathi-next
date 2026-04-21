@@ -29,7 +29,7 @@ const handleBook = async (h) => {
     return;
   }
 
-  if (!form.date || !form.days || !form.people) {
+  if (!form.date || !form.days) {
     alert("সব তথ্য দিন");
     return;
   }
@@ -45,7 +45,7 @@ const handleBook = async (h) => {
         service: h.name,
         date: form.date,
         days: Number(form.days),
-        people: Number(form.people),
+        people: Number(form.people || 1),
         price: h.price,
         user: user.phone || user.email,
       }),
@@ -55,10 +55,7 @@ const handleBook = async (h) => {
   const data = await res.json();
 
   alert(data.message);
-
-  setForm({}); // 🔥 RESET FORM
-
-  router.push("/dashboard"); // 🔥 IMPORTANT FIX
+  router.push("/dashboard"); // 🔥 FIX
 };
 
   return (

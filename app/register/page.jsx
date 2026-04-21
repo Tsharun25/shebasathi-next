@@ -48,8 +48,8 @@ export default function Register() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-green-50">
-      <div className="bg-white p-6 rounded-xl shadow-md w-full max-w-md">
+    <div className="min-h-screen flex justify-center bg-gradient-to-br from-blue-50 to-green-50 pt-8 md:pt-12">
+      <div className="w-full max-w-md mx-auto">
         <h1 className="text-2xl font-bold text-center text-green-600 mb-5">
           📝 রেজিস্টার করুন
         </h1>

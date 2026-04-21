@@ -34,8 +34,7 @@ export default function TransportBooking() {
 
     const match = fareList.find(
       (f) =>
-        (f.from === from && f.to === to) ||
-        (f.from === to && f.to === from)
+        (f.from === from && f.to === to) || (f.from === to && f.to === from),
     );
 
     setSelectedFare(match ? match.fare : null);
@@ -65,7 +64,7 @@ export default function TransportBooking() {
           ...form,
           user: user.phone || user.email,
         }),
-      }
+      },
     );
 
     const data = await res.json();
@@ -73,7 +72,7 @@ export default function TransportBooking() {
     alert(
       data.fare
         ? `বুকিং সফল ✅\nভাড়া: ৳ ${data.fare}`
-        : "বুকিং সফল ✅\nভাড়া: যোগাযোগ সাপেক্ষ"
+        : "বুকিং সফল ✅\nভাড়া: আলোচনা সাপেক্ষ",
     );
 
     router.push("/dashboard");
@@ -81,10 +80,7 @@ export default function TransportBooking() {
 
   return (
     <div className="p-4 max-w-md mx-auto space-y-3">
-
-      <h1 className="text-xl font-bold text-center">
-        🚗 যাতায়াত বুকিং
-      </h1>
+      <h1 className="text-xl font-bold text-center">🚗 যাতায়াত বুকিং</h1>
 
       {/* ROUTE SELECT */}
       <select
@@ -119,7 +115,7 @@ export default function TransportBooking() {
         onChange={(e) => setForm({ ...form, date: e.target.value })}
       />
 
-      {/* VEHICLE */}
+
       <select
         className="border p-2 w-full rounded"
         onChange={(e) => setForm({ ...form, vehicle: e.target.value })}
@@ -128,7 +124,6 @@ export default function TransportBooking() {
         <option>Ambulance</option>
       </select>
 
-      {/* AC */}
       <select
         className="border p-2 w-full rounded"
         onChange={(e) => setForm({ ...form, ac: e.target.value })}
@@ -136,16 +131,6 @@ export default function TransportBooking() {
         <option>Non-AC</option>
         <option>AC</option>
       </select>
-
-      {/* 💰 FARE PREVIEW */}
-      <div className="text-center text-sm text-gray-600">
-        💰 সম্ভাব্য ভাড়া:{" "}
-        <b>
-          {selectedFare
-            ? `৳ ${selectedFare}`
-            : "আলোচনা সাপেক্ষ"}
-        </b>
-      </div>
 
       {/* BUTTON */}
       <button

@@ -58,8 +58,8 @@ export default function Login() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-blue-50">
-      <div className="bg-white p-6 rounded-xl shadow-md w-full max-w-md">
+    <div className="min-h-screen flex justify-center bg-gradient-to-br from-blue-50 to-green-50 pt-8 md:pt-12">
+      <div className="w-full max-w-md mx-auto">
         <h1 className="text-2xl font-bold text-center text-blue-600 mb-5">
           🔐 লগইন করুন
         </h1>

@@ -40,33 +40,37 @@ export default function DoctorCard({ doctor }) {
   };
 
   return (
-    <div className="bg-white shadow-md rounded-xl p-4 border">
 
-      <h2 className="text-lg font-bold text-blue-700 mb-2">
-        👨‍⚕️ {doctor.name}
-      </h2>
+    <div className="bg-white shadow-md rounded-xl p-4 border flex flex-col justify-between h-full">
 
-      <p>🏥 বিভাগ: {doctor.specialist}</p>
+  {/* 🔼 TOP CONTENT */}
+  <div>
+    <h2 className="text-lg font-bold text-blue-700 mb-2">
+      👨‍⚕️ {doctor.name}
+    </h2>
 
-      <p>📍 হাসপাতাল: {doctor.hospital}</p>
+    <p>🏥 বিভাগ: {doctor.specialist}</p>
+    <p>📍 হাসপাতাল: {doctor.hospital}</p>
+    <p>💰 ফি: {toBanglaNumber(doctor.fee)} টাকা</p>
 
-      <p>💰 ফি: {toBanglaNumber(doctor.fee)} টাকা</p>
+    <p>
+      📆 ডাক্তার বসেন: {doctor.days.map(d => dayMap[d]).join(", ")}
+    </p>
 
-      <p>
-        📆 ডাক্তার বসেন: {doctor.days.map(d => dayMap[d]).join(", ")}
-      </p>
+    <p>
+      ⏰ রোগী দেখার সময়:{" "}
+      {getTimeRange(doctor.time.start, doctor.time.end)}
+    </p>
+  </div>
 
-      <p>
-        ⏰ রোগী দেখার সময়:{" "}
-        {getTimeRange(doctor.time.start, doctor.time.end)}
-      </p>
+  {/* 🔽 BUTTON ALWAYS BOTTOM */}
+  <button
+    onClick={handleBook}
+    className="mt-4 w-full bg-blue-600 text-white py-2 rounded"
+  >
+    বুকিং করুন
+  </button>
 
-      <button
-        onClick={handleBook}
-        className="mt-3 w-full bg-blue-600 text-white py-2 rounded"
-      >
-        বুকিং করুন
-      </button>
-    </div>
+</div>
   );
 }

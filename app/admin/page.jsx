@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from "react";
 
+
+
+
 export default function AdminPage() {
   const [users, setUsers] = useState([]);
   const [bookings, setBookings] = useState([]);
@@ -23,6 +26,21 @@ export default function AdminPage() {
     to: "",
     fare: "",
   });
+
+  {bookings.map((b) => (
+  <div key={b._id} className="border p-3 mb-2">
+    <p>👤 {b.user}</p>
+    <p>📦 {b.type}</p>
+    <p>📅 {b.date}</p>
+
+    <button
+      onClick={() => deleteBooking(b._id)}
+      className="bg-red-500 text-white px-2 py-1"
+    >
+      Delete
+    </button>
+  </div>
+))}
 
   // ================= LOAD DATA =================
   useEffect(() => {
