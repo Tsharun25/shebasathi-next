@@ -19,6 +19,8 @@ export const AuthProvider = ({ children }) => {
     } catch (err) {
       localStorage.removeItem("user");
       localStorage.removeItem("token");
+      setUserState(null);
+      setTokenState(null);
     } finally {
       setAuthLoading(false);
     }
@@ -31,6 +33,9 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("user", JSON.stringify(newUser));
     } else {
       localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      setTokenState(null);
+      return;
     }
 
     if (newToken) {
@@ -54,6 +59,8 @@ export const AuthProvider = ({ children }) => {
         setUser,
         logout,
         authLoading,
+        isLoggedIn: !!user,
+        isAdmin: user?.role === "admin",
       }}
     >
       {children}

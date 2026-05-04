@@ -1,90 +1,114 @@
-
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import DoctorCard from "../../components/DoctorCard";
 
 export default function Doctors() {
   const [doctors, setDoctors] = useState([]);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("All");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/doctors`)
       .then((res) => res.json())
-      .then(setDoctors);
+      .then((data) => setDoctors(Array.isArray(data) ? data : []))
+      .catch(() => setDoctors([]))
+      .finally(() => setLoading(false));
   }, []);
 
-  // 🏥 unique বিভাগ
-  const categories = ["All", ...new Set(doctors.map((d) => d.specialist))];
+  const categories = useMemo(() => {
+    return ["All", ...new Set(doctors.map((d) => d.specialist).filter(Boolean))];
+  }, [doctors]);
 
-  // 🔍 search + filter combo
   const filteredDoctors = doctors.filter((d) => {
-    const matchCategory =
-      filter === "All" || d.specialist === filter;
+    const matchCategory = filter === "All" || d.specialist === filter;
 
     const matchSearch =
-      d.name.toLowerCase().includes(search.toLowerCase()) ||
-      d.hospital.toLowerCase().includes(search.toLowerCase());
+      d.name?.toLowerCase().includes(search.toLowerCase()) ||
+      d.hospital?.toLowerCase().includes(search.toLowerCase()) ||
+      d.specialist?.toLowerCase().includes(search.toLowerCase());
 
     return matchCategory && matchSearch;
   });
 
   return (
-    <div className="p-4 max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 px-4 py-8 md:px-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-8">
+          <span className="inline-block bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-bold mb-4">
+            অভিজ্ঞ ডাক্তারদের সাথে সহজ অ্যাপয়েন্টমেন্ট
+          </span>
 
-      {/* 🔥 TITLE */}
-      <h1 className="text-2xl font-bold text-center text-blue-700 mb-4">
-        👨‍⚕️ ডাক্তার তালিকা
-      </h1>
+          <h1 className="text-3xl md:text-5xl font-extrabold text-blue-700">
+            👨‍⚕️ ডাক্তার তালিকা
+          </h1>
 
-      {/* 🔍 SEARCH BAR */}
-      <div className="mb-4">
-        <input
-          type="text"
-          placeholder="🔍 ডাক্তার / হাসপাতাল খুঁজুন..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-        />
-      </div>
-
-      {/* 🏥 FILTER BUTTONS */}
-      <div className="flex overflow-x-auto gap-2 mb-5 pb-2">
-        {categories.map((c, i) => (
-          <button
-            key={i}
-            onClick={() => setFilter(c)}
-            className={`
-              whitespace-nowrap px-4 py-1 rounded-full border text-sm
-              ${
-                filter === c
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-100"
-              }
-            `}
-          >
-            {c}
-          </button>
-        ))}
-      </div>
-
-      {/* 📊 RESULT COUNT */}
-      <p className="text-sm text-gray-500 mb-3">
-        মোট {filteredDoctors.length} জন ডাক্তার পাওয়া গেছে
-      </p>
-
-      {/* 🧾 DOCTOR GRID */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-stretch">
-        {filteredDoctors.length > 0 ? (
-          filteredDoctors.map((doctor, i) => (
-            <DoctorCard key={i} doctor={doctor} />
-          ))
-        ) : (
-          <p className="text-center col-span-full text-gray-500">
-            😔 কোনো ডাক্তার পাওয়া যায়নি
+          <p className="text-gray-600 mt-3 max-w-2xl mx-auto">
+            আপনার প্রয়োজন অনুযায়ী ডাক্তার, বিভাগ বা হাসপাতাল খুঁজে বুকিং করুন।
           </p>
+        </div>
+
+        <div className="bg-white rounded-3xl shadow p-4 md:p-5 mb-6 border border-gray-100">
+          <input
+            type="text"
+            placeholder="🔍 ডাক্তার / হাসপাতাল / বিভাগ খুঁজুন..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full border p-3 rounded-2xl outline-none focus:ring-2 focus:ring-blue-300"
+          />
+
+          <div className="flex overflow-x-auto gap-2 mt-4 pb-1">
+            {categories.map((c, i) => (
+              <button
+                key={i}
+                onClick={() => setFilter(c)}
+                className={`whitespace-nowrap px-4 py-2 rounded-full text-sm font-bold transition ${
+                  filter === c
+                    ? "bg-blue-600 text-white shadow"
+                    : "bg-gray-100 text-gray-700 hover:bg-blue-50 hover:text-blue-700"
+                }`}
+              >
+                {c === "All" ? "সব" : c}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between mb-4">
+          <p className="text-sm text-gray-500">
+            মোট{" "}
+            <span className="font-bold text-blue-700">
+              {filteredDoctors.length}
+            </span>{" "}
+            জন ডাক্তার পাওয়া গেছে
+          </p>
+        </div>
+
+        {loading && (
+          <div className="bg-white rounded-3xl shadow p-8 text-center text-gray-500">
+            Loading doctors...
+          </div>
         )}
+
+        {!loading && filteredDoctors.length === 0 && (
+          <div className="bg-white rounded-3xl shadow p-10 text-center">
+            <div className="text-5xl mb-3">😔</div>
+            <h2 className="text-xl font-bold text-gray-800">
+              কোনো ডাক্তার পাওয়া যায়নি
+            </h2>
+            <p className="text-gray-500 mt-1">
+              অন্য নাম, হাসপাতাল বা বিভাগ দিয়ে চেষ্টা করুন।
+            </p>
+          </div>
+        )}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 items-stretch">
+          {!loading &&
+            filteredDoctors.map((doctor, i) => (
+              <DoctorCard key={doctor._id || i} doctor={doctor} />
+            ))}
+        </div>
       </div>
     </div>
   );
