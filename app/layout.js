@@ -8,20 +8,17 @@ import { FiPhone } from "react-icons/fi";
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="bn">
+    <html lang="bn" suppressHydrationWarning>
       <body suppressHydrationWarning={true} className="bg-gray-50">
         <AuthProvider>
           <Navbar />
-          {/* ✅ CONTACT BAR (ADD HERE) */}
 
           <div className="bg-green-50 border-b border-green-100 py-2 px-3 text-sm">
             <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2">
-              {/* Text */}
               <span className="font-medium text-gray-700">
                 প্রয়োজনে যোগাযোগ করুনঃ
               </span>
 
-              {/* Number + Actions */}
               <div className="flex items-center gap-2 flex-wrap justify-center">
                 <span className="font-semibold text-gray-900 tracking-wide">
                   01710071135
@@ -49,14 +46,6 @@ export default function RootLayout({ children }) {
           </div>
 
           {children}
-
-          {/* ✅ Scroll To Top Button */}
-          {/* <button
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="fixed bottom-5 right-5 bg-gradient-to-r from-blue-500 to-green-500 text-white p-3 rounded-full shadow-lg hover:scale-110 transition"
-          >
-            ↑
-          </button> */}
         </AuthProvider>
       </body>
     </html>

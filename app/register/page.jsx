@@ -2,107 +2,110 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Register() {
+  const router = useRouter();
+
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const handleRegister = async () => {
-    if (!name) return alert("নাম দিন");
-    if (!phone && !email)
-      return alert("মোবাইল বা ইমেইল যেকোনো একটি দিন");
-    if (!password) return alert("পাসওয়ার্ড দিন");
+    if (!name || (!phone && !email) || !password) {
+      alert("সব তথ্য দিন");
+      return;
+    }
 
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/register`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name,
-            phone,
-            email,
-            password,
-          }),
-        }
-      );
+      setLoading(true);
+
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name.trim(),
+          phone: phone.trim(),
+          email: email.trim(),
+          password,
+        }),
+      });
 
       const data = await res.json();
 
-      if (data.message === "User created") {
-        alert("রেজিস্ট্রেশন সফল ✅");
+      if (res.ok) {
+        alert("রেজিস্ট্রেশন সফল ✅ এখন লগইন করুন");
         router.push("/login");
       } else {
-        alert(data.message || "রেজিস্ট্রেশন ব্যর্থ ❌");
+        alert(data?.message || "রেজিস্ট্রেশন ব্যর্থ ❌");
       }
     } catch (err) {
+      console.log("REGISTER ERROR:", err);
       alert("Server error ❌");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex justify-center bg-gradient-to-br from-blue-50 to-green-50 pt-8 md:pt-12">
-      <div className="w-full max-w-md mx-auto">
-        <h1 className="text-2xl font-bold text-center text-green-600 mb-5">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50 flex justify-center pt-10 px-4">
+      <div className="w-full max-w-md">
+        <h1 className="text-3xl font-bold text-center text-green-600 mb-6">
           📝 রেজিস্টার করুন
         </h1>
 
-        <input
-          type="text"
-          placeholder="👤 নাম"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="w-full mb-3 p-2 border rounded"
-        />
+        <div className="bg-white rounded-2xl shadow p-6">
+          <input
+            type="text"
+            placeholder="নাম"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full mb-3 p-3 border rounded-xl outline-none focus:ring-2 focus:ring-green-300"
+          />
 
-        <input
-          type="text"
-          placeholder="📱 মোবাইল নম্বর"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          className="w-full mb-3 p-2 border rounded"
-        />
+          <input
+            type="text"
+            placeholder="মোবাইল নম্বর"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            className="w-full mb-3 p-3 border rounded-xl outline-none focus:ring-2 focus:ring-green-300"
+          />
 
-        <input
-          type="email"
-          placeholder="📧 ইমেইল (ঐচ্ছিক)"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full mb-3 p-2 border rounded"
-        />
+          <input
+            type="email"
+            placeholder="📧 ইমেইল (ঐচ্ছিক)"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full mb-3 p-3 border rounded-xl outline-none focus:ring-2 focus:ring-green-300"
+          />
 
-        <input
-          type="password"
-          placeholder="🔑 পাসওয়ার্ড"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full mb-4 p-2 border rounded"
-        />
+          <input
+            type="password"
+            placeholder="পাসওয়ার্ড"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full mb-4 p-3 border rounded-xl outline-none focus:ring-2 focus:ring-green-300"
+          />
 
-        <button
-          onClick={handleRegister}
-          className="w-full bg-green-600 text-white py-2 rounded"
-        >
-          রেজিস্টার
-        </button>
-
-        {/* 🔥 FIXED LINK */}
-        <p className="text-center mt-4 text-sm">
-          আগে থেকেই অ্যাকাউন্ট আছে?{" "}
-          <span
-            className="text-blue-600 cursor-pointer"
-            onClick={() => router.push("/login")}
+          <button
+            onClick={handleRegister}
+            disabled={loading}
+            className="w-full bg-green-600 text-white py-3 rounded-xl font-semibold hover:bg-green-700 disabled:bg-gray-400"
           >
-            লগইন করুন
-          </span>
-        </p>
+            {loading ? "রেজিস্টার হচ্ছে..." : "রেজিস্টার"}
+          </button>
+
+          <p className="text-center text-sm mt-4">
+            আগে থেকেই অ্যাকাউন্ট আছে?{" "}
+            <Link href="/login" className="text-blue-600 font-semibold">
+              লগইন করুন
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
