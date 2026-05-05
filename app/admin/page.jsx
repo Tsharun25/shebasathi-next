@@ -15,6 +15,8 @@ export default function AdminPage() {
   const [hotels, setHotels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [bookingEdits, setBookingEdits] = useState({});
+  const [newCount, setNewCount] = useState(0);
+  const [bookingSearch, setBookingSearch] = useState("");
 
   const [doctorForm, setDoctorForm] = useState({
     name: "",
@@ -43,7 +45,7 @@ export default function AdminPage() {
   useEffect(() => {
     if (authLoading) return;
 
-    if (!user) {
+    if (!user || !token) {
       router.push("/login");
       return;
     }
@@ -54,7 +56,18 @@ export default function AdminPage() {
     }
 
     loadAdminData();
+    loadNewCount();
   }, [user, token, authLoading, router]);
+
+  useEffect(() => {
+    if (!token || user?.role !== "admin") return;
+
+    const interval = setInterval(() => {
+      loadNewCount();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [token, user]);
 
   const checkAuth = (res) => {
     if (res.status === 401 || res.status === 403) {
@@ -65,7 +78,49 @@ export default function AdminPage() {
     return true;
   };
 
+  const loadNewCount = async () => {
+    if (!token) return;
+
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/admin/new-bookings-count`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if (!checkAuth(res)) return;
+      if (!res.ok) return;
+
+      const data = await res.json();
+      setNewCount(data.count || 0);
+    } catch {
+      setNewCount(0);
+    }
+  };
+
+  const markSeen = async () => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/admin/mark-seen`,
+        {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if (!checkAuth(res)) return;
+
+      setNewCount(0);
+      loadAdminData();
+    } catch {
+      alert("Mark seen failed ❌");
+    }
+  };
+
   const loadAdminData = async () => {
+    if (!token) return;
+
     try {
       setLoading(true);
 
@@ -111,7 +166,7 @@ export default function AdminPage() {
 
       if (Array.isArray(bookings)) {
         bookings.forEach((b) => {
-          const key = b.user || "Unknown User";
+          const key = b.user || b.userId || "Unknown User";
           if (!groupedData[key]) groupedData[key] = [];
           groupedData[key].push(b);
 
@@ -261,6 +316,11 @@ export default function AdminPage() {
   };
 
   const saveHotel = async () => {
+    if (!hotelForm.name || !hotelForm.location || !hotelForm.price) {
+      alert("সব hotel তথ্য দিন");
+      return;
+    }
+
     const url = editingHotel
       ? `${process.env.NEXT_PUBLIC_API_URL}/api/admin/update-hotel/${editingHotel}`
       : `${process.env.NEXT_PUBLIC_API_URL}/api/admin/add-hotel`;
@@ -296,6 +356,11 @@ export default function AdminPage() {
     });
     setActiveTab("hotels");
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const cancelHotelEdit = () => {
+    setEditingHotel(null);
+    setHotelForm({ name: "", location: "", price: "" });
   };
 
   const deleteHotel = async (id) => {
@@ -339,7 +404,6 @@ export default function AdminPage() {
     const classes = {
       Pending: "bg-yellow-100 text-yellow-700",
       Confirmed: "bg-green-100 text-green-700",
-      Processing: "bg-blue-100 text-blue-700",
       Completed: "bg-purple-100 text-purple-700",
       Cancelled: "bg-red-100 text-red-700",
     };
@@ -347,7 +411,61 @@ export default function AdminPage() {
     return classes[status] || "bg-gray-100 text-gray-700";
   };
 
+  const filteredGrouped = useMemo(() => {
+    const query = bookingSearch.trim().toLowerCase();
+
+    if (!query) return grouped;
+
+    const result = {};
+
+    Object.entries(grouped).forEach(([userKey, bookings]) => {
+      const userName = getUserName(userKey).toLowerCase();
+
+      const filtered = bookings.filter((b) => {
+        const haystack = [
+          b.bookingId,
+          b.type,
+          b.status,
+          b.doctor,
+          b.service,
+          b.date,
+          b.time,
+          b.from,
+          b.to,
+          b.vehicleType,
+          b.acType,
+          b.fare,
+          b.total,
+          b.userName,
+          userKey,
+          userName,
+          usersMap[userKey]?.phone,
+          usersMap[userKey]?.email,
+        ]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase();
+
+        return haystack.includes(query);
+      });
+
+      if (filtered.length > 0) {
+        result[userKey] = filtered;
+      }
+    });
+
+    return result;
+  }, [bookingSearch, grouped, usersMap]);
+
+  const filteredBookingsCount = useMemo(() => {
+    return Object.values(filteredGrouped).flat().length;
+  }, [filteredGrouped]);
+
   const makeWhatsAppLink = (b, userKey) => {
+    const userInfo = usersMap[userKey] || {};
+    const phone = userInfo.phone || (/^\d+$/.test(userKey) ? userKey : "");
+    const targetPhone = phone ? `88${phone}` : "8801710071135";
+
     const userName = getUserName(userKey);
     const status = bookingEdits[b._id]?.status || b.status || "Pending";
     const note = bookingEdits[b._id]?.adminNote || b.adminNote || "";
@@ -366,7 +484,9 @@ export default function AdminPage() {
     if (b.type === "hotel") {
       details += `Hotel: ${b.service || "N/A"}\nDate: ${
         b.date || "N/A"
-      }\nPeople: ${b.people || "N/A"} জন\nTotal: ৳ ${b.total || 0}\n`;
+      }\nPeople: ${b.people || "N/A"} জন\nRooms: ${
+        b.rooms || "N/A"
+      } টি\nDays: ${b.days || "N/A"} দিন\nTotal: ৳ ${b.total || 0}\n`;
     }
 
     if (b.type === "transport") {
@@ -381,7 +501,7 @@ export default function AdminPage() {
 
     details += `\nপ্রয়োজনে যোগাযোগ করুন: 01710071135`;
 
-    return `https://wa.me/88${userKey}?text=${encodeURIComponent(details)}`;
+    return `https://wa.me/${targetPhone}?text=${encodeURIComponent(details)}`;
   };
 
   if (authLoading || loading) {
@@ -395,7 +515,7 @@ export default function AdminPage() {
   if (!user || user.role !== "admin") return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 p-4 md:p-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 p-4 md:p-6 pb-28 md:pb-6">
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <StatCard title="মোট বুকিং" value={counts.total} color="blue" />
@@ -408,19 +528,46 @@ export default function AdminPage() {
           />
         </div>
 
+        {newCount > 0 && (
+          <div className="bg-red-50 border border-red-100 rounded-3xl shadow p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div>
+              <p className="text-red-700 font-extrabold text-lg">
+                🔔 {newCount} টি নতুন booking এসেছে
+              </p>
+              <p className="text-sm text-gray-600">
+                নতুন booking দেখতে Bookings tab check করুন।
+              </p>
+            </div>
+
+            <button
+              onClick={markSeen}
+              className="bg-red-600 text-white px-5 py-2.5 rounded-xl font-bold hover:bg-red-700"
+            >
+              Mark as Seen
+            </button>
+          </div>
+        )}
+
         <div className="bg-white rounded-3xl shadow p-3 flex gap-2 overflow-x-auto border border-gray-100">
           <TabButton
             active={activeTab === "bookings"}
             onClick={() => setActiveTab("bookings")}
           >
             📋 Bookings
+            {newCount > 0 && (
+              <span className="ml-2 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
+                {newCount}
+              </span>
+            )}
           </TabButton>
+
           <TabButton
             active={activeTab === "doctors"}
             onClick={() => setActiveTab("doctors")}
           >
             👨‍⚕️ Doctors
           </TabButton>
+
           <TabButton
             active={activeTab === "hotels"}
             onClick={() => setActiveTab("hotels")}
@@ -574,13 +721,13 @@ export default function AdminPage() {
                 />
                 <Input
                   type="number"
-                  placeholder="Price per day"
+                  placeholder="Price per room / day"
                   value={hotelForm.price}
                   onChange={(v) => setHotelForm({ ...hotelForm, price: v })}
                 />
               </div>
 
-              <div className="flex gap-3 mt-4">
+              <div className="flex flex-wrap gap-3 mt-4">
                 <button
                   onClick={saveHotel}
                   className="bg-green-600 text-white px-5 py-2.5 rounded-xl font-bold hover:bg-green-700"
@@ -590,61 +737,150 @@ export default function AdminPage() {
 
                 {editingHotel && (
                   <button
-                    onClick={() => {
-                      setEditingHotel(null);
-                      setHotelForm({ name: "", location: "", price: "" });
-                    }}
+                    onClick={cancelHotelEdit}
                     className="bg-gray-200 px-5 py-2.5 rounded-xl font-bold"
                   >
                     Cancel
                   </button>
                 )}
+
+                <button
+                  onClick={loadAdminData}
+                  className="bg-blue-100 text-blue-700 px-5 py-2.5 rounded-xl font-bold"
+                >
+                  Refresh List
+                </button>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {hotels.map((h) => (
-                <div
-                  key={h._id}
-                  className="bg-white rounded-3xl shadow p-5 border border-gray-100"
-                >
-                  <h3 className="text-xl font-bold text-gray-900">
-                    🏨 {h.name}
-                  </h3>
-                  <p className="text-gray-600 mt-1">📍 {h.location}</p>
-                  <p className="text-green-700 font-bold">
-                    💰 ৳ {h.price} / দিন
+            <div className="bg-white rounded-3xl shadow p-5 border border-gray-100">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-5">
+                <div>
+                  <h2 className="text-2xl font-extrabold text-gray-900">
+                    🏨 Hotel List
+                  </h2>
+                  <p className="text-sm text-gray-500 mt-1">
+                    মোট {hotels.length} টি hotel/service পাওয়া গেছে
                   </p>
-
-                  <div className="flex gap-2 mt-4">
-                    <button
-                      onClick={() => editHotel(h)}
-                      className="bg-yellow-500 text-white px-4 py-2 rounded-xl font-bold"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => deleteHotel(h._id)}
-                      className="bg-red-500 text-white px-4 py-2 rounded-xl font-bold"
-                    >
-                      Delete
-                    </button>
-                  </div>
                 </div>
-              ))}
+              </div>
+
+              {hotels.length === 0 ? (
+                <div className="bg-gray-50 rounded-2xl p-8 text-center text-gray-500">
+                  কোনো hotel পাওয়া যায়নি। উপরের form থেকে নতুন hotel add করুন।
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {hotels.map((h) => (
+                    <div
+                      key={h._id}
+                      className="bg-gradient-to-br from-green-50 to-white rounded-3xl shadow-sm p-5 border border-green-100"
+                    >
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <div className="text-4xl mb-3">🏨</div>
+
+                          <h3 className="text-xl font-bold text-gray-900">
+                            {h.name}
+                          </h3>
+
+                          <p className="text-gray-600 mt-1">📍 {h.location}</p>
+
+                          <p className="text-green-700 font-extrabold mt-2">
+                            💰 ৳ {h.price} / রুম / দিন
+                          </p>
+                        </div>
+
+                        <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold">
+                          Active
+                        </span>
+                      </div>
+
+                      <div className="flex gap-2 mt-5">
+                        <button
+                          onClick={() => editHotel(h)}
+                          className="flex-1 bg-yellow-500 text-white px-4 py-2 rounded-xl font-bold hover:bg-yellow-600"
+                        >
+                          Edit
+                        </button>
+
+                        <button
+                          onClick={() => deleteHotel(h._id)}
+                          className="flex-1 bg-red-500 text-white px-4 py-2 rounded-xl font-bold hover:bg-red-600"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </section>
         )}
 
         {activeTab === "bookings" && (
           <section className="space-y-6">
-            {Object.keys(grouped).length === 0 && (
+            <div className="bg-white rounded-3xl shadow p-4 md:p-5 border border-gray-100">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                <div>
+                  <h2 className="text-xl font-extrabold text-gray-900">
+                    🔍 Booking Search
+                  </h2>
+                  <p className="text-sm text-gray-500 mt-1">
+                    Booking ID, phone, name, doctor, hotel, route বা status দিয়ে
+                    খুঁজুন।
+                  </p>
+                </div>
+
+                {bookingSearch && (
+                  <button
+                    onClick={() => setBookingSearch("")}
+                    className="bg-gray-100 text-gray-700 px-4 py-2 rounded-xl font-bold"
+                  >
+                    Clear
+                  </button>
+                )}
+              </div>
+
+              <input
+                type="text"
+                value={bookingSearch}
+                onChange={(e) => setBookingSearch(e.target.value)}
+                placeholder="যেমন: SB-2026-0007 / 017... / Pending / Hotel Green"
+                className="w-full mt-4 p-3.5 border rounded-2xl outline-none focus:ring-2 focus:ring-blue-300"
+              />
+
+              <p className="text-sm text-gray-500 mt-3">
+                {bookingSearch ? (
+                  <>
+                    পাওয়া গেছে{" "}
+                    <span className="font-bold text-blue-700">
+                      {filteredBookingsCount}
+                    </span>{" "}
+                    টি matching booking
+                  </>
+                ) : (
+                  <>
+                    মোট{" "}
+                    <span className="font-bold text-blue-700">
+                      {allBookings.length}
+                    </span>{" "}
+                    টি booking
+                  </>
+                )}
+              </p>
+            </div>
+
+            {Object.keys(filteredGrouped).length === 0 && (
               <div className="bg-white p-10 rounded-3xl shadow text-center text-gray-500">
-                No bookings yet
+                {bookingSearch
+                  ? "এই search অনুযায়ী কোনো booking পাওয়া যায়নি"
+                  : "No bookings yet"}
               </div>
             )}
 
-            {Object.entries(grouped).map(([userKey, bookings]) => (
+            {Object.entries(filteredGrouped).map(([userKey, bookings]) => (
               <div
                 key={userKey}
                 className="bg-white p-5 rounded-3xl shadow border border-gray-100"
@@ -655,7 +891,7 @@ export default function AdminPage() {
                       👤 {getUserName(userKey)}
                     </h2>
                     <p className="text-sm text-gray-500 mt-1">
-                      📱 {userKey} • মোট বুকিং: {bookings.length}
+                      📱 {userKey} • দেখাচ্ছে: {bookings.length} টি booking
                     </p>
                   </div>
 
@@ -674,12 +910,24 @@ export default function AdminPage() {
                     return (
                       <div
                         key={b._id}
-                        className="border border-gray-200 p-4 rounded-2xl bg-gray-50 hover:bg-white hover:shadow transition flex flex-col min-h-[200px]"
+                        className={`border p-4 rounded-2xl hover:shadow transition flex flex-col min-h-[200px] ${
+                          b.isNew
+                            ? "bg-red-50 border-red-200"
+                            : "bg-gray-50 border-gray-200 hover:bg-white"
+                        }`}
                       >
                         <div className="flex justify-between items-center mb-4">
-                          <span className="text-sm bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-bold">
-                            {getTypeBangla(b.type)}
-                          </span>
+                          <div className="flex gap-2 flex-wrap">
+                            <span className="text-sm bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-bold">
+                              {getTypeBangla(b.type)}
+                            </span>
+
+                            {b.isNew && (
+                              <span className="text-xs bg-red-500 text-white px-3 py-1 rounded-full font-bold">
+                                NEW
+                              </span>
+                            )}
+                          </div>
 
                           <button
                             onClick={() => deleteBooking(b._id, userKey)}
@@ -718,9 +966,11 @@ export default function AdminPage() {
                                 🏨 {b.service}
                               </p>
                               <p>📅 Date: {b.date}</p>
-                              <p>👥 People: {b.people} জন</p>
+                              <p>👥 People: {b.people || "N/A"} জন</p>
+                              <p>🚪 Rooms: {b.rooms || "N/A"} টি</p>
+                              <p>🌙 Days: {b.days || "N/A"} দিন</p>
                               <p className="font-bold text-green-700">
-                                💰 Total: ৳ {b.total}
+                                💰 Total: ৳ {b.total || 0}
                               </p>
                             </>
                           )}
@@ -760,7 +1010,6 @@ export default function AdminPage() {
                           >
                             <option value="Pending">Pending</option>
                             <option value="Confirmed">Confirmed</option>
-                            <option value="Processing">Processing</option>
                             <option value="Completed">Completed</option>
                             <option value="Cancelled">Cancelled</option>
                           </select>

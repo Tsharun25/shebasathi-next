@@ -21,7 +21,9 @@ export default function BookingSuccessModal({
           {title}
         </h2>
 
-        <p className="text-gray-600 text-sm mb-4">{message}</p>
+        <p className="text-gray-600 text-sm leading-relaxed mb-4">
+          {message}
+        </p>
 
         <div className="bg-blue-50 border border-blue-100 rounded-2xl p-4 mb-5">
           <p className="text-sm text-gray-500 font-medium">Booking ID</p>
@@ -30,17 +32,23 @@ export default function BookingSuccessModal({
           </p>
         </div>
 
+        <p className="text-xs text-gray-500 mb-4">
+          দ্রুত confirm করার জন্য WhatsApp-এ message পাঠান।
+        </p>
+
         <div className="grid grid-cols-1 gap-3">
           <button
             onClick={onWhatsApp}
-            className="w-full bg-green-600 text-white py-3 rounded-2xl font-bold hover:bg-green-700 transition"
+            disabled={!onWhatsApp}
+            className="w-full bg-green-600 text-white py-3 rounded-2xl font-bold hover:bg-green-700 transition disabled:opacity-50"
           >
             💬 WhatsApp এ confirm করুন
           </button>
 
           <button
             onClick={onDashboard}
-            className="w-full bg-blue-600 text-white py-3 rounded-2xl font-bold hover:bg-blue-700 transition"
+            disabled={!onDashboard}
+            className="w-full bg-blue-600 text-white py-3 rounded-2xl font-bold hover:bg-blue-700 transition disabled:opacity-50"
           >
             📋 Dashboard এ যান
           </button>

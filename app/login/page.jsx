@@ -15,7 +15,10 @@ export default function Login() {
   const router = useRouter();
 
   const handleLogin = async () => {
-    if (!phone && !email) {
+    const cleanPhone = phone.trim();
+    const cleanEmail = email.trim().toLowerCase();
+
+    if (!cleanPhone && !cleanEmail) {
       alert("মোবাইল বা ইমেইল যেকোনো একটি দিন");
       return;
     }
@@ -34,22 +37,21 @@ export default function Login() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          ...(phone.trim() && { phone: phone.trim() }),
-          ...(email.trim() && { email: email.trim() }),
+          ...(cleanPhone && { phone: cleanPhone }),
+          ...(cleanEmail && { email: cleanEmail }),
           password,
         }),
       });
 
       const data = await res.json();
 
-      if (res.ok && data?.user) {
+      if (res.ok && data?.user && data?.token) {
         setUser(data.user, data.token);
-        alert("লগইন সফল ✅");
 
         if (data.user.role === "admin") {
           router.push("/admin");
         } else {
-          router.push("/");
+          router.push("/dashboard");
         }
       } else {
         alert(data?.message || "লগইন ব্যর্থ ❌");
@@ -63,13 +65,17 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-[calc(100vh-110px)] bg-gradient-to-br from-blue-50 to-green-50 flex justify-center items-start pt-12 px-4">
+    <div className="min-h-[calc(100vh-110px)] bg-gradient-to-br from-blue-50 via-white to-green-50 flex justify-center items-start pt-12 px-4">
       <div className="w-full max-w-md">
-        <h1 className="text-3xl font-bold text-center text-blue-600 mb-6">
+        <h1 className="text-3xl font-bold text-center text-blue-600 mb-2">
           🔐 লগইন করুন
         </h1>
 
-        <div className="bg-white rounded-2xl shadow p-6">
+        <p className="text-center text-gray-500 text-sm mb-6">
+          আপনার বুকিং ও সেবার আপডেট দেখতে লগইন করুন
+        </p>
+
+        <div className="bg-white rounded-3xl shadow-xl p-6 border border-gray-100">
           <input
             type="text"
             placeholder="📱 মোবাইল নম্বর"
@@ -97,14 +103,14 @@ export default function Login() {
           <button
             onClick={handleLogin}
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 disabled:bg-gray-400"
+            className="w-full bg-gradient-to-r from-blue-600 to-green-600 text-white py-3 rounded-xl font-bold hover:scale-[1.01] transition disabled:opacity-60"
           >
             {loading ? "লগইন হচ্ছে..." : "লগইন"}
           </button>
 
           <p className="text-center text-sm mt-4">
             অ্যাকাউন্ট নেই?{" "}
-            <Link href="/register" className="text-green-600 font-semibold">
+            <Link href="/register" className="text-green-600 font-bold">
               রেজিস্টার করুন
             </Link>
           </p>

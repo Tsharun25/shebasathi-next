@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar";
 import { AuthProvider } from "../context/AuthContext";
 import { FaWhatsapp } from "react-icons/fa";
 import { FiPhone } from "react-icons/fi";
+import MobileBottomNav from "../components/MobileBottomNav";
 
 export default function RootLayout({ children }) {
   return (
@@ -45,7 +46,8 @@ export default function RootLayout({ children }) {
             </div>
           </div>
 
-          {children}
+          <div className="pb-20 md:pb-0">{children}</div>
+          <MobileBottomNav />
         </AuthProvider>
       </body>
     </html>

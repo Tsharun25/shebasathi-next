@@ -18,7 +18,7 @@ export default function Hotel() {
     total: 0,
   });
 
-  const { user } = useContext(AuthContext);
+  const { user, token } = useContext(AuthContext);
   const router = useRouter();
 
   const today = useMemo(() => new Date().toISOString().split("T")[0], []);
@@ -56,6 +56,7 @@ Booking ID: ${successModal.bookingId || "N/A"}
 তারিখ: ${form.date || "N/A"}
 দিন: ${form.days || "N/A"}
 মানুষ: ${form.people || "N/A"} জন
+রুম: ${form.rooms || "N/A"} টি
 সম্ভাব্য মোট: ৳ ${successModal.total || 0}
 
 অনুগ্রহ করে আমার বুকিংটি confirm করে জানাবেন।`;
@@ -69,13 +70,13 @@ Booking ID: ${successModal.bookingId || "N/A"}
   const handleBook = async (h, index) => {
     const form = forms[index] || {};
 
-    if (!user) {
+    if (!user || !token) {
       alert("আগে লগইন করুন");
       router.push("/login");
       return;
     }
 
-    if (!form.date || !form.days || !form.people) {
+    if (!form.date || !form.days || !form.people || !form.rooms) {
       alert("সব তথ্য দিন");
       return;
     }
@@ -94,15 +95,15 @@ Booking ID: ${successModal.bookingId || "N/A"}
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             service: h.name,
             date: form.date,
             days: Number(form.days),
             people: Number(form.people),
+            rooms: Number(form.rooms),
             price: h.price,
-            user: user.phone || user.email,
-            userName: user.name,
           }),
         }
       );
@@ -114,7 +115,11 @@ Booking ID: ${successModal.bookingId || "N/A"}
         return;
       }
 
-      const total = data.total || Number(h.price || 0) * Number(form.days || 0);
+      const total =
+        data.total ||
+        Number(h.price || 0) *
+          Number(form.days || 0) *
+          Number(form.rooms || 0);
 
       setSuccessModal({
         open: true,
@@ -137,12 +142,12 @@ Booking ID: ${successModal.bookingId || "N/A"}
         open={successModal.open}
         bookingId={successModal.bookingId}
         title="থাকার ব্যবস্থা বুকিং সফল হয়েছে"
-        message="আপনার থাকার ব্যবস্থা booking request সফলভাবে জমা হয়েছে।"
+        message="আপনার থাকার ব্যবস্থা booking request সফলভাবে জমা হয়েছে। Admin panel-এ booking চলে গেছে।"
         onWhatsApp={openWhatsApp}
         onDashboard={() => router.push("/dashboard")}
       />
 
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 px-4 py-8 md:px-8">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 px-4 py-8 md:px-8 pb-28 md:pb-10">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-10">
             <span className="inline-block bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-bold mb-4">
@@ -167,7 +172,10 @@ Booking ID: ${successModal.bookingId || "N/A"}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {list.map((h, i) => {
               const form = forms[i] || {};
-              const total = Number(h.price || 0) * Number(form.days || 0);
+              const total =
+                Number(h.price || 0) *
+                Number(form.days || 0) *
+                Number(form.rooms || 0);
 
               return (
                 <div
@@ -189,7 +197,7 @@ Booking ID: ${successModal.bookingId || "N/A"}
                       </div>
 
                       <div className="bg-green-50 text-green-700 px-4 py-3 rounded-2xl text-center">
-                        <p className="text-sm font-medium">প্রতি দিন</p>
+                        <p className="text-sm font-medium">প্রতি রুম / দিন</p>
                         <p className="text-xl font-extrabold">৳ {h.price}</p>
                       </div>
                     </div>
@@ -222,6 +230,15 @@ Booking ID: ${successModal.bookingId || "N/A"}
                         }
                         className="w-full p-3 border rounded-xl outline-none focus:ring-2 focus:ring-green-300"
                       />
+
+                      <input
+                        type="number"
+                        min="1"
+                        value={form.rooms || ""}
+                        placeholder="কয়টা রুম লাগবে"
+                        onChange={(e) => updateForm(i, "rooms", e.target.value)}
+                        className="w-full p-3 border rounded-xl outline-none focus:ring-2 focus:ring-green-300"
+                      />
                     </div>
 
                     <div className="mt-5 bg-gray-50 rounded-2xl p-4 flex items-center justify-between">
@@ -237,7 +254,7 @@ Booking ID: ${successModal.bookingId || "N/A"}
                     <button
                       onClick={() => handleBook(h, i)}
                       disabled={loadingId === i}
-                      className="mt-4 w-full bg-gradient-to-r from-green-600 to-emerald-500 text-white py-3 rounded-2xl font-bold hover:scale-[1.01] transition disabled:bg-gray-400"
+                      className="mt-4 w-full bg-gradient-to-r from-green-600 to-emerald-500 text-white py-3 rounded-2xl font-bold hover:scale-[1.01] transition disabled:opacity-60"
                     >
                       {loadingId === i ? "বুকিং হচ্ছে..." : "বুক করুন →"}
                     </button>

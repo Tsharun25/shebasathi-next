@@ -10,20 +10,52 @@ export const AuthProvider = ({ children }) => {
   const [authLoading, setAuthLoading] = useState(true);
 
   useEffect(() => {
-    try {
-      const savedUser = localStorage.getItem("user");
-      const savedToken = localStorage.getItem("token");
+    const loadAuth = async () => {
+      try {
+        const savedUser = localStorage.getItem("user");
+        const savedToken = localStorage.getItem("token");
 
-      if (savedUser) setUserState(JSON.parse(savedUser));
-      if (savedToken) setTokenState(savedToken);
-    } catch (err) {
-      localStorage.removeItem("user");
-      localStorage.removeItem("token");
-      setUserState(null);
-      setTokenState(null);
-    } finally {
-      setAuthLoading(false);
-    }
+        if (!savedToken) {
+          setAuthLoading(false);
+          return;
+        }
+
+        setTokenState(savedToken);
+
+        if (savedUser) {
+          setUserState(JSON.parse(savedUser));
+        }
+
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/me`, {
+          headers: {
+            Authorization: `Bearer ${savedToken}`,
+          },
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          localStorage.removeItem("user");
+          localStorage.removeItem("token");
+          setUserState(null);
+          setTokenState(null);
+          return;
+        }
+
+        setUserState(data.user);
+        localStorage.setItem("user", JSON.stringify(data.user));
+      } catch (err) {
+        console.log("AUTH LOAD ERROR:", err);
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+        setUserState(null);
+        setTokenState(null);
+      } finally {
+        setAuthLoading(false);
+      }
+    };
+
+    loadAuth();
   }, []);
 
   const setUser = (newUser, newToken = null) => {

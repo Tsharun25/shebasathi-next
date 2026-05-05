@@ -14,26 +14,38 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
 
   const handleRegister = async () => {
-    if (!name || (!phone && !email) || !password) {
+    const cleanName = name.trim();
+    const cleanPhone = phone.trim();
+    const cleanEmail = email.trim().toLowerCase();
+
+    if (!cleanName || (!cleanPhone && !cleanEmail) || !password) {
       alert("সব তথ্য দিন");
+      return;
+    }
+
+    if (password.length < 6) {
+      alert("পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে");
       return;
     }
 
     try {
       setLoading(true);
 
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: name.trim(),
-          phone: phone.trim(),
-          email: email.trim(),
-          password,
-        }),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: cleanName,
+            ...(cleanPhone && { phone: cleanPhone }),
+            ...(cleanEmail && { email: cleanEmail }),
+            password,
+          }),
+        }
+      );
 
       const data = await res.json();
 
@@ -52,16 +64,20 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50 flex justify-center pt-10 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 flex justify-center pt-10 px-4">
       <div className="w-full max-w-md">
-        <h1 className="text-3xl font-bold text-center text-green-600 mb-6">
+        <h1 className="text-3xl font-bold text-center text-green-600 mb-2">
           📝 রেজিস্টার করুন
         </h1>
 
-        <div className="bg-white rounded-2xl shadow p-6">
+        <p className="text-center text-gray-500 text-sm mb-6">
+          সেবাসাথী থেকে সেবা নিতে একটি অ্যাকাউন্ট তৈরি করুন
+        </p>
+
+        <div className="bg-white rounded-3xl shadow-xl p-6 border border-gray-100">
           <input
             type="text"
-            placeholder="নাম"
+            placeholder="👤 নাম"
             value={name}
             onChange={(e) => setName(e.target.value)}
             className="w-full mb-3 p-3 border rounded-xl outline-none focus:ring-2 focus:ring-green-300"
@@ -69,7 +85,7 @@ export default function Register() {
 
           <input
             type="text"
-            placeholder="মোবাইল নম্বর"
+            placeholder="📱 মোবাইল নম্বর"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             className="w-full mb-3 p-3 border rounded-xl outline-none focus:ring-2 focus:ring-green-300"
@@ -85,7 +101,7 @@ export default function Register() {
 
           <input
             type="password"
-            placeholder="পাসওয়ার্ড"
+            placeholder="🔑 পাসওয়ার্ড (কমপক্ষে ৬ অক্ষর)"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="w-full mb-4 p-3 border rounded-xl outline-none focus:ring-2 focus:ring-green-300"
@@ -94,14 +110,14 @@ export default function Register() {
           <button
             onClick={handleRegister}
             disabled={loading}
-            className="w-full bg-green-600 text-white py-3 rounded-xl font-semibold hover:bg-green-700 disabled:bg-gray-400"
+            className="w-full bg-gradient-to-r from-green-600 to-blue-600 text-white py-3 rounded-xl font-bold hover:scale-[1.01] transition disabled:opacity-60"
           >
             {loading ? "রেজিস্টার হচ্ছে..." : "রেজিস্টার"}
           </button>
 
           <p className="text-center text-sm mt-4">
             আগে থেকেই অ্যাকাউন্ট আছে?{" "}
-            <Link href="/login" className="text-blue-600 font-semibold">
+            <Link href="/login" className="text-blue-600 font-bold">
               লগইন করুন
             </Link>
           </p>

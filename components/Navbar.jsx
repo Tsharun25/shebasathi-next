@@ -20,6 +20,11 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    setOpen(false);
+    setProfileOpen(false);
+  }, [pathname]);
+
   const menu = [
     { name: "হোম", path: "/" },
     { name: "ডাক্তার", path: "/doctors" },
@@ -100,7 +105,7 @@ export default function Navbar() {
                       👤 {user.name || "User"}
                     </p>
                     <p className="text-sm text-gray-500 break-all mt-1">
-                      {user.phone || user.email}
+                      {user.phone || user.email || "No contact"}
                     </p>
 
                     <div className="border-t my-3" />
@@ -110,7 +115,7 @@ export default function Navbar() {
                       onClick={() => setProfileOpen(false)}
                       className="block px-3 py-2 rounded-lg hover:bg-gray-100 font-medium"
                     >
-                      📋 Dashboard
+                      📋 {user.role === "admin" ? "Admin Panel" : "Dashboard"}
                     </Link>
 
                     <button
@@ -146,17 +151,23 @@ export default function Navbar() {
           )}
         </div>
 
-        <button onClick={() => setOpen(!open)} className="md:hidden text-2xl">
-          ☰
+        <button
+          onClick={() => setOpen(!open)}
+          className="md:hidden text-2xl w-10 h-10 rounded-xl hover:bg-gray-100"
+          aria-label="Toggle menu"
+        >
+          {open ? "✕" : "☰"}
         </button>
       </div>
 
       {open && (
-        <div className="md:hidden bg-white border-t px-4 pb-4 space-y-2 text-center">
+        <div className="md:hidden bg-white border-t px-4 pb-4 space-y-2 text-center shadow-lg">
           {user && (
-            <div className="bg-blue-50 border border-blue-100 rounded-2xl p-3 mb-3">
+            <div className="bg-blue-50 border border-blue-100 rounded-2xl p-3 mb-3 mt-3">
               <p className="font-bold text-gray-800">👤 {user.name || "User"}</p>
-              <p className="text-sm text-gray-500">{user.phone || user.email}</p>
+              <p className="text-sm text-gray-500 break-all">
+                {user.phone || user.email || "No contact"}
+              </p>
             </div>
           )}
 
@@ -164,7 +175,6 @@ export default function Navbar() {
             <Link
               key={m.path}
               href={m.path}
-              onClick={() => setOpen(false)}
               className={`block px-3 py-2 rounded-lg ${
                 pathname === m.path
                   ? "bg-blue-600 text-white"
@@ -179,7 +189,6 @@ export default function Navbar() {
             <>
               <Link
                 href="/login"
-                onClick={() => setOpen(false)}
                 className="block bg-blue-600 text-white px-4 py-2 rounded-lg"
               >
                 লগইন
@@ -187,7 +196,6 @@ export default function Navbar() {
 
               <Link
                 href="/register"
-                onClick={() => setOpen(false)}
                 className="block bg-gray-200 px-4 py-2 rounded-lg"
               >
                 রেজিস্টার
@@ -197,7 +205,6 @@ export default function Navbar() {
             <>
               <Link
                 href={dashboardPath}
-                onClick={() => setOpen(false)}
                 className={`block text-white px-4 py-2 rounded-lg ${
                   user.role === "admin" ? "bg-purple-600" : "bg-green-500"
                 }`}
