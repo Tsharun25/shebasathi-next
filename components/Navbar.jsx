@@ -44,7 +44,7 @@ export default function Navbar() {
     { name: "সেবা সমূহ", path: "/services" },
     { name: "ডাক্তার", path: "/doctors" },
     { name: "যাতায়াত", path: "/transport" },
-    { name: "থাকা", path: "/hotel" },
+    { name: "থাকার ব্যবস্থা", path: "/hotel" },
   ];
 
   useEffect(() => {
