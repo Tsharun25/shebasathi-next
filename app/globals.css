@@ -1,17 +1,58 @@
 @import "tailwindcss";
 
+:root {
+  --font-bengali: "Noto Sans Bengali", system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  text-rendering: geometricPrecision;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  font-family: var(--font-bengali);
+  line-height: 1.55;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-bengali {
+  font-family: var(--font-bengali);
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
 button {
   cursor: pointer;
 }
 
-body {
-  overflow-x: hidden;
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  font-size: 16px;
 }
 
-input, button {
-  font-size: 16px; /* mobile zoom fix */
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
 }
-
 
 .input {
   width: 100%;

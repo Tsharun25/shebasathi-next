@@ -1,22 +1,59 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 
+const PHONE_NUMBER = "+8801710071135";
+const WHATSAPP_NUMBER = "8801710071135";
+
+const WHATSAPP_TEXT =
+  "আসসালামু আলাইকুম, আমি ShebaSathi থেকে চিকিৎসা/রোগী সহায়তা নিতে চাই। দয়া করে বিস্তারিত জানাবেন।";
+
+const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+  WHATSAPP_TEXT
+)}`;
+
+function cn(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
+
+function isActivePath(pathname, path) {
+  if (path === "/") return pathname === "/";
+  return pathname === path || pathname?.startsWith(`${path}/`);
+}
+
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
-  const { user, logout } = useContext(AuthContext);
+
+  const auth = useContext(AuthContext);
+  const user = auth?.user;
+  const logout = auth?.logout;
 
   const [open, setOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
+  const dashboardPath = user?.role === "admin" ? "/admin" : "/dashboard";
+
+  const menu = [
+    { name: "হোম", path: "/" },
+    { name: "সেবা সমূহ", path: "/services" },
+    { name: "ডাক্তার", path: "/doctors" },
+    { name: "যাতায়াত", path: "/transport" },
+    { name: "থাকা", path: "/hotel" },
+  ];
+
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
+    const handleScroll = () => setScrolled(window.scrollY > 12);
+
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -25,203 +62,314 @@ export default function Navbar() {
     setProfileOpen(false);
   }, [pathname]);
 
-  const menu = [
-    { name: "হোম", path: "/" },
-    { name: "ডাক্তার", path: "/doctors" },
-    { name: "সেবা সমূহ", path: "/services" },
-  ];
-
-  const dashboardPath = user?.role === "admin" ? "/admin" : "/dashboard";
-
   const handleLogout = () => {
-    logout();
+    if (typeof logout === "function") logout();
+
     setOpen(false);
     setProfileOpen(false);
     router.push("/");
   };
 
+  const userInitial = (user?.name || user?.email || "U")
+    .charAt(0)
+    .toUpperCase();
+
   return (
-    <nav
-      className={`sticky top-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-white/90 backdrop-blur shadow-md" : "bg-white"
-      }`}
+    <header
+      className={cn(
+        "sticky top-0 z-50 border-b transition-all duration-300",
+        scrolled
+          ? "border-slate-200/80 bg-white/95 shadow-[0_8px_28px_rgba(15,23,42,0.08)] backdrop-blur-xl"
+          : "border-transparent bg-white"
+      )}
     >
-      <div
-        className={`max-w-7xl mx-auto px-6 flex justify-between items-center transition-all duration-300 ${
-          scrolled ? "py-2" : "py-4"
-        }`}
-      >
-        <Link href="/" className="text-2xl font-extrabold">
-          <span className="bg-gradient-to-r from-blue-600 to-green-500 bg-clip-text text-transparent">
-            সেবাসাথী
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2.5 sm:px-5 lg:px-8">
+        {/* BRAND LOGO */}
+        <Link
+          href="/"
+          aria-label="ShebaSathi হোম"
+          className="flex shrink-0 items-center gap-2.5"
+        >
+          <span className="relative flex h-[50px] w-[40px] shrink-0 items-center justify-center sm:h-[56px] sm:w-[44px]">
+            <Image
+              src="/shebasathi-icon.png"
+              alt=""
+              width={88}
+              height={120}
+              priority
+              className="h-full w-full object-contain"
+            />
+          </span>
+
+          <span className="block min-w-0 leading-none">
+            <span className="block bg-gradient-to-r from-blue-700 via-sky-600 to-emerald-500 bg-clip-text pb-1 text-[25px] font-black leading-[1.15] tracking-[-0.04em] text-transparent sm:text-[29px] lg:text-[30px]">
+              সেবাসাথী
+            </span>
+
+            <span className="block text-[10.5px] font-extrabold leading-[1.35] tracking-[-0.01em] text-slate-500 sm:text-[11.5px]">
+              ঢাকায় চিকিৎসা সহায়তা
+            </span>
           </span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-4">
-          {menu.map((m) => (
-            <Link
-              key={m.path}
-              href={m.path}
-              className={`px-3 py-1 rounded-lg transition font-medium ${
-                pathname === m.path
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-700 hover:bg-blue-100 hover:text-blue-600"
-              }`}
-            >
-              {m.name}
-            </Link>
-          ))}
+        {/* DESKTOP MENU */}
+        <nav className="hidden items-center gap-2 lg:flex">
+          {menu.map((item) => {
+            const active = isActivePath(pathname, item.path);
+
+            return (
+              <Link
+                key={item.path}
+                href={item.path}
+                aria-current={active ? "page" : undefined}
+                className={cn(
+                  "rounded-full px-5 py-2.5 text-[16px] font-black leading-none transition-all duration-200",
+                  active
+                    ? "bg-blue-600 text-white shadow-md shadow-blue-600/20"
+                    : "text-slate-800 hover:bg-slate-100 hover:text-blue-700"
+                )}
+              >
+                {item.name}
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* DESKTOP ACTIONS */}
+        <div className="hidden items-center gap-2 md:flex">
+          <a
+            href={`tel:${PHONE_NUMBER}`}
+            className="rounded-full border border-emerald-200 bg-emerald-50 px-5 py-2.5 text-[15px] font-black leading-none text-emerald-700 transition hover:bg-emerald-100"
+          >
+            কল করুন
+          </a>
+
+          <a
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-full bg-emerald-600 px-5 py-2.5 text-[15px] font-black leading-none text-white shadow-lg shadow-emerald-600/20 transition hover:bg-emerald-700"
+          >
+            WhatsApp
+          </a>
 
           {user ? (
-            <>
-              <Link
-                href={dashboardPath}
-                className={`px-4 py-1.5 rounded-lg text-white font-semibold ${
-                  user.role === "admin"
-                    ? "bg-purple-600 hover:bg-purple-700"
-                    : "bg-green-500 hover:bg-green-600"
-                }`}
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setProfileOpen((value) => !value)}
+                className="flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 py-1.5 pl-1.5 pr-3 text-[15px] font-black text-slate-800 transition hover:bg-blue-100"
+                aria-expanded={profileOpen}
+                aria-label="প্রোফাইল মেনু খুলুন"
               >
-                {user.role === "admin" ? "Admin Panel" : "ড্যাশবোর্ড"}
-              </Link>
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-emerald-500 text-sm font-black text-white">
+                  {userInitial}
+                </span>
 
-              <div className="relative">
-                <button
-                  onClick={() => setProfileOpen(!profileOpen)}
-                  className="flex items-center gap-2 bg-blue-50 border border-blue-100 px-3 py-1.5 rounded-xl hover:bg-blue-100"
-                >
-                  <span className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-green-500 text-white flex items-center justify-center font-bold">
-                    {(user.name || "U").charAt(0).toUpperCase()}
-                  </span>
+                <span className="max-w-[110px] truncate">
+                  {user.name || "User"}
+                </span>
+              </button>
 
-                  <span className="font-bold text-gray-800">
-                    {user.name || "User"}
-                  </span>
-                </button>
-
-                {profileOpen && (
-                  <div className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-lg border p-3">
-                    <p className="font-bold text-gray-800">
-                      👤 {user.name || "User"}
-                    </p>
-                    <p className="text-sm text-gray-500 break-all mt-1">
-                      {user.phone || user.email || "No contact"}
+              {profileOpen && (
+                <div className="absolute right-0 mt-3 w-64 overflow-hidden rounded-3xl border border-slate-200 bg-white p-3 shadow-2xl shadow-slate-900/12">
+                  <div className="rounded-2xl bg-slate-50 p-3">
+                    <p className="truncate text-sm font-black text-slate-900">
+                      {user.name || "User"}
                     </p>
 
-                    <div className="border-t my-3" />
+                    <p className="mt-1 break-all text-xs font-semibold text-slate-500">
+                      {user.phone || user.email || "যোগাযোগ তথ্য নেই"}
+                    </p>
+                  </div>
 
+                  <div className="mt-2 space-y-1">
                     <Link
                       href={dashboardPath}
-                      onClick={() => setProfileOpen(false)}
-                      className="block px-3 py-2 rounded-lg hover:bg-gray-100 font-medium"
+                      className="block rounded-2xl px-3 py-2.5 text-sm font-extrabold text-slate-700 hover:bg-slate-100"
                     >
-                      📋 {user.role === "admin" ? "Admin Panel" : "Dashboard"}
+                      {user.role === "admin"
+                        ? "অ্যাডমিন প্যানেল"
+                        : "ড্যাশবোর্ড"}
                     </Link>
 
                     <button
+                      type="button"
                       onClick={handleLogout}
-                      className="w-full text-left px-3 py-2 rounded-lg hover:bg-red-50 text-red-600 font-medium"
+                      className="w-full rounded-2xl px-3 py-2.5 text-left text-sm font-extrabold text-red-600 hover:bg-red-50"
                     >
-                      🚪 Logout
+                      লগআউট
                     </button>
                   </div>
-                )}
-              </div>
-            </>
+                </div>
+              )}
+            </div>
           ) : (
             <>
               <Link
                 href="/login"
-                className={`px-4 py-1 rounded-lg ${
+                className={cn(
+                  "rounded-full px-5 py-2.5 text-[15px] font-black leading-none transition",
                   pathname === "/login"
                     ? "bg-blue-600 text-white"
-                    : "hover:bg-blue-100"
-                }`}
+                    : "text-slate-800 hover:bg-slate-100"
+                )}
               >
                 লগইন
               </Link>
 
               <Link
                 href="/register"
-                className="px-4 py-1 rounded-lg hover:bg-gray-100"
+                className="rounded-full bg-blue-600 px-5 py-2.5 text-[15px] font-black leading-none text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-700"
               >
-                রেজিস্টার
+                রেজিস্টার করুন
               </Link>
             </>
           )}
         </div>
 
+        {/* MOBILE MENU BUTTON */}
         <button
-          onClick={() => setOpen(!open)}
-          className="md:hidden text-2xl w-10 h-10 rounded-xl hover:bg-gray-100"
-          aria-label="Toggle menu"
+          type="button"
+          onClick={() => setOpen((value) => !value)}
+          className="flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white text-2xl font-black text-slate-800 shadow-sm transition active:scale-95 md:hidden"
+          aria-label={open ? "মেনু বন্ধ করুন" : "মেনু খুলুন"}
+          aria-expanded={open}
         >
-          {open ? "✕" : "☰"}
+          {open ? "×" : "≡"}
         </button>
       </div>
 
+      {/* MOBILE CONTACT BAR */}
+      <div className="border-t border-emerald-100 bg-emerald-50/80 px-4 py-2 text-center md:hidden">
+        <p className="text-xs font-bold text-slate-600">
+          প্রয়োজনে যোগাযোগ করুন
+        </p>
+
+        <div className="mt-1 flex items-center justify-center gap-2">
+          <a
+            href={`tel:${PHONE_NUMBER}`}
+            className="rounded-full bg-white px-3 py-1.5 text-sm font-black text-slate-900 shadow-sm"
+          >
+            {PHONE_NUMBER.replace("+88", "")}
+          </a>
+
+          <a
+            href={`tel:${PHONE_NUMBER}`}
+            aria-label="কল করুন"
+            className="flex h-8 w-10 items-center justify-center rounded-xl border border-emerald-200 bg-white text-emerald-700 shadow-sm"
+          >
+            ☎
+          </a>
+
+          <a
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="WhatsApp করুন"
+            className="flex h-8 w-11 items-center justify-center rounded-xl bg-emerald-600 text-white shadow-sm"
+          >
+            💬
+          </a>
+        </div>
+      </div>
+
+      {/* MOBILE MENU */}
       {open && (
-        <div className="md:hidden bg-white border-t px-4 pb-4 space-y-2 text-center shadow-lg">
-          {user && (
-            <div className="bg-blue-50 border border-blue-100 rounded-2xl p-3 mb-3 mt-3">
-              <p className="font-bold text-gray-800">👤 {user.name || "User"}</p>
-              <p className="text-sm text-gray-500 break-all">
-                {user.phone || user.email || "No contact"}
-              </p>
+        <div className="md:hidden">
+          <div className="border-t border-slate-100 bg-white px-4 pb-5 pt-3 shadow-xl">
+            {user && (
+              <div className="mb-3 rounded-3xl border border-blue-100 bg-blue-50 p-4">
+                <p className="text-sm font-black text-slate-900">
+                  {user.name || "User"}
+                </p>
+
+                <p className="mt-1 break-all text-xs font-semibold text-slate-500">
+                  {user.phone || user.email || "যোগাযোগ তথ্য নেই"}
+                </p>
+              </div>
+            )}
+
+            <div className="grid gap-2">
+              {menu.map((item) => {
+                const active = isActivePath(pathname, item.path);
+
+                return (
+                  <Link
+                    key={item.path}
+                    href={item.path}
+                    aria-current={active ? "page" : undefined}
+                    className={cn(
+                      "rounded-2xl px-4 py-3 text-center text-base font-black transition",
+                      active
+                        ? "bg-blue-600 text-white shadow-md shadow-blue-600/20"
+                        : "bg-slate-50 text-slate-800 hover:bg-slate-100"
+                    )}
+                  >
+                    {item.name}
+                  </Link>
+                );
+              })}
             </div>
-          )}
 
-          {menu.map((m) => (
-            <Link
-              key={m.path}
-              href={m.path}
-              className={`block px-3 py-2 rounded-lg ${
-                pathname === m.path
-                  ? "bg-blue-600 text-white"
-                  : "hover:bg-blue-100"
-              }`}
-            >
-              {m.name}
-            </Link>
-          ))}
+            <div className="mt-3 grid grid-cols-2 gap-2">
+              <a
+                href={`tel:${PHONE_NUMBER}`}
+                className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-center text-base font-black text-emerald-700"
+              >
+                কল করুন
+              </a>
 
-          {!user ? (
-            <>
-              <Link
-                href="/login"
-                className="block bg-blue-600 text-white px-4 py-2 rounded-lg"
+              <a
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-2xl bg-emerald-600 px-4 py-3 text-center text-base font-black text-white"
               >
-                লগইন
-              </Link>
+                WhatsApp
+              </a>
+            </div>
 
-              <Link
-                href="/register"
-                className="block bg-gray-200 px-4 py-2 rounded-lg"
-              >
-                রেজিস্টার
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link
-                href={dashboardPath}
-                className={`block text-white px-4 py-2 rounded-lg ${
-                  user.role === "admin" ? "bg-purple-600" : "bg-green-500"
-                }`}
-              >
-                {user.role === "admin" ? "Admin Panel" : "ড্যাশবোর্ড"}
-              </Link>
+            {!user ? (
+              <div className="mt-3 grid grid-cols-2 gap-2">
+                <Link
+                  href="/login"
+                  className="rounded-2xl bg-slate-100 px-4 py-3 text-center text-base font-black text-slate-800"
+                >
+                  লগইন
+                </Link>
 
-              <button
-                onClick={handleLogout}
-                className="w-full bg-red-500 text-white px-4 py-2 rounded-lg"
-              >
-                লগআউট
-              </button>
-            </>
-          )}
+                <Link
+                  href="/register"
+                  className="rounded-2xl bg-blue-600 px-4 py-3 text-center text-base font-black text-white"
+                >
+                  রেজিস্টার করুন
+                </Link>
+              </div>
+            ) : (
+              <div className="mt-3 grid gap-2">
+                <Link
+                  href={dashboardPath}
+                  className={cn(
+                    "rounded-2xl px-4 py-3 text-center text-base font-black text-white",
+                    user.role === "admin" ? "bg-purple-600" : "bg-blue-600"
+                  )}
+                >
+                  {user.role === "admin" ? "অ্যাডমিন প্যানেল" : "ড্যাশবোর্ড"}
+                </Link>
+
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="rounded-2xl bg-red-50 px-4 py-3 text-center text-base font-black text-red-600"
+                >
+                  লগআউট
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       )}
-    </nav>
+    </header>
   );
 }
